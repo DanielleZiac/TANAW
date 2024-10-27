@@ -12,9 +12,26 @@ A community-driven social web app developed to promote engagement with the UN's 
 - [Contributors](#contributors)
 - [Acknowledgement](#acknoledgement)
 
+## Project Overview
+
+## System Architecture
+
+## Algorithm Used
+
+## Security Mechanisms
+
+## Development Process and Design Decisions
+
+## Correctness and Efficiency
+
+## How to Run the Project
+
 ## Contributors
+
 - Project Manager/ Fullstack Developer: Danielle Ziac Abril
 - Frontend Developer: Paul Oliver Cruz
 - Backend Developer: Hersey Anne Odasco
 
 - Course Facilitator: Fatima Marie Agdon
+
+## Acknowledgement
