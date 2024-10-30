@@ -7,11 +7,11 @@ const LandingPage: React.FC = () => {
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Welcome to TANAW</h1>
       
       <div className="flex space-x-4">
-        <Link href="/signup" className="px-6 py-3 bg-white text-blue-500 font-bold rounded-full shadow-lg drop-shadow-xl hover:bg-gray-200 focus:outline-none">
+        <Link href="/auth/signup" className="px-6 py-3 bg-white text-blue-500 font-bold rounded-full shadow-lg drop-shadow-xl hover:bg-gray-200 focus:outline-none">
           Create Account
         </Link>
 
-        <Link href="/login" className="px-6 py-3 bg-white text-gray-700 font-bold rounded-full shadow-lg drop-shadow-xl hover:bg-gray-200 focus:outline-none">
+        <Link href="/auth/login" className="px-6 py-3 bg-white text-gray-700 font-bold rounded-full shadow-lg drop-shadow-xl hover:bg-gray-200 focus:outline-none">
           Login
         </Link>
       </div>

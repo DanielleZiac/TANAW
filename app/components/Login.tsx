@@ -1,3 +1,5 @@
+import {login} from "../auth/actions"
+
 import React from 'react';
 import Link from 'next/link';
 
@@ -12,7 +14,8 @@ const Login: React.FC = () => {
           <div className="mb-2 w-3/4">
             <input
               type="text"
-              id="sr-code"
+              id="srCode"
+              name="srCode"
               required
               className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none"
               placeholder="SR Code"
@@ -27,6 +30,7 @@ const Login: React.FC = () => {
             <input
               type="password"
               id="password"
+              name="password"
               required
               className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none"
               placeholder="Password"
@@ -39,14 +43,21 @@ const Login: React.FC = () => {
           </div>
           <div className="mb-4 text-center w-3/4">
             <p className="text-gray-600 text-sm">
+              <Link href="/auth/resetPassword">
+                <span className="text-blue-500 cursor-pointer">Forgot Password</span>
+              </Link>
+            </p>
+          </div>
+          <div className="mb-4 text-center w-3/4">
+            <p className="text-gray-600 text-sm">
               Don&apos;t have an account yet?{' '}
-              <Link href="/signup">
+              <Link href="/auth/signup">
                 <span className="text-blue-500 cursor-pointer">Sign In</span>
               </Link>
             </p>
           </div>
           <button
-            type="submit"
+            formAction={login}
             className="bg-white text-indigo-500 font-bold py-3 px-4 rounded-full focus:outline-none w-3/4 shadow-lg drop-shadow-xl"
             style={{
               border: 'none',

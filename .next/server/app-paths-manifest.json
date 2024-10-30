@@ -1,6 +1,7 @@
 {
-  "/login/page": "app/login/page.js",
-  "/createavatar/page": "app/createavatar/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/dashboard/profile/page": "app/dashboard/profile/page.js",
   "/page": "app/page.js",
-  "/signup/page": "app/signup/page.js"
+  "/auth/login/page": "app/auth/login/page.js",
+  "/dashboard/home/page": "app/dashboard/home/page.js"
 }

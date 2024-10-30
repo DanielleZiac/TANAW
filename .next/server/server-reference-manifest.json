@@ -1,5 +1,111 @@
 {
-  "node": {},
+  "node": {
+    "5a2e88c25797db31f05b6e9548276592a37f858a": {
+      "workers": {
+        "app/dashboard/profile/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        },
+        "app/auth/login/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        },
+        "app/dashboard/home/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/dashboard/profile/page": "rsc",
+        "app/auth/login/page": "rsc",
+        "app/dashboard/home/page": "rsc"
+      }
+    },
+    "83fd8b6bc165ce4229fc19b126074196c007da8e": {
+      "workers": {
+        "app/dashboard/profile/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        },
+        "app/auth/login/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        },
+        "app/dashboard/home/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/dashboard/profile/page": "rsc",
+        "app/auth/login/page": "rsc",
+        "app/dashboard/home/page": "rsc"
+      }
+    },
+    "91d4b965d07891487315f3b28caa89a9a4be2f1f": {
+      "workers": {
+        "app/dashboard/profile/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        },
+        "app/auth/login/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        },
+        "app/dashboard/home/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/dashboard/profile/page": "rsc",
+        "app/auth/login/page": "rsc",
+        "app/dashboard/home/page": "rsc"
+      }
+    },
+    "c7fa34594f0e3764afb7d0c4f5780c5abd80b7d0": {
+      "workers": {
+        "app/dashboard/profile/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        },
+        "app/auth/login/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        },
+        "app/dashboard/home/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/dashboard/profile/page": "rsc",
+        "app/auth/login/page": "rsc",
+        "app/dashboard/home/page": "rsc"
+      }
+    },
+    "ed04902d036113883c87e74a7e1ed06d52d62ac3": {
+      "workers": {
+        "app/dashboard/profile/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        },
+        "app/auth/login/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        },
+        "app/dashboard/home/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fwetchi%2Fschool%2FTanaw%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22logout%22%2C%22login%22%2C%22resetPassword%22%2C%22signup%22%2C%22updatePassword%22%5D%5D%5D&encryptionKey=ZRjpEsRT6Td1zBWih%2FmVvivgNDCwbcdY8CvqMCcNz2I%3D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/dashboard/profile/page": "rsc",
+        "app/auth/login/page": "rsc",
+        "app/dashboard/home/page": "rsc"
+      }
+    }
+  },
   "edge": {},
   "encryptionKey": "ZRjpEsRT6Td1zBWih/mVvivgNDCwbcdY8CvqMCcNz2I="
 }
