@@ -53,7 +53,15 @@ export async function signup(formData: FormData) {
 
 	const { error } = await supabase.auth.signUp({
 		email: email,
-		password: password
+		password: password,
+		options: {
+			data: {
+				srCode: srCode,
+				firstName: firstName,
+				lastName: lastName,
+				school: school
+			}
+		}
 	})
 
 	if (error) {
@@ -63,7 +71,7 @@ export async function signup(formData: FormData) {
 
 	// wait na mauthorize default page is check email muna
 	revalidatePath('/', 'layout')
-	redirect('/')
+	redirect('/auth/signup?message=Check your email')
 }
 
 export async function logout() {
@@ -80,6 +88,11 @@ export async function logout() {
 
 	revalidatePath("/", "layout");
 	redirect("/")
+}
+
+export async function createUser() {
+	// sa create avatar?
+
 }
 
 export async function resetPassword(formData: FormData) {
