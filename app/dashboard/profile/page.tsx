@@ -5,6 +5,8 @@ export default async function ProfilePage() {
 
   const data = await authenticateUser()
 
+  console.log(data)
+
   return (
     <div>
       <p>Hello {data.user.email}</p>

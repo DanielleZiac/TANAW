@@ -90,9 +90,8 @@ export async function logout() {
 	redirect("/")
 }
 
-export async function createUser() {
+export async function createAvatar() {
 	// sa create avatar?
-
 }
 
 export async function resetPassword(formData: FormData) {
