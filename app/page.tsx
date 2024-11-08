@@ -4,17 +4,17 @@ import Link from 'next/link';
 const LandingPage: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold text-gray-800 mb-8">Welcome to TANAW</h1>
-      
-      <div className="flex space-x-4">
-        <Link href="/signup" className="px-6 py-3 bg-white text-blue-500 font-bold rounded-full shadow-lg drop-shadow-xl hover:bg-gray-200 focus:outline-none">
-          Create Account
-        </Link>
+      <h1 className="text-center text-6xl md:text-9xl font-bold text-gray-800 mb-16">WELCOME TO TANAW</h1>
 
-        <Link href="/login" className="px-6 py-3 bg-white text-gray-700 font-bold rounded-full shadow-lg drop-shadow-xl hover:bg-gray-200 focus:outline-none">
-          Login
-        </Link>
-      </div>
+      <div className="flex flex-col space-y-4">
+  <Link href="/signup" className="px-12 py-8 bg-white text-blue-500 font-bold text-xl md:text-2xl rounded-full shadow-lg drop-shadow-xl hover:bg-gray-200 focus:outline-none md:px-16 md:py-10">
+  Create Account
+</Link>
+
+<Link href="/login" className="mx-auto px-12 py-8 bg-white text-gray-700 font-bold text-xl md:text-2xl rounded-full shadow-lg drop-shadow-xl hover:bg-gray-200 focus:outline-none md:px-16 md:py-10">
+  Login
+</Link>
+</div>
     </div>
   );
 };

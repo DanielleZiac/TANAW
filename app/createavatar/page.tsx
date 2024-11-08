@@ -1,5 +1,12 @@
-import CreateAvatar from "app/components/CreateAvatar";
+// CreateAvatarPage.tsx
+
+import MainLayout from '../components/layouts/MainLayout'; // Adjust the path as necessary
+import CreateAvatar from '../components/CreateAvatar'; // Adjust the path as necessary
 
 export default function CreateAvatarPage() {
-  return <CreateAvatar />;
+  return (
+    <MainLayout>
+      <CreateAvatar />
+    </MainLayout>
+  );
 }
