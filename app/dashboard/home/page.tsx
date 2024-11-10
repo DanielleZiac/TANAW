@@ -4,6 +4,7 @@ import { authenticateUser, uploadPhoto } from "../actions"
 export default async function HomePage() {
 
   const data = await authenticateUser()
+  // console.log(data)
 
   return (
     <div>
@@ -11,7 +12,14 @@ export default async function HomePage() {
       <h1>Photo</h1>
       <form>
         <div>
+          {/*<input style={{color: "black"}} type="text" id="user_id" name="user_id"></input>*/}
           <input type="file" id="file" name="file"></input>
+          <select id="user_id" name="user_id">
+            <option value={data.user_id}>{data.user_id}</option>
+          </select>
+        </div>
+        <div>
+          {/*<input></input>*/}
         </div>
         <div>
           <select id="sdgs" name="sdgs">

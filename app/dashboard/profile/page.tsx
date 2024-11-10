@@ -9,7 +9,7 @@ export default async function ProfilePage() {
 
   return (
     <div>
-      <p>Hello {data.user.email}</p>
+      <p>Hello {data.user_id}</p>
       <button onClick={logout}>Logout</button>
       <div>
         <a href="/auth/resetPassword">Reset Password</a>

@@ -5,11 +5,10 @@ export default async function CreateAvatarPage() {
 
   const data = await authenticateUser()
 
-
-
+  console.log(data)
   return (
     <div>
-      <CreateAvatar />
+      <CreateAvatar data={data}/>
     </div>
   );
 }

@@ -10,9 +10,15 @@ export async function login(formData: FormData) {
 
 	const srCode = formData.get("srCode") as string;
 	const password = formData.get("password") as string;
+	let email;
 
 	// temp
-	const email = srCode + "@g.batstate-u.edu.ph"
+	if (srCode.includes("-")) {
+		email = srCode + "@g.batstate-u.edu.ph"
+	} else {
+		email = srCode + "@gmail.com"
+	}
+	console.log(email)
 
 	const { error } = await supabase.auth.signInWithPassword({
 		email: email,
@@ -59,7 +65,7 @@ export async function signup(formData: FormData) {
 				srCode: srCode,
 				firstName: firstName,
 				lastName: lastName,
-				school: school
+				school: "bsu"
 			}
 		}
 	})
