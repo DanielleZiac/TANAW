@@ -5,19 +5,30 @@ import { redirect } from 'next/navigation'
 import { createClient } from '../../utils/supabase/server'
 
 
-export async function login(formData: FormData) {
+export async function getInstitutions() {
 	const supabase = await createClient();
 
-	const srCode = formData.get("srCode") as string;
-	const password = formData.get("password") as string;
-	let email;
+	const { data: data_institution } = await supabase.from("institutions").select("institution");
 
-	// temp
-	if (srCode.includes("-")) {
-		email = srCode + "@g.batstate-u.edu.ph"
-	} else {
-		email = srCode + "@gmail.com"
-	}
+	console.log(data_institution);
+
+	return data_institution;
+}
+
+
+export async function login(data) {
+	const supabase = await createClient();
+
+	console.log(data);
+
+	const srCode = data.srCode as string;
+	const school = data.school as string;
+	const password = data.password as string;
+
+	const { data: data_email } = await supabase.from("institutions").select("email_extension").eq("institution", school).single();
+
+	const email = srCode + data_email.email_extension
+
 	console.log(email)
 
 	const { error } = await supabase.auth.signInWithPassword({
@@ -26,36 +37,37 @@ export async function login(formData: FormData) {
 	})
 
 	if (error) {
-		redirect('/error')
+		console.log(error)
+		return "incorrect username or password"
 	}
 
 	revalidatePath('/', 'layout')
 	redirect('/dashboard/profile')
 }
 
-export async function signup(formData: FormData) {
-	const srCode = formData.get("srCode") as string;
-	const firstName = formData.get("firstName") as string;
-	const lastName = formData.get("lastName") as string;
-	const school = formData.get("school") as string;
-	const password = formData.get("password") as string;
-	const confirmPassword = formData.get("confirmPassword") as string;
-	let email = ""
+export async function signup(data) {
+	console.log(data);
+
+
+	const srCode = data.srCode as string;
+	const firstName = data.firstName as string;
+	const lastName = data.lastName as string;
+	const school = data.school as string;
+	const password = data.password as string;
+	const confirmPassword = data.confirmPassword as string;
 
 	if (password !== confirmPassword) {
-		return redirect("/auth/signup?message=Passwords don't match")
+		return "password not match"
 	}
 
-	const supabase = await createClient()
+	const supabase = await createClient();
 
-	// temp
-	if (school == "bsu") {
-		email = srCode + "@g.batstate-u.edu.ph"
-	} else {
-		email = srCode + "@gmail.com"
-	}
+	console.log(school);
+	const { data: data_email } = await supabase.from("institutions").select("email_extension").eq("institution", school).single();
 
-	console.log("supabaseeeeeeee", supabase)
+	const email = srCode + data_email.email_extension
+
+	console.log(email)
 
 	const { error } = await supabase.auth.signUp({
 		email: email,
@@ -65,19 +77,19 @@ export async function signup(formData: FormData) {
 				srCode: srCode,
 				firstName: firstName,
 				lastName: lastName,
-				school: "bsu"
+				school: school
 			}
 		}
 	})
 
 	if (error) {
 	    console.log(error)
-	    return redirect("/auth/signup?message=Could not authenticate user")
+	    return "Could not authenticate user";
 	}
 
-	// wait na mauthorize default page is check email muna
+	// // wait na mauthorize default page is check email muna
 	revalidatePath('/', 'layout')
-	redirect('/auth/signup?message=Check your email')
+	return "Check your email";
 }
 
 export async function logout() {

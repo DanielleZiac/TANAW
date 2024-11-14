@@ -14,6 +14,7 @@ let blinkCount = 0;
 let is_leftEyeClose;
 let is_rightEyeClose;
 let eyePos;
+var intervalId;
 
 
 export async function runFacemesh(video, eye) {
@@ -29,9 +30,10 @@ export async function runFacemesh(video, eye) {
 	  { maxFaces: 1 }
 	);
 
-	setInterval(() => {
+	// intervalId = setInterval(startPrediciton(model, video, eye), 10000);
+	intervalId = setInterval(() => {
 		startPrediciton(model, video, eye);
-	}, 1000)
+	}, 10000)
 
 	// return (is_leftEyeClose, is_rightEyeClose)
 }
@@ -59,17 +61,32 @@ async function startPrediciton(model, video, eye) {
 	});
 
 	// may nadetect na face
-	// console.log(predictions.length)
+	console.log(predictions)
+	console.log(intervalId)
+	console.log(video.srcObject)
 
-	if (predictions.length > 0) {
-		predictions.forEach((prediction) => {
-			eyeClosed(prediction);
-			sideEye(prediction);
-		}) 
-		
-		eye.current.textContent = (is_leftEyeClose?"close left": "open left") + " " + (is_rightEyeClose?"close right": "open right")
-		// console.log(is_leftEyeClose, is_rightEyeClose)
-		// return (is_leftEyeClose, is_rightEyeClose)
+	if (eye.current != null) {
+		if (predictions.length > 0) {
+			predictions.forEach((prediction) => {
+				eyeClosed(prediction);
+				sideEye(prediction);
+			}) 
+			
+			// eye.current.textContent = (
+				// is_leftEyeClose?"left=close": "left=open") + "&" + (
+				// is_rightEyeClose?"right=close": "right=open") + "&" + (
+				// "eyePos=" + eyePos)
+			eye.current.innerHTML = `
+				?${is_leftEyeClose?"left=close": "left=open"}&${is_rightEyeClose?"right=close": "right=open"}&eyePos=${eyePos}`
+
+			// console.log(is_leftEyeClose, is_rightEyeClose)
+			// return (is_leftEyeClose, is_rightEyeClose)
+		} else {
+			eye.current.innerHTML = "no face detected";
+		}
+	} else {
+		console.log("terminating loop")
+		clearInterval(intervalId);
 	}
 
 	// drawMesh(predictions);

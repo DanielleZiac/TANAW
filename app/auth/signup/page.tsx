@@ -1,14 +1,10 @@
-import {signup} from "../actions"
-import SignUp from "../../components/SignUp";
+import SignUp from '../../components/SignUp';
+import MainLayout from '../../components/layouts/MainLayout';
 
-export default async function SignupPage({ searchParams }: {searchParams: {message: string}}) {
-  const params = await searchParams;
-
+export default function SignupPage() {
   return (
-    <div>
-      <SignUp 
-        error={params.message}
-      />
-    </div>
+    <MainLayout>
+      <SignUp />
+    </MainLayout>
   );
 }
