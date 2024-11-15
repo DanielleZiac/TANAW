@@ -31,18 +31,58 @@ export async function login(data) {
 
 	console.log(email)
 
-	const { error } = await supabase.auth.signInWithPassword({
+	const { data: user_data, error: user_data_error } = await supabase.auth.signInWithPassword({
 		email: email,
 		password: password
 	})
 
-	if (error) {
-		console.log(error)
+	if (user_data_error) {
+		console.log(user_data_error)
 		return "incorrect username or password"
 	}
 
+	console.log(user_data);
+
+	const user_avatars = await getUserAvatar(supabase, user_data);
+	console.log(user_avatars);
+
 	revalidatePath('/', 'layout')
-	redirect('/dashboard/profile')
+
+	if (user_avatars) {
+		console.log("go to profile")
+		redirect('/dashboard/profile')
+	} else {
+		console.log("create avatar first")
+		redirect('/dashboard/createAvatar1')
+	}
+	// const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", user_data.user.id).single();
+	// console.log(users_data)
+
+	// console.log("data_x", data_x)
+
+
+	// const { data, error } = await supabase.auth.getUser()
+	// if (error || !data?.user) {
+	// 	redirect('/auth/login')
+	// }
+
+	// const user_data = getUserById(supabase, data);
+	// console.log(users_data);
+	// revalidatePath('/', 'layout')
+	// redirect('/dashboard/profile')
+}
+
+export async function getUserAvatar(supabase, data) {
+	console.log(data.user.id);
+	const { data: user_avatars, error: user_avatars_error} = await supabase.from('avatars').select("user_id").eq("user_id", data.user.id);
+	console.log("user_avatars", user_avatars, user_avatars.length)
+
+	if (!user_avatars || user_avatars.length < 1) {
+		return false
+	} else {
+		console.log(user_avatars)
+		return true
+	}
 }
 
 export async function signup(data) {

@@ -1,8 +1,9 @@
 "use client";
 
+import mergeImages from 'merge-images';
+import { useRouter, redirect } from "next/navigation";
 import { React, useEffect, useRef, useState  } from "react";
 import { baseButtonClass, getButtonStyles } from '../styles/buttonStyles'; // Import your shared button styles
-import { useRouter } from "next/navigation";
 
 import { runFacemesh } from "./faceLandmarkDetection"
 
@@ -16,32 +17,43 @@ const AvatarDisplayArea: React.FC = ({ children }) => (
     }}
   >
     {children}
-    {/*<div className="text-gray-400 text-2xl">Avatar will be displayed here</div>*/}
     }
   </div>
 );
 
 // add parameters
 const CreateAvatar2: React.FC = (params) => {
-  console.log(params);
+  var user_id = params.params[1].user_id
+  var avatar = params.params[0]
 
+  if (!avatar.college || 
+    !avatar.gender || 
+    !avatar.shirtStyle) { 
+    console.log("null")
+    redirect("/dashboard/createAvatar1")
+  }
 
+  const [stream, setStream] = useState(null);
+  const [leftEye, setLeftEye] = useState("eyes_opened");
+  const [rightEye, setRightEye] = useState("rightEyeOpened");
+  const [eyePos, setEyePos] = useState("normal");
+  const [status, setStatus] = useState(false);
+
+  const eye = useRef(null);
   const router = useRouter();
   const camera = useRef<HTMLVideoElement>(null);
-  const [stream, setStream] = useState(null);
-  const eye = useRef(null);
 
   useEffect(() => {
     const setCamera = async () => {
       if (typeof window !== "undefined") {
         await navigator.mediaDevices.getUserMedia({
           video: true
-        }).then(stream => {
+        }).then(cur_stream => {
           if(camera.current) {
-            camera.current.srcObject = stream;
+            camera.current.srcObject = cur_stream;
 
-            runFacemesh(camera.current, eye);
-            setStream(stream);
+            runFacemesh(camera.current, setStatus, setLeftEye);
+            setStream(cur_stream);
           }
         })
       } else {
@@ -51,20 +63,53 @@ const CreateAvatar2: React.FC = (params) => {
     setCamera();
   }, [])
 
+  useEffect(() => {
+    window.addEventListener('popstate', (event) => {
+      if (stream != null) {
+        stream.getVideoTracks()[0].stop()
+      }
+    });
+  })
+
   const capture = async() => {
+    function dataURLtoFile(dataurl, filename) {
+      var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+      while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, {type:mime});
+    }
+
     console.log("pic");
-    let params = eye.current.innerHTML
-    if (params == "no face detected") {
+    console.log(params)
+    let qry = ""
+
+    if (!status) {
       // disable capture btn
       console.log("disable capture btn")
     } else {
-      stream.getVideoTracks()[0].stop();
-      params = params.toString().replaceAll("&amp;", "&");
-      router.push(`/dashboard/createAvatar3${params}`);
+      console.log(stream)
+      stream.getVideoTracks()[0].stop()
+
+      for (let i = 0; i < Object.keys(avatar).length; i++) {
+        qry += `${Object.keys(avatar)[i]}=${avatar[Object.keys(avatar)[i]]}&`
+      }
+
+      qry += `eye=${leftEye}`
+      console.log("stream stop", qry)
+      qry = qry.toString().replaceAll("&amp;", "&");
+
+      var filename;
+      var b64 = await mergeImages([document.getElementById("college").src, 
+        document.getElementById("gender").src,
+        document.getElementById("shirtStyle").src,
+        document.getElementById("leftEye").src])
+
+      sessionStorage.setItem(user_id, b64);
+      router.push(`/dashboard/createAvatar3`)
     }
   }
-
-  console.log(stream);
 
   return (
     <div className="flex flex-col items-center min-h-screen px-24 py-16">
@@ -78,7 +123,6 @@ const CreateAvatar2: React.FC = (params) => {
         <AvatarDisplayArea> 
           <video playsInline ref={camera} autoPlay /> 
         </AvatarDisplayArea>
-        {/*<video className='w-72' playsInline ref={camera} autoPlay />*/}
       </div>
 
       {/* Second Avatar Display Area */}
@@ -86,6 +130,26 @@ const CreateAvatar2: React.FC = (params) => {
         <p className="text-gray-800 text-5xl font-bold mb-10">Your Avatar Preview</p>
         <AvatarDisplayArea>
           <p ref={eye} style={{color: "black"}}>no face detected</p>
+          <img 
+            id="college"
+            src={`/images/avatar/bg/bg_${avatar.college}.png`}
+            style={{position: "absolute"}}
+          />
+          <img 
+            id="gender"
+            src={`/images/avatar/sex/${avatar.gender}.png`}
+            style={{position: "absolute"}}
+          />
+          <img 
+            id="shirtStyle"
+            src={`/images/avatar/shirt_style/${avatar.shirtStyle}.png`}
+            style={{position: "absolute"}}
+          />
+          <img 
+            id="leftEye"
+            src={`/images/avatar/eye/${leftEye}.png`}
+            style={{position: "absolute"}}
+          />
         </AvatarDisplayArea>
       </div>
 

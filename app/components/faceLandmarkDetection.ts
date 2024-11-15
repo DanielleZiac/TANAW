@@ -3,46 +3,34 @@ import '@tensorflow/tfjs-backend-webgl';
 
 import { drawMesh } from "./utilities"
 
-const earThreshold = 0.23;
 
-// di pa sure
+// di pa sure yung mga threshold
+const earThreshold = 0.23;
 const sideEyeRightThreshold = 21;
 const sideEyeLeftThreshold = 10.5;
 let model;
-let event;
-let blinkCount = 0;
 let is_leftEyeClose;
 let is_rightEyeClose;
 let eyePos;
 var intervalId;
+var intervals = [];
 
 
-export async function runFacemesh(video, eye) {
-	// model = await faceLandmarksDetection.load({
-	// 	inputResolution: {width: 640, height:480},
-	// 	scale: 0.8,
-	// })
-
-	console.log("here")
-
+export async function runFacemesh(video, setStatus, setLeftEye) {
 	model = await faceLandmarksDetection.load(
 	  faceLandmarksDetection.SupportedPackages.mediapipeFacemesh,
 	  { maxFaces: 1 }
 	);
 
-	// intervalId = setInterval(startPrediciton(model, video, eye), 10000);
 	intervalId = setInterval(() => {
-		startPrediciton(model, video, eye);
-	}, 10000)
-
-	// return (is_leftEyeClose, is_rightEyeClose)
+		startPrediciton(model, video, setStatus, setLeftEye);
+	}, 100)
+	intervals.push(intervalId)
 }
 
-function getEAR(upper, lower) {
-	// console.log(upper, lower);
 
+function getEAR(upper, lower) {
 	function euclidean(x2, x1, y2, y1) {
-		// console.log(x2, x1, y2, y1)
 		return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2))
 	}
 
@@ -54,7 +42,7 @@ function getEAR(upper, lower) {
 }
 
 
-async function startPrediciton(model, video, eye) {
+async function startPrediciton(model, video, setStatus, setLeftEye) {
 	// Sending video to model for prediction
 	const predictions = await model.estimateFaces({
 		input: video
@@ -62,35 +50,40 @@ async function startPrediciton(model, video, eye) {
 
 	// may nadetect na face
 	console.log(predictions)
-	console.log(intervalId)
-	console.log(video.srcObject)
+	// intervals.push(intervalId)
+	// console.log(intervalId, intervals)
+	// console.log(video.srcObject.active)
+	// console.log(eye.current)
 
-	if (eye.current != null) {
+	if (video.srcObject.active) {
 		if (predictions.length > 0) {
 			predictions.forEach((prediction) => {
 				eyeClosed(prediction);
 				sideEye(prediction);
 			}) 
-			
-			// eye.current.textContent = (
-				// is_leftEyeClose?"left=close": "left=open") + "&" + (
-				// is_rightEyeClose?"right=close": "right=open") + "&" + (
-				// "eyePos=" + eyePos)
-			eye.current.innerHTML = `
-				?${is_leftEyeClose?"left=close": "left=open"}&${is_rightEyeClose?"right=close": "right=open"}&eyePos=${eyePos}`
 
-			// console.log(is_leftEyeClose, is_rightEyeClose)
-			// return (is_leftEyeClose, is_rightEyeClose)
+			if (is_leftEyeClose) {
+				setLeftEye("eyes_closed")
+			} else {
+				setLeftEye("eyes_opened")
+			}
+
+			setStatus(true)
+			// eye.current.innerHTML = `
+			// 	?${is_leftEyeClose?"left=close": "left=open"}&${is_rightEyeClose?"right=close": "right=open"}&eyePos=${eyePos}`
 		} else {
-			eye.current.innerHTML = "no face detected";
+			setStatus(false)
+			// eye.current.innerHTML = "no face detected";
 		}
 	} else {
 		console.log("terminating loop")
-		clearInterval(intervalId);
+
+		for (let i = 0; i < intervals.length; i++) {
+			clearInterval(intervals[i])
+		}
+		intervals = []
 	}
-
 	// drawMesh(predictions);
-
 }
 
 
@@ -103,35 +96,30 @@ function eyeClosed(prediction) {
 	const leftEyeUpper = prediction.annotations.leftEyeUpper0;
 	const leftEyeLower = prediction.annotations.leftEyeLower0;
 
-	// console.log(rightEyeLower, rightEyeUpper, leftEyeUpper, leftEyeLower)
 	// eye aspect ratio
 	const rightEAR = getEAR(rightEyeUpper, rightEyeLower);
 	const leftEAR = getEAR(leftEyeUpper, leftEyeLower);
 
-	// console.log(leftEAR, rightEAR)
-
 	is_leftEyeClose = leftEAR <= earThreshold;
 	is_rightEyeClose = rightEAR <= earThreshold;
 }
+
 
 function sideEye(prediction) {
 	if (!is_leftEyeClose && !is_rightEyeClose) {
 		// di pa sure
 		if (prediction.annotations.rightEyeLower0[8][0] - prediction.annotations.rightEyeIris[0][0] >= sideEyeRightThreshold ||
 			prediction.annotations.leftEyeIris[0][0] - prediction.annotations.leftEyeLower0[8][0] <= sideEyeLeftThreshold) {
-			// console.log("Side eye right");
 			eyePos = "right";
 		} else if (prediction.annotations.rightEyeLower0[8][0] - prediction.annotations.rightEyeIris[0][0] <= sideEyeLeftThreshold ||
 			prediction.annotations.leftEyeIris[0][0] - prediction.annotations.leftEyeLower0[8][0] >= sideEyeRightThreshold) {
-			// console.log("Side eye left");
 			eyePos = "left";
 		} else {
-			// console.log("Normal");
 			eyePos = "normal";
 		}
 	}
 }
 
-function eyeBrow(prediction) {
-	
+
+function eyeBrow(prediction) {	
 }

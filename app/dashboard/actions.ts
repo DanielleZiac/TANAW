@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { createClient } from '../../utils/supabase/server'
+import { headers } from 'next/headers';
 
 
 // move this function sa other file??
@@ -13,16 +14,16 @@ export async function authenticateUser() {
 	if (error || !data?.user) {
 		redirect('/auth/login')
 	}
+	const user_data = getUserById(supabase, data);
+	return user_data
+}
 
-	// console.log("AAAAAAAAAAAA", data)
 
-
+export async function getUserById(supabase, data) {
 	const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", data.user.id).single();
 
-	// console.log("bbbbbbbbbbbbbb", users_data.user_id, data.user.id)
-
 	if (!users_data.user_id) {
-		// no avatar/user info pa, need to complete account creation and shts
+		// no user info pa, need to complete account creation and shts
 		console.log(data, "data")
 
 		const { data: user_data, error: user_error } = await supabase.from('users').insert({
@@ -47,10 +48,17 @@ export async function authenticateUser() {
 		console.log(users_data)
 		return users_data
 	}
+}
 
-	// return data
+export async function getUserAvatar(supabase, data) {
+	const { data: user_avatars, error: user_avatar_error} = await supabase.from('avatars').select("user_id").eq("user_id", data.user.id);
 
-	// console.log(data)
+	if(!user_avatars) {
+		console.log("no avatar");
+	} else {
+		console.log(user_avatars)
+		console.log("has avatar");
+	}
 }
 
 
@@ -201,7 +209,6 @@ export async function displayPhoto(searchParams: FormData) {
 }
 
 
-
 // display photo per user
 export async function displayPhotoByUserID(user_id) {
 	const supabase = await createClient()
@@ -224,19 +231,37 @@ export async function displayPhotoByUserID(user_id) {
 		.filter(dept_query0, dept_query1, dept_query2)
 }
 
-export async function uploadAvatar(user_id: String, formData: FormData) {
-	console.log("Heakdhaohd")
-	console.log(user_id, formData)
 
-	// opencvjs
+export async function uploadAvatar(user_id: String, file: File, avatar_lbl: String) {
+	console.log("Heakdhaohd")
+	console.log(user_id, file)
 
 	const supabase = await createClient()
 
 	const path = user_id + "/" + String(Date.now())
 
-	const { error: uploadError } = await supabase.storage.from('avatars').upload(path, formData)
+	const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file)
 
 	if (uploadError) {
 		console.log(uploadError)
+	}
+
+	const { data: data_public_url, error: error_public_url } = await supabase.storage.from(`avatars/${user_id}`).getPublicUrl(String(Date.now()));
+
+	if (error_public_url) {
+		console.log(error_public_url)
+	}
+
+	if (avatar_lbl == "") {
+		avatar_lbl = null;
+	}
+
+	const { data: upload_avatar_upload, error: error_avatar_upload} = await supabase.from('avatars').insert({
+		user_id: user_id,
+		avatar_label: avatar_lbl
+	})
+
+	if (error_avatar_upload) {
+		console.log(error_avatar_upload)
 	}
 }

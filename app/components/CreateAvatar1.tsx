@@ -5,20 +5,18 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getButtonStyles } from "../styles/buttonStyles"; // Importing getButtonStyles
 
-const CreateAvatar1: React.FC = () => {
+const CreateAvatar1: React.FC = (data) => {
   const router = useRouter();
   const [gender, setGender] = useState("boy");
-  const [shirtStyle, setShirtStyle] = useState("round-neck");
+  const [shirtStyle, setShirtStyle] = useState("shirt");
   const [eyewear, setEyewear] = useState("none");
   const [college, setCollege] = useState("cics");
 
   console.log(gender, shirtStyle, eyewear, college);
 
   const handleConfirmAvatar = () => {
-    const params = `?gender=${gender}&shirtStyle=${shirtStyle}&eyewear=${eyewear}&college=${college}`;
-
-    // router.push({ pathname: `/dashboard/createAvatar2${params}`, query=});
-    router.push("/dashboard/createAvatar2");
+    const query = `gender=${gender}&shirtStyle=${shirtStyle}&eyewear=${eyewear}&college=${college}`;
+    router.push(`/dashboard/createAvatar2?${query}`);
   };
 
   return (
@@ -38,7 +36,21 @@ const CreateAvatar1: React.FC = () => {
           }}
         >
           <div className="text-gray-400 text-2xl">{gender} {shirtStyle} {eyewear} {college}</div>
-          {/*<img />*/}
+
+          {/* add glasses */}
+          <img 
+            src={`/images/avatar/bg/bg_${college}.png`}
+            style={{position: "absolute"}}
+          />
+          <img 
+            src={`/images/avatar/sex/${gender}.png`}
+            style={{position: "absolute"}}
+          />
+          <img 
+            src={`/images/avatar/shirt_style/${shirtStyle}.png`}
+            style={{position: "absolute"}}
+          />
+
         </div>
       </div>
 
@@ -69,18 +81,18 @@ const CreateAvatar1: React.FC = () => {
           <p className="text-gray-800 text-4xl mb-6 font-extrabold">Shirt Style</p>
           <div className="flex space-x-8">
             <button
-              className={`${getButtonStyles(shirtStyle === "round-neck").className} py-6 px-10 text-3xl`}
-              style={getButtonStyles(shirtStyle === "round-neck").style}
-              onClick={() => setShirtStyle("round-neck")}
+              className={`${getButtonStyles(shirtStyle === "shirt").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(shirtStyle === "shirt").style}
+              onClick={() => setShirtStyle("shirt")}
             >
-              Round-Neck
+              Shirt
             </button>
             <button
-              className={`${getButtonStyles(shirtStyle === "collared").className} py-6 px-10 text-3xl`}
-              style={getButtonStyles(shirtStyle === "collared").style}
-              onClick={() => setShirtStyle("collared")}
+              className={`${getButtonStyles(shirtStyle === "polo").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(shirtStyle === "polo").style}
+              onClick={() => setShirtStyle("polo")}
             >
-              Collared
+              Polo
             </button>
           </div>
         </div>
@@ -132,11 +144,11 @@ const CreateAvatar1: React.FC = () => {
               CAFAD
             </button>
             <button
-              className={`${getButtonStyles(college === "cet").className} py-6 px-10 text-3xl`}
-              style={getButtonStyles(college === "cet").style}
-              onClick={() => setCollege("cet")}
+              className={`${getButtonStyles(college === "cit").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(college === "cit").style}
+              onClick={() => setCollege("cit")}
             >
-              CET
+              CIT
             </button>
           </div>
         </div>
