@@ -63,6 +63,7 @@ export async function uploadPhoto(formData: FormData) {
 	const file = formData.get("file")
 	const sdg = formData.get("sdgs")
 	const user_id = formData.get("user_id")
+	const caption = formData.get("caption")
 
 	const fileDate = Date.now().toString()
 
@@ -88,6 +89,7 @@ export async function uploadPhoto(formData: FormData) {
 		user_id: user_id,
 		sdg_number: sdg,
 		type: "photo", // default
+		caption: caption,
 		url: data_public_url.publicUrl
 	})
 
