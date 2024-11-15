@@ -29,7 +29,7 @@ const CreateAvatar: React.FC = (data) => {
   const photo = useRef<HTMLImageElement>(null);
 
   const [stream, setStream] = useState(null);
-  // const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null);
 
   async function openCam() {
     // console.log("hoaihdhbp")
