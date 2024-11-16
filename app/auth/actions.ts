@@ -41,20 +41,46 @@ export async function login(data) {
 		return "incorrect username or password"
 	}
 
-	console.log(user_data);
+	console.log(user_data.user.user_metadata);
 
-	const user_avatars = await getUserAvatar(supabase, user_data);
-	console.log(user_avatars);
+	const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", user_data.user.id).single();
 
-	revalidatePath('/', 'layout')
+	console.log(users_data)
 
-	if (user_avatars) {
-		console.log("go to profile")
-		redirect('/dashboard/profile')
-	} else {
-		console.log("create avatar first")
-		redirect('/dashboard/createAvatar1')
+	if (!users_data) {
+		// no user info pa, need to complete account creation and shts
+		console.log(user_data.user.user_metadata, "data")
+
+		const { data: user_data_insert, error: user_error } = await supabase.from('users').upsert({
+			sr_code: user_data.user.user_metadata.srCode,
+			email: user_data.user.email,
+			first_name: user_data.user.user_metadata.firstName,
+			last_name: user_data.user.user_metadata.lastName,
+			school: user_data.user.user_metadata.school,
+			// department: data.user.user_metadata.department
+			department: "temp"
+		})
+
+		if (user_error) {
+			console.log("user_error", user_error)
+		} else {
+			console.log("user_data", user_data_insert)
+		}
 	}
+
+	redirect("/dashboard/homeTemp")
+
+	// const user_avatars = await getUserAvatar(supabase, user_data);
+	// console.log(user_avatars);
+	// if (user_avatars) {
+	// 	console.log("go to profile")
+	// 	redirect('/dashboard/profile')
+	// } else {
+	// 	console.log("create avatar first")
+	// 	redirect('/dashboard/createAvatar1')
+	// }
+
+
 	// const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", user_data.user.id).single();
 	// console.log(users_data)
 
@@ -94,15 +120,10 @@ export async function signup(data) {
 	const lastName = data.lastName as string;
 	const school = data.school as string;
 	const password = data.password as string;
-	const confirmPassword = data.confirmPassword as string;
-
-	if (password !== confirmPassword) {
-		return "password not match"
-	}
 
 	const supabase = await createClient();
 
-	console.log(school);
+	console.log(srCode, firstName, lastName, school, password);
 	const { data: data_email } = await supabase.from("institutions").select("email_extension").eq("institution", school).single();
 
 	const email = srCode + data_email.email_extension
@@ -123,11 +144,11 @@ export async function signup(data) {
 	})
 
 	if (error) {
-	    console.log(error)
-	    return "Could not authenticate user";
+	    console.log(error.code)
+	    return error.code;
 	}
 
-	// // wait na mauthorize default page is check email muna
+	// wait na mauthorize default page is check email muna
 	revalidatePath('/', 'layout')
 	return "Check your email";
 }

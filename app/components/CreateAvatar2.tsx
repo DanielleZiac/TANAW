@@ -23,7 +23,8 @@ const AvatarDisplayArea: React.FC = ({ children }) => (
 
 // add parameters
 const CreateAvatar2: React.FC = (params) => {
-  var user_id = params.params[1].user_id
+  console.log(params)
+  var user_id = params.params[1]
   var avatar = params.params[0]
 
   if (!avatar.college || 

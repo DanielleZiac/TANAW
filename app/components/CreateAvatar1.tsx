@@ -150,6 +150,14 @@ const CreateAvatar1: React.FC = (data) => {
             >
               CIT
             </button>
+
+            <button
+              className={`${getButtonStyles(college === "cit").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(college === "cit").style}
+              onClick={() => router.push("/dashboard/homeTemp")}
+            >
+              Back
+            </button>
           </div>
         </div>
       </div>

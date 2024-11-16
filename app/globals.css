@@ -23,3 +23,23 @@ body {
 .inner-shadow : hover {
   box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.image-container {
+  margin-bottom: 20px; /* Space between the image and posts */
+}
+
+.sdg-image {
+  width: 170%; /* You can increase this percentage for a bigger image */
+  max-width: none; /* Remove the default max-width constraint */
+  height: auto;
+  border-radius: 10px; /* Optional: adds rounded corners */
+}

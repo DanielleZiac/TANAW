@@ -1,17 +1,26 @@
-// src/pages/signup.tsx
 "use client";
 
 import { React, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import ButtonBox from "../styles/buttonBox"; // Import the reusable button box component
+import InputBox from "../styles/inputBox"; // Corrected import path for InputBox
+import { baseButtonClass } from "../styles/buttonStyles"; // Import baseButtonClass
+import ButtonBox from "../styles/buttonBox"; // Import ButtonBox component
 
 import { signup, getInstitutions } from "../auth/actions"
 
 const Signup: React.FC = () => {
   const router = useRouter();
-  const [error, setError] = useState(null);
+  const [srCode, setSrCode] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  // const [school, setSchool] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false); // Add state for terms acceptance
+
   const [institutions, setInstitution] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
 
@@ -22,71 +31,69 @@ const Signup: React.FC = () => {
     fetchData()
   }, [])
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    let data = {}
-    const formData = new FormData(event.currentTarget);
-    for (let [key, value] of formData.entries()) {
-      data[key] = value;
+    let school = document.getElementById("school").value;
+    
+    if (password != confirmPassword) {
+      setError("password != confirmPassword")
+      return
     }
 
-    let res = await signup(data);
-    console.log(res);
-    setError(res)
+    if (termsAccepted) {
+      // router.push("/createavatar");
+      let data = {
+        srCode: srCode,
+        firstName: firstname,
+        lastName: lastname,
+        school: school,
+        password: password
+      }
 
-    // router.push("/createavatar");
+      let res = await signup(data);
+      setError(res)
+
+    } else {
+      setError("Please accept the terms and conditions.")
+      // alert("Please accept the terms and conditions.");
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-8 text-sky-400">
-        Create an Account
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-16">
+      <h1 className="text-5xl md:text-8xl lg:text-9xl font-bold text-center mb-12 text-sky-400">
+        TANAW
       </h1>
-      <div className="p-8 rounded-lg w-full max-w-sm">
+      <div className="p-10 rounded-lg w-full max-w-lg bg-lightGray">
         <form className="flex flex-col items-center" onSubmit={handleSubmit}>
-          <div className="mb-2 w-3/4">
-            <input
-              type="text"
-              id="sr-code"
-              name="srCode"
-              required
-              className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-              placeholder="SR Code"
-              style={{
-                boxShadow: "inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-                border: "none",
-              }}
-            />
-          </div>
-          <div className="mb-2 w-3/4">
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              required
-              className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-              placeholder="First Name"
-              style={{
-                boxShadow: "inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-                border: "none",
-              }}
-            />
-          </div>
-          <div className="mb-2 w-3/4">
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              required
-              className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-              placeholder="Last Name"
-              style={{
-                boxShadow: "inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-                border: "none",
-              }}
-            />
-          </div>
+          <InputBox
+            id="sr-code"
+            type="text"
+            value={srCode}
+            setValue={setSrCode}
+            placeholder="SR Code"
+          />
+          <InputBox
+            id="firstname"
+            type="text"
+            value={firstname}
+            setValue={setFirstname}
+            placeholder="First Name"
+          />
+          <InputBox
+            id="lastname"
+            type="text"
+            value={lastname}
+            setValue={setLastname}
+            placeholder="Lastname"
+          />
+{/*          <InputBox
+            id="school"
+            type="text"
+            value={school}
+            setValue={setSchool}
+            placeholder="School/Institution"
+          />*/}
           <div className="mb-2 w-3/4">
             <select 
               id="school"
@@ -104,34 +111,22 @@ const Signup: React.FC = () => {
               ))}
             </select>
           </div>
-          <div className="mb-2 w-3/4">
-            <input
-              type="password"
-              id="password"
-              name="password"
-              required
-              className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-              placeholder="Password"
-              style={{
-                boxShadow: "inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-                border: "none",
-              }}
-            />
-          </div>
-          <div className="mb-4 w-3/4">
-            <input
-              type="password"
-              id="confirm-password"
-              name="confirmPassword"
-              required
-              className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-              placeholder="Confirm Password"
-              style={{
-                boxShadow: "inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-                border: "none",
-              }}
-            />
-          </div>
+          <InputBox
+            id="password"
+            type="password"
+            value={password}
+            setValue={setPassword}
+            placeholder="Password"
+          />
+          <InputBox
+            id="confirm-password"
+            type="password"
+            value={confirmPassword}
+            setValue={setConfirmPassword}
+            placeholder="Confirm Password"
+          />
+
+          {/* error msg */}
           <div className="mb-4 w-3/4">
             <p className="text-sm text-red-500">{error}</p>
           </div>
@@ -143,27 +138,27 @@ const Signup: React.FC = () => {
                 type="checkbox"
                 id="terms"
                 required
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)} // Handle checkbox change
                 className="mr-2"
               />
               <label htmlFor="terms" className="text-gray-700 text-sm">
-                
-                  Terms and Conditions
-                
+                Terms and Conditions
               </label>
             </ButtonBox>
           </div>
 
-          <div className="mb-4 text-center w-3/4">
-            <p className="text-gray-600 text-sm">
+          <div className="mb-6 text-center w-3/4">
+            <p className="text-gray-600 text-lg md:text-xl">
               Already have an account?{" "}
               <Link href="/auth/login">
-                <span className="text-blue-500 cursor-pointer">Login</span>
+                <span className="text-blue-500 cursor-pointer text-lg md:text-xl">Log in</span>
               </Link>
             </p>
           </div>
           <button
             type="submit"
-            className="bg-white text-indigo-500 font-bold py-3 px-4 rounded-full focus:outline-none w-3/4 shadow-lg drop-shadow-xl"
+            className={`${baseButtonClass} w-3/4 text-2xl md:text-3xl lg:text-4xl mt-4`}
           >
             Proceed to Avatar
           </button>

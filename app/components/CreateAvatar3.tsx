@@ -9,7 +9,8 @@ import { uploadAvatar } from "../dashboard/actions"
 const CreateAvatar3: React.FC = (params) => {
   const router = useRouter();
   const [b64, setB64] = useState(null);
-  var user_id = params.data.user_id
+  console.log(params)
+  var user_id = params.data
 
   useEffect(() => {
     var dataImage = sessionStorage.getItem(user_id);
@@ -32,6 +33,8 @@ const CreateAvatar3: React.FC = (params) => {
 
     const file = new File([u8arr], "avatar.png", {type:mime})
     uploadAvatar(user_id, file, avatar_lbl)
+    sessionStorage.removeItem(user_id);
+    redirect("/dashboard/createAvatar1")
   }
 
   const retake = () => {

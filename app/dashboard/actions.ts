@@ -14,50 +14,34 @@ export async function authenticateUser() {
 	if (error || !data?.user) {
 		redirect('/auth/login')
 	}
-	const user_data = getUserById(supabase, data);
+
+	console.log(data.user.id)
+	const user_data = await getUserById(supabase, data);
 	return user_data
 }
 
 
 export async function getUserById(supabase, data) {
 	const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", data.user.id).single();
-
-	if (!users_data.user_id) {
-		// no user info pa, need to complete account creation and shts
-		console.log(data, "data")
-
-		const { data: user_data, error: user_error } = await supabase.from('users').insert({
-			sr_code: data.user.user_metadata.srCode,
-			email: data.user.email,
-			first_name: data.user.user_metadata.firstName,
-			last_name: data.user.user_metadata.lastName,
-			school: data.user.user_metadata.school,
-			// department: data.user.user_metadata.department
-			department: "temp"
-		})
-
-		if (user_error) {
-			console.log("user_error", user_error)
-		} else {
-			console.log("user_data", user_data)
-		}
-
-		return user_data
-	} else {
-		// has avatar/info user already
-		console.log(users_data)
-		return users_data
-	}
+	return users_data.user_id
 }
 
-export async function getUserAvatar(supabase, data) {
-	const { data: user_avatars, error: user_avatar_error} = await supabase.from('avatars').select("user_id").eq("user_id", data.user.id);
 
-	if(!user_avatars) {
+export async function getUserAvatar(data) {
+	console.log("dataaaaa", data)
+
+	const supabase = await createClient()
+
+	const { data: user_avatars, error: user_avatar_error} = await supabase.from('avatars').select(`avatar_id, avatar_url, avatar_label, is_selected`).eq("user_id", data);
+
+	console.log("user_avatars", user_avatars)
+	if(user_avatars.length < 1) {
+		redirect("/dashboard/createAvatar1")
 		console.log("no avatar");
 	} else {
-		console.log(user_avatars)
+		// console.log(user_avatars)
 		console.log("has avatar");
+		return user_avatars
 	}
 }
 
@@ -239,8 +223,9 @@ export async function uploadAvatar(user_id: String, file: File, avatar_lbl: Stri
 	console.log(user_id, file)
 
 	const supabase = await createClient()
+	const date = String(Date.now())
 
-	const path = user_id + "/" + String(Date.now())
+	const path = user_id + "/" + date
 
 	const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file)
 
@@ -248,22 +233,97 @@ export async function uploadAvatar(user_id: String, file: File, avatar_lbl: Stri
 		console.log(uploadError)
 	}
 
-	const { data: data_public_url, error: error_public_url } = await supabase.storage.from(`avatars/${user_id}`).getPublicUrl(String(Date.now()));
+	const { data: data_public_url, error: error_public_url } = await supabase.storage.from(`avatars/${user_id}`).getPublicUrl(date);
 
 	if (error_public_url) {
 		console.log(error_public_url)
 	}
 
-	if (avatar_lbl == "") {
-		avatar_lbl = null;
+
+	// do formdata
+	const avatar_data = {}
+	avatar_data["user_id"] = user_id
+	avatar_data["avatar_url"] = data_public_url.publicUrl
+	console.log(avatar_data)
+
+	if (avatar_lbl.trim() != "") {
+		avatar_data["avatar_label"] = avatar_lbl
 	}
 
-	const { data: upload_avatar_upload, error: error_avatar_upload} = await supabase.from('avatars').insert({
-		user_id: user_id,
-		avatar_label: avatar_lbl
-	})
+
+	const { data: user_avatars, error: user_avatar_error} = await supabase.from('avatars').select("avatar_id").eq("user_id", user_id);
+
+	if(user_avatars.length < 1) {
+		avatar_data["is_selected"] = true
+	}
+
+	const { data: upload_avatar_upload, error: error_avatar_upload} = await supabase.from('avatars').insert(avatar_data);
 
 	if (error_avatar_upload) {
 		console.log(error_avatar_upload)
+	}
+}
+
+
+export async function getCurrentAvatarUrl(user_id: String) {
+	const supabase = await createClient()
+	const { data: cur_user_avatar, error: cur_user_avatar_error} = await supabase.from('avatars').select("avatar_url").eq("user_id", user_id).eq("is_selected", "TRUE").single();
+
+	if (cur_user_avatar_error) {
+		console.log("cur_user_avatar_error", cur_user_avatar_error)
+		return cur_user_avatar_error
+	}
+	return cur_user_avatar.avatar_url
+}
+
+
+export async function updateAvatarSelected(avatar_id: String, user_id: String) {
+	const supabase = await createClient()
+	
+	const curUserAvatarUrl = await getCurrentAvatarUrl(user_id);
+
+	console.log(curUserAvatarUrl)
+
+	const { error: prevAvatarError } = await supabase
+		.from('avatars')
+		.update({ is_selected: false })
+		.eq('avatar_url', curUserAvatarUrl)
+
+	if (prevAvatarError) {
+		console.log("prevAvatarError", prevAvatarError)
+		return;
+	}
+
+	const { error: newAvatarError } = await supabase
+		.from('avatars')
+		.update({ is_selected: true })
+		.eq('avatar_id', avatar_id)
+
+	if (newAvatarError) {
+		console.log("newAvatarError", newAvatarError)
+		return;
+	}
+}
+
+
+export async function deleteAvatarSelected(avatar_id: String) {
+const { data, error } = await supabase
+	.from('countries')
+	.delete()
+	.eq('avatar_id', avatar_id)
+	.select()
+}
+
+
+export async function updateAvatarLabel(avatar_id: String, new_lbl: String) {
+	const supabase = await createClient()
+
+	const { error: avatarLblError } = await supabase
+		.from('avatars')
+		.update({ avatar_label: new_lbl })
+		.eq('avatar_id', avatar_id)
+
+	if (avatarLblError) {
+		console.log("avatarLblError", avatarLblError)
 	}
 }
