@@ -11,7 +11,7 @@ const ButtonBox: React.FC<ButtonBoxProps> = ({ children, onClick }) => {
     <button
       type="button"
       onClick={onClick}
-      className="bg-white text-gray-700 rounded-lg py-4 px-6 w-full shadow-lg flex items-center justify-center space-x-4 hover:bg-gray-100 focus:outline-none"
+      className="bg-cGray text-gray-700 rounded-lg py-4 px-6 w-full shadow-lg flex items-center justify-center space-x-4 hover:bg-gray-100 focus:outline-none"
       style={{
         boxShadow:
           "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1), " + // Original shadows

@@ -1,91 +1,72 @@
-// src/pages/signup.tsx
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import ButtonBox from "../styles/buttonBox"; // Import the reusable button box component
+import InputBox from "../styles/inputBox"; // Corrected import path for InputBox
+import { baseButtonClass } from "../styles/buttonStyles"; // Import baseButtonClass
+import ButtonBox from "../styles/buttonBox"; // Import ButtonBox component
 
 const Signup: React.FC = () => {
   const router = useRouter();
+  const [srCode, setSrCode] = useState("");
+  const [username, setUsername] = useState("");
+  const [school, setSchool] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false); // Add state for terms acceptance
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push("/createavatar");
+    if (termsAccepted) {
+      router.push("/createavatar");
+    } else {
+      alert("Please accept the terms and conditions.");
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-8 text-sky-400">
-        Create an Account
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-16">
+      <h1 className="text-5xl md:text-8xl lg:text-9xl font-bold text-center mb-12 text-sky-400">
+        TANAW
       </h1>
-      <div className="p-8 rounded-lg w-full max-w-sm">
+      <div className="p-10 rounded-lg w-full max-w-lg bg-lightGray">
         <form className="flex flex-col items-center" onSubmit={handleSubmit}>
-          <div className="mb-2 w-3/4">
-            <input
-              type="text"
-              id="sr-code"
-              required
-              className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-              placeholder="SR Code"
-              style={{
-                boxShadow: "inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-                border: "none",
-              }}
-            />
-          </div>
-          <div className="mb-2 w-3/4">
-            <input
-              type="text"
-              id="username"
-              required
-              className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-              placeholder="Username"
-              style={{
-                boxShadow: "inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-                border: "none",
-              }}
-            />
-          </div>
-          <div className="mb-2 w-3/4">
-            <input
-              type="text"
-              id="school"
-              required
-              className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-              placeholder="School/Institution"
-              style={{
-                boxShadow: "inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-                border: "none",
-              }}
-            />
-          </div>
-          <div className="mb-2 w-3/4">
-            <input
-              type="password"
-              id="password"
-              required
-              className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-              placeholder="Password"
-              style={{
-                boxShadow: "inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-                border: "none",
-              }}
-            />
-          </div>
-          <div className="mb-4 w-3/4">
-            <input
-              type="password"
-              id="confirm-password"
-              required
-              className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-              placeholder="Confirm Password"
-              style={{
-                boxShadow: "inset 5px 5px 10px rgba(0, 0, 0, 0.2)",
-                border: "none",
-              }}
-            />
-          </div>
+          <InputBox
+            id="sr-code"
+            type="text"
+            value={srCode}
+            setValue={setSrCode}
+            placeholder="SR Code"
+          />
+          <InputBox
+            id="username"
+            type="text"
+            value={username}
+            setValue={setUsername}
+            placeholder="Username"
+          />
+          <InputBox
+            id="school"
+            type="text"
+            value={school}
+            setValue={setSchool}
+            placeholder="School/Institution"
+          />
+          <InputBox
+            id="password"
+            type="password"
+            value={password}
+            setValue={setPassword}
+            placeholder="Password"
+          />
+          <InputBox
+            id="confirm-password"
+            type="password"
+            value={confirmPassword}
+            setValue={setConfirmPassword}
+            placeholder="Confirm Password"
+          />
 
           {/* Terms and Conditions Checkbox with ButtonBox */}
           <div className="mb-4 w-3/4">
@@ -94,27 +75,27 @@ const Signup: React.FC = () => {
                 type="checkbox"
                 id="terms"
                 required
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)} // Handle checkbox change
                 className="mr-2"
               />
               <label htmlFor="terms" className="text-gray-700 text-sm">
-                
-                  Terms and Conditions
-                
+                Terms and Conditions
               </label>
             </ButtonBox>
           </div>
 
-          <div className="mb-4 text-center w-3/4">
-            <p className="text-gray-600 text-sm">
+          <div className="mb-6 text-center w-3/4">
+            <p className="text-gray-600 text-lg md:text-xl">
               Already have an account?{" "}
               <Link href="/login">
-                <span className="text-blue-500 cursor-pointer">Login</span>
+                <span className="text-blue-500 cursor-pointer text-lg md:text-xl">Log in</span>
               </Link>
             </p>
           </div>
           <button
             type="submit"
-            className="bg-white text-indigo-500 font-bold py-3 px-4 rounded-full focus:outline-none w-3/4 shadow-lg drop-shadow-xl"
+            className={`${baseButtonClass} w-3/4 text-2xl md:text-3xl lg:text-4xl mt-4`}
           >
             Proceed to Avatar
           </button>

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import InputBox from '../styles/inputBox'; // Import the InputBox component
+import { baseButtonClass } from '../styles/buttonStyles';
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -20,7 +21,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-16">
+    <div className="flex flex-col items-center justify-start min-h-screen px-4 pt-40"> {/* Center horizontally and align at the top */}
       <h1 className="text-5xl md:text-8xl lg:text-9xl font-bold text-center mb-12 text-sky-400">
         TANAW
       </h1>
@@ -50,7 +51,7 @@ const Login: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="bg-white text-indigo-500 font-bold py-5 px-8 rounded-full w-3/4 shadow-lg text-2xl md:text-3xl lg:text-4xl focus:outline-none"
+            className={`${baseButtonClass} w-3/4 text-2xl md:text-3xl lg:text-4xl mt-4`} 
           >
             Log in
           </button>
