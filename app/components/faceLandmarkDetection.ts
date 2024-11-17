@@ -34,7 +34,6 @@ export async function runFacemesh(video, setStatus, setLeftEye, setSmile) {
 }
 
 
-
 // merge ear functions into one
 function euclidean(x2, x1, y2, y1) {
 	return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2))
@@ -56,6 +55,7 @@ function getMAR(upperLip, lowerLip) {
 		/ (1 * euclidean(upperLip[0][0], upperLip[10][0], upperLip[0][1], upperLip[10][1]))
 	)
 }
+
 
 function getBrow(upperBrow, eye) {
 	return (
@@ -178,7 +178,6 @@ function smile(prediction) {
 		}
 	}
 }
-
 
 
 // not workingg

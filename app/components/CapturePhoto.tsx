@@ -5,7 +5,8 @@ import { uploadPhoto } from "../dashboard/actions"
 import { runFacemesh } from "./faceLandmarkDetection"
 
 const UploadPhoto: React.FC = (data) => {
-  const user_id = data.data.user_id;
+  const user_id = data.data[0];
+  const sdg = data.data[1]
 
   const camera = useRef<HTMLVideoElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -93,6 +94,7 @@ const UploadPhoto: React.FC = (data) => {
     return new File([u8arr], filename, { type: mime });
   }
 
+
   async function handleUploadPhoto() {
     if (!file || !user_id) {
       console.error("File or User ID missing");
@@ -102,7 +104,7 @@ const UploadPhoto: React.FC = (data) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("user_id", user_id);
-    formData.append("sdgs", "sdg1"); // Adjust SDG value as needed
+    formData.append("sdgs", `sdg${sdg}`); // Adjust SDG value as needed
     formData.append("caption", caption);
 
     console.log("Uploading photo...");
@@ -120,7 +122,7 @@ const UploadPhoto: React.FC = (data) => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100">
       <h1 className="text-3xl font-bold text-center mb-8 text-sky-400">
-        SDG 1: No Poverty
+        SDG {sdg}
       </h1>
       <p className="text-gray-700 text-lg mb-4">Photo Challenge</p>
 
