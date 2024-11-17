@@ -38,6 +38,7 @@ const CreateAvatar2: React.FC = (params) => {
   const [leftEye, setLeftEye] = useState("eyes_opened");
   const [rightEye, setRightEye] = useState("rightEyeOpened");
   const [eyePos, setEyePos] = useState("normal");
+  const [smile, setSmile] = useState("mouth_closed");
   const [status, setStatus] = useState(false);
 
   const eye = useRef(null);
@@ -53,7 +54,7 @@ const CreateAvatar2: React.FC = (params) => {
           if(camera.current) {
             camera.current.srcObject = cur_stream;
 
-            runFacemesh(camera.current, setStatus, setLeftEye);
+            runFacemesh(camera.current, setStatus, setLeftEye, setSmile);
             setStream(cur_stream);
           }
         })
@@ -151,6 +152,13 @@ const CreateAvatar2: React.FC = (params) => {
             src={`/images/avatar/eye/${leftEye}.png`}
             style={{position: "absolute"}}
           />
+
+          <img 
+            id="smile"
+            src={`/images/avatar/mouth/${smile}.png`}
+            style={{position: "absolute"}}
+          />
+
         </AvatarDisplayArea>
       </div>
 

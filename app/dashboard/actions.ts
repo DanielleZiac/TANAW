@@ -97,7 +97,7 @@ export async function uploadPhoto(formData: FormData) {
 
 // filter
 // add leaderboards posts per college sa sdgs and event
-// top liked per event // filter eventid get max like
+// top liked per event // filter eventid get max like 3 lang
 // school per sdg
 // event per sdg
 export async function displayPhoto(searchParams: FormData) {
