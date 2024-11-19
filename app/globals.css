@@ -34,13 +34,16 @@ body {
 }
 
 .image-container {
-  margin-bottom: 20px; /* Space between the image and posts */
+  margin-bottom: 1px; /* Further reduced space between the image and posts */
 }
 
 .sdg-image {
-  width: 170%; /* You can increase this percentage for a bigger image */
+  width: 200px; /* Reduced size of the image */
   max-width: none; /* Remove the default max-width constraint */
   height: auto;
-  border-radius: 10px; /* Optional: adds rounded corners */
+  border-radius: 8px; /* Adjusted for smaller size */
+  object-fit: cover; /* Ensures the image fits well within the container */
 }
+
+
 

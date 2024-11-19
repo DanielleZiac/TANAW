@@ -16,7 +16,7 @@ const InputBox: React.FC<InputBoxProps> = ({
   value,
   setValue,
   placeholder,
-  widthClass = "w-3/4", // Default width is w-3/4
+  widthClass = "w-full sm:w-3/4 lg:w-1/2", // Responsive width classes
 }) => (
   <div className={`mb-4 ${widthClass}`}>
     <input
@@ -25,11 +25,11 @@ const InputBox: React.FC<InputBoxProps> = ({
       value={value}
       onChange={(e) => setValue(e.target.value)}
       required
-      className="appearance-none rounded-lg py-4 px-4 text-gray-700 w-full focus:outline-none text-lg bg-lightGray"
+      className="appearance-none rounded-lg py-2 px-3 text-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-cBlue text-base sm:text-lg bg-lightGray"
       placeholder={placeholder}
       style={{
-        boxShadow: "inset 0px 8px 20px rgba(0, 0, 0, 0.4)", // Optional shadow effect
-        borderRadius: '12px', // Ensure consistent border radius
+        boxShadow: "inset 0px 4px 12px rgba(0, 0, 0, 0.2)", // Lighter shadow effect
+        borderRadius: '8px', // Slightly smaller border radius for compact look
       }}
     />
   </div>

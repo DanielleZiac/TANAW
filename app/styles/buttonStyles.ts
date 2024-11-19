@@ -1,6 +1,6 @@
 // src/styles/buttonStyles.ts
 export const baseButtonClass = `
-  text-dBlue font-bold py-5 px-8 rounded-3xl
+  text-dBlue   px-2 rounded-xl
   focus:outline-none shadow-lg drop-shadow-xl
   transition duration-300 ease-in-out w-full text-3xl
 `;
@@ -10,6 +10,7 @@ export const getButtonStyles = (isSelected: boolean) => {
     ? {
         className: baseButtonClass,
         style: {
+          fontWeight: "bold",
           boxShadow: "inset 0px 8px 20px rgba(0, 0, 0, 0.4)", // Example shadow for selected state
         },
       }
