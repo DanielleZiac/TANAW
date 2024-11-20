@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
+import Link from 'next/link';
+import { SDG_TITLES } from '../data/sdgTitles';
 
 interface Post {
   src: string;
@@ -39,6 +41,7 @@ const SdgContent = ({ id }: { id: string }) => {
       </div>
     ));
 
+    const sdgTitle = SDG_TITLES[parseInt(id) - 1];
   return (
     <div className="content-container p-2 -mt-8 flex flex-col items-center overflow-hidden sm:-mt-6">
       {/* Extra Top Row */}
@@ -136,7 +139,7 @@ const SdgContent = ({ id }: { id: string }) => {
             className=" w-[100px] max-w-[100px] sm:max-w-[100px] rounded-full"
           />
           <div className="flex flex-col items-start w-2/3 ml-2">
-            <p className="text-base sm:text-lg font-extrabold text-dBlue">NO POVERTY</p>
+            <p className="text-base sm:text-lg font-extrabold text-dBlue">{sdgTitle}</p>
             <p className="text-base sm:text-lg font-bold text-dBlue">Photo Challenge</p>
             <div className="flex items-start  pt-4">
               <img src="/images/bsu.png" alt="BSU Logo" className="w-10 h-10 sm:w-14 sm:h-14 -ml-2 rounded-full" />
@@ -151,30 +154,35 @@ const SdgContent = ({ id }: { id: string }) => {
     </div>
   </div>
 )}
+
+
 <div className=" z-40 max-w-5xl w-full mx-auto sm:mt-10 flex items-center bg-white rounded-full shadow-lg px-5">
-    {/* Left Circular Button */}
-    <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={2}
-        stroke="currentColor"
-        className="w-6 h-6 text-blue-500"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-      </svg>
-    </button>
+  {/* Left Circular Button */}
+  <Link href={`/sdg/${id}/createpost`}>
+      <button className="w-12 h-8 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="currentColor"
+          className="w-6 h-6 text-blue-500"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+      </button>
+    </Link>
 
-    {/* Input Field */}
-    <input
-      type="text"
-      placeholder="Choose a Photo Challenge"
-      className="flex-grow bg-gray-100 rounded-full py-2 px-4 focus:outline-none text-lg"
-    />
+  {/* Input Field */}
+  <input
+    type="text"
+    placeholder="Choose a Photo Challenge"
+    className="flex-grow bg-gray-100 rounded-full py-2  focus:outline-none text-lg"
+  />
 
-    {/* Right Circular Button */}
-    <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md ml-4">
+  {/* Right Circular Button */}
+  <Link href="/photochallenges">
+    <button className="w-12 h-8 bg-white rounded-full flex items-center justify-center shadow-md ">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -186,7 +194,9 @@ const SdgContent = ({ id }: { id: string }) => {
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
       </svg>
     </button>
-  </div>
+  </Link>
+</div>
+
     </div>
 
     
