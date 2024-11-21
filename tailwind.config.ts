@@ -23,6 +23,7 @@ const config: Config = {
         navGray: '#545454',
         bubbleGray: '#f3f3f3',
         footerGray: '#e5eaf0',
+        exploreGray: '#dfe3e5',
       },
     },
   },

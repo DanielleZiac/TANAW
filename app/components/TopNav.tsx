@@ -47,7 +47,7 @@ const TopNav: React.FC = () => {
 
       {/* Side Panel for Mobile Menu */}
       <div
-        className={`fixed top-0 left-0 h-full bg-neutral-200 shadow-lg w-64 p-6 transform ${
+        className={`fixed top-0 left-0 h-full bg-white shadow-lg w-44 p-6 transform ${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         } transition-transform duration-300 ease-in-out z-40`}
       >
@@ -62,14 +62,17 @@ const TopNav: React.FC = () => {
 
         {/* Menu Links */}
         <ul className="mt-20 space-y-6 text-neutral-800">
-          <li className="hover:text-cBlue cursor-pointer text-xl">
-            <Link href="component/LearnMore">Learn more about SDGs</Link>
+          <li className="hover:text-cBlue cursor-pointer text-lg">
+            <Link href="component/LearnMore">About Us</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-xl">
+          <li className="hover:text-cBlue cursor-pointer text-lg">
+            <Link href="component/LearnMore">Help Center</Link>
+          </li>
+          <li className="hover:text-cBlue cursor-pointer text-lg">
             <Link href="/feedback">Feedback</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-xl">
-            <Link href="/view-report-photos">View & Report Photos</Link>
+          <li className="hover:text-cBlue cursor-pointer text-lg">
+            <Link href="/view-report-photos">Terms and Conditions</Link>
           </li>
         </ul>
       </div>
@@ -82,7 +85,7 @@ const TopNav: React.FC = () => {
         />
       )}
 
-      {/* Padding for content to avoid being hidden behind fixed nav */}
+      
       
     </>
   );

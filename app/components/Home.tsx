@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import FloatingDropdown from '../components/layouts/FloatingDropDown'; // Import the FloatingDropdown component
 
 const Home: React.FC = () => {
   const sdgImages = Array.from({ length: 17 }, (_, i) => ({
@@ -11,7 +12,10 @@ const Home: React.FC = () => {
 
   return (
     <div className="overflow-hidden bg-cover bg-top bg-no-repeat bg-fixed bg-[url('/images/homebg3.png')] h-full min-h-[100vh]">
-      {/* Container for Images */}
+      {/* Floating Dropdown Component */}
+      <FloatingDropdown />
+
+      {/* Container for SDG Images */}
       <div className="relative w-full py-[50vh] overflow-y-auto">
         <div className="w-full flex flex-col items-center">
           {sdgImages.map((item, index) => {

@@ -5,7 +5,7 @@ import { SDG_TITLES } from "../data/sdgTitles"; // Make sure to adjust the impor
 
 const Explore = () => {
   return (
-    <div className="fixed flex flex-col min-h-screen w-[100%] bg-cGray text-white">
+    <div className="fixed flex flex-col min-h-screen w-[100%] bg-exploreGray text-white">
       {/* Top Background Section */}
       <div
         className="w-full h-64 bg-cover bg-center flex items-center justify-center"
@@ -14,11 +14,11 @@ const Explore = () => {
         }}
       >
         {/* Optionally add content or title here */}
-      </div>
-
+      
+</div>
       {/* United Nations Section */}
       <div className="px-4 py-6">
-        <h2 className="text-2xl text-black font-semibold mb-4">UNITED NATIONS</h2>
+        <h2 className="text-2xl text-black font-semibold mb-4 ">UNITED NATIONS</h2>
         <div className="grid grid-cols-2 gap-4">
           {/* Example containers */}
           <div className="h-32 bg-transparent rounded-lg overflow-hidden">
@@ -37,6 +37,7 @@ const Explore = () => {
           </div>
         </div>
       </div>
+      
 
       {/* Scrollable Goals Section */}
       <h2 className="text-2xl text-black font-semibold mb-4 ml-4">THE 17 GOALS</h2>

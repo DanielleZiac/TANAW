@@ -37,6 +37,7 @@ const Footer = () => {
           <span className="text-sm md:text-lg text-cBlue font-bold mt-1">Profile</span>
         </a>
       </div>
+      
     </footer>
   );
 };
