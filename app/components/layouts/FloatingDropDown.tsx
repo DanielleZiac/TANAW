@@ -1,6 +1,4 @@
-// components/FloatingDropdown.tsx
 import React, { useState } from "react";
-import { FaPalette, FaBuilding, FaFire, FaCalendarAlt, FaTrophy } from "react-icons/fa";
 import { GoTrophy } from "react-icons/go";
 
 const FloatingDropdown: React.FC = () => {
@@ -14,51 +12,61 @@ const FloatingDropdown: React.FC = () => {
     <div className="relative">
       {/* Floating Circle Button */}
       <button
-  onClick={toggleDropdown}
-  className="fixed right-2 top-[90px] z-10 rounded-full bg-white p-2"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="25"
-    height="25"
-    viewBox="0 0 30 30"
-    fill="none"
-    className="text-cBlue"
-  >
-    <path
-      d="M8.75 26.25C7.42392 26.25 6.15215 25.7232 5.21447 24.7855C4.27678 23.8479 3.75 22.5761 3.75 21.25V6.25C3.75 5.58696 4.01339 4.95107 4.48223 4.48223C4.95107 4.01339 5.58696 3.75 6.25 3.75H11.25C11.913 3.75 12.5489 4.01339 13.0178 4.48223C13.4866 4.95107 13.75 5.58696 13.75 6.25V21.25C13.75 22.5761 13.2232 23.8479 12.2855 24.7855M8.75 26.25C10.0761 26.25 11.3479 25.7232 12.2855 24.7855M8.75 26.25H23.75C24.413 26.25 25.0489 25.9866 25.5178 25.5178C25.9866 25.0489 26.25 24.413 26.25 23.75V18.75C26.25 18.087 25.9866 17.4511 25.5178 16.9822C25.0489 16.5134 24.413 16.25 23.75 16.25H20.8212M12.2855 24.7855L22.8925 14.1788C23.3612 13.7099 23.6245 13.0742 23.6245 12.4112C23.6245 11.7483 23.3612 11.1126 22.8925 10.6438L19.3562 7.1075C18.8874 6.63882 18.2517 6.37553 17.5888 6.37553C16.9258 6.37553 16.2901 6.63882 15.8212 7.1075L13.75 9.17875M8.75 21.25H8.7625"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-</button>
+        onClick={toggleDropdown}
+        className="fixed right-2 top-[90px] z-50 rounded-full bg-white p-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          viewBox="0 0 30 30"
+          fill="none"
+          className="text-cBlue"
+        >
+          <path
+            d="M8.75 26.25C7.42392 26.25 6.15215 25.7232 5.21447 24.7855C4.27678 23.8479 3.75 22.5761 3.75 21.25V6.25C3.75 5.58696 4.01339 4.95107 4.48223 4.48223C4.95107 4.01339 5.58696 3.75 6.25 3.75H11.25C11.913 3.75 12.5489 4.01339 13.0178 4.48223C13.4866 4.95107 13.75 5.58696 13.75 6.25V21.25C13.75 22.5761 13.2232 23.8479 12.2855 24.7855M8.75 26.25C10.0761 26.25 11.3479 25.7232 12.2855 24.7855M8.75 26.25H23.75C24.413 26.25 25.0489 25.9866 25.5178 25.5178C25.9866 25.0489 26.25 24.413 26.25 23.75V18.75C26.25 18.087 25.9866 17.4511 25.5178 16.9822C25.0489 16.5134 24.413 16.25 23.75 16.25H20.8212M12.2855 24.7855L22.8925 14.1788C23.3612 13.7099 23.6245 13.0742 23.6245 12.4112C23.6245 11.7483 23.3612 11.1126 22.8925 10.6438L19.3562 7.1075C18.8874 6.63882 18.2517 6.37553 17.5888 6.37553C16.9258 6.37553 16.2901 6.63882 15.8212 7.1075L13.75 9.17875M8.75 21.25H8.7625"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="fixed right-2 top-[114px] z-5 bg-white shadow-lg py-4 px-2 rounded-b-full flex flex-col items-center space-y-3">
-          <button className="flex justify-center items-center">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="25"
-    height="25"
-    viewBox="0 0 30 30"
-    fill="none"
-    className="text-cBlue"
-  >
-    <path
+        <div className="fixed right-2 top-[114px] z-40 bg-white shadow-lg py-4 px-2 rounded-b-full flex flex-col items-center space-y-3">
+          {/* Institution Link */}
+          <a
+            href="/institution"
+            className="flex flex-col items-center text-gray-300 hover:text-blue-500"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 30 30"
+              fill="none"
+              className="text-cBlue"
+            >
+             <path
       d="M23.75 26.25V6.25C23.75 5.58696 23.4866 4.95107 23.0178 4.48223C22.5489 4.01339 21.913 3.75 21.25 3.75H8.75C8.08696 3.75 7.45107 4.01339 6.98223 4.48223C6.51339 4.95107 6.25 5.58696 6.25 6.25V26.25M23.75 26.25H26.25M23.75 26.25H17.5M6.25 26.25H3.75M6.25 26.25H12.5M17.5 26.25V20C17.5 19.6685 17.3683 19.3505 17.1339 19.1161C16.8995 18.8817 16.5815 18.75 16.25 18.75H13.75C13.4185 18.75 13.1005 18.8817 12.8661 19.1161C12.6317 19.3505 12.5 19.6685 12.5 20V26.25M17.5 26.25H12.5M11.25 8.75H12.5M11.25 13.75H12.5M17.5 8.75H18.75M17.5 13.75H18.75"
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-  </svg>
-</button>
 
-<button className="flex justify-center items-center">
-  <svg
+            </svg>
+            
+          </a>
+
+          {/* Hall of Fame Link */}
+          <a
+            href="/halloffame"
+            className="flex flex-col items-center text-gray-300 hover:text-blue-500"
+          >
+            <svg
     xmlns="http://www.w3.org/2000/svg"
     width="25"
     height="25"
@@ -81,30 +89,40 @@ const FloatingDropdown: React.FC = () => {
       strokeLinejoin="round"
     />
   </svg>
-</button>
+          </a>
 
-<button className="flex justify-center items-center">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="25"
-    height="25"
-    viewBox="0 0 30 30"
-    fill="none"
-    className="text-cBlue"
-  >
-    <path
+          {/* Calendar Link */}
+          <a
+            href="/calendar"
+            className="flex flex-col items-center text-gray-300 hover:text-blue-500"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 30 30"
+              fill="none"
+              className="text-cBlue"
+            >
+               <path
       d="M10 8.75V3.75M20 8.75V3.75M8.75 13.75H21.25M6.25 26.25H23.75C24.413 26.25 25.0489 25.9866 25.5178 25.5178C25.9866 25.0489 26.25 24.413 26.25 23.75V8.75C26.25 8.08696 25.9866 7.45107 25.5178 6.98223C25.0489 6.51339 24.413 6.25 23.75 6.25H6.25C5.58696 6.25 4.95107 6.51339 4.48223 6.98223C4.01339 7.45107 3.75 8.08696 3.75 8.75V23.75C3.75 24.413 4.01339 25.0489 4.48223 25.5178C4.95107 25.9866 5.58696 26.25 6.25 26.25Z"
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-  </svg>
-</button>
+            </svg>
+            
+          </a>
 
-          <button className="flex justify-center items-center">
+          {/* Leaderboard Link */}
+          <a
+            href="/leaderboard"
+            className="flex flex-col items-center text-gray-300 hover:text-blue-500"
+          >
             <GoTrophy className="text-cBlue text-xl" />
-          </button>
+            
+          </a>
         </div>
       )}
     </div>

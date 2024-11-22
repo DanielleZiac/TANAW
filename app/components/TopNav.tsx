@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FaBars, FaTrophy } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { LuSticker } from "react-icons/lu";
 
 const TopNav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,7 +41,7 @@ const TopNav: React.FC = () => {
             aria-label="View Leaderboard"
             className="text-navGray hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-cBlue"
           >
-            <FaTrophy size={30} />
+            <LuSticker size={30} />
           </button>
         </Link>
       </nav>

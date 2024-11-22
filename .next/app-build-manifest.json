@@ -16,6 +16,41 @@
       "static/chunks/main-app.js",
       "static/chunks/app/login/page.js"
     ],
+    "/home/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/home/page.js"
+    ],
+    "/institution/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/institution/page.js"
+    ],
+    "/leaderboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/leaderboard/page.js"
+    ],
+    "/sdg/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/sdg/[id]/page.js"
+    ],
+    "/gallery/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/gallery/page.js"
+    ],
+    "/explore/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/explore/page.js"
+    ],
+    "/inbox/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/inbox/page.js"
+    ],
     "/signup/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -25,26 +60,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/createavatar/page.js"
-    ],
-    "/createavatar/createavatar2/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/createavatar/createavatar2/page.js"
-    ],
-    "/createavatar/createavatar3/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/createavatar/createavatar3/page.js"
-    ],
-    "/home/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/home/page.js"
-    ],
-    "/sdg/[id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/sdg/[id]/page.js"
     ],
     "/sdg/[id]/createpost/page": [
       "static/chunks/webpack.js",
@@ -56,15 +71,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/sdg/[id]/createpost/createpost2/page.js"
     ],
-    "/explore/page": [
+    "/halloffame/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/explore/page.js"
-    ],
-    "/gallery/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/gallery/page.js"
+      "static/chunks/app/halloffame/page.js"
     ]
   }
 }
