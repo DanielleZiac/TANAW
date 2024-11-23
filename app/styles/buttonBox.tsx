@@ -3,6 +3,7 @@ import React from 'react';
 
 interface ButtonBoxProps {
   children: React.ReactNode;
+  style?: React.CSSProperties;
   onClick?: () => void;
 }
 

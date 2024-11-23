@@ -20,7 +20,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.inner-shadow : hover {
+.inner-shadow:hover {
   box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -41,5 +41,5 @@ body {
   width: 170%; /* You can increase this percentage for a bigger image */
   max-width: none; /* Remove the default max-width constraint */
   height: auto;
-  border-radius: 10px; /* Optional: adds rounded corners */
+  border-radius: 50%; /* Optional: adds rounded corners */
 }

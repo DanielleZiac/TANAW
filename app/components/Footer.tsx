@@ -5,31 +5,40 @@ import { FaHome, FaImage, FaInbox, FaUser, FaGlobeAsia } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="p-10">
-  <div className="container mx-auto flex justify-between items-center">
-    <a href="/dashboard/home" className="text-center flex flex-col items-center text-gray-300 hover:text-blue-500">
-      <FaHome size={80} className="text-cBlue md:text-50" />
-      <span className="text-3xl md:text-xl text-cBlue font-extrabold leading-none mt-2">Home</span>
-    </a>
-    <a href="/dashboard/gallery" className="text-center flex flex-col items-center text-gray-300 hover:text-blue-500">
-      <FaImage size={80} className="text-cBlue md:text-50" />
-      <span className="text-3xl md:text-xl text-cBlue font-extrabold leading-none mt-2">Gallery</span>
-    </a>
-    <a href="/dashboard/explore" className="text-center flex flex-col items-center text-gray-300 hover:text-blue-500">
-      <FaGlobeAsia size={80} className="text-cBlue md:text-50" />
-      <span className="text-3xl md:text-xl text-cBlue font-extrabold leading-none mt-2">Explore</span>
-    </a>
-    <a href="/dashboard/inbox" className="text-center flex flex-col items-center text-gray-300 hover:text-blue-500">
-      <FaInbox size={80} className="text-cBlue md:text-50" />
-      <span className="text-3xl md:text-xl text-cBlue font-extrabold leading-none mt-2">Inbox</span>
-    </a>
-    <a href="/dashboard/profile" className="text-center flex flex-col items-center text-gray-300 hover:text-blue-500">
-      <FaUser size={80} className="text-cBlue md:text-50" />
-      <span className="text-3xl md:text-xl text-cBlue font-extrabold leading-none mt-2">Profile</span>
-    </a>
-  </div>
-</footer>
+    <footer className="fixed bottom-0 left-0 w-full bg-cGray p-1 py-3 md:p-6 z-50">
+      <div className="container mx-auto flex justify-around items-center z-50">
+        {/* Home Link */}
+        <a href="/dashboard/home" className="flex flex-col items-center text-gray-300 hover:text-blue-500">
+          <FaHome className="text-cBlue" size={30} />
+          <span className="text-sm md:text-lg text-cBlue font-bold mt-1">Home</span>
+        </a>
 
+        {/* Gallery Link */}
+        <a href="/dashboard/gallery" className="flex flex-col items-center text-gray-300 hover:text-blue-500">
+          <FaImage className="text-cBlue" size={30} />
+          <span className="text-sm md:text-lg text-cBlue font-bold mt-1">Gallery</span>
+        </a>
+
+        {/* Explore Link */}
+        <a href="/dashboard/explore" className="flex flex-col items-center text-gray-300 hover:text-blue-500">
+          <FaGlobeAsia className="text-cBlue" size={30} />
+          <span className="text-sm md:text-lg text-cBlue font-bold mt-1">Explore</span>
+        </a>
+
+        {/* Inbox Link */}
+        <a href="/dashboard/inbox" className="flex flex-col items-center text-gray-300 hover:text-blue-500">
+          <FaInbox className="text-cBlue" size={30} />
+          <span className="text-sm md:text-lg text-cBlue font-bold mt-1">Inbox</span>
+        </a>
+
+        {/* Profile Link */}
+        <a href="/dashboard/profile" className="flex flex-col items-center text-gray-300 hover:text-blue-500">
+          <FaUser className="text-cBlue" size={30} />
+          <span className="text-sm md:text-lg text-cBlue font-bold mt-1">Profile</span>
+        </a>
+      </div>
+      
+    </footer>
   );
 };
 

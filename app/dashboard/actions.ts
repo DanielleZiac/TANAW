@@ -12,7 +12,8 @@ export async function authenticateUser() {
 
 	const { data, error } = await supabase.auth.getUser()
 	if (error || !data?.user) {
-		redirect('/auth/login')
+		return { redirect: '/auth/login' };
+		//redirect('/auth/login')
 	}
 
 	console.log(data.user.id)
@@ -22,12 +23,14 @@ export async function authenticateUser() {
 
 
 export async function getUserById(supabase, data) {
+	
 	const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", data.user.id).single();
+
 	return users_data.user_id
 }
 
 
-export async function getUserAvatar(data) {
+export async function getUserAvatar(data: String) {
 	console.log("dataaaaa", data)
 
 	const supabase = await createClient()
@@ -35,7 +38,7 @@ export async function getUserAvatar(data) {
 	const { data: user_avatars, error: user_avatar_error} = await supabase.from('avatars').select(`avatar_id, avatar_url, avatar_label, is_selected`).eq("user_id", data);
 
 	console.log("user_avatars", user_avatars)
-	if(user_avatars.length < 1) {
+	if(!user_avatars || user_avatars.length < 1) {
 		redirect("/dashboard/createAvatar1")
 		console.log("no avatar");
 	} else {
@@ -57,6 +60,10 @@ export async function uploadPhoto(formData: FormData) {
 	const user_id = formData.get("user_id")
 	const caption = formData.get("caption")
 
+	if (!file || !sdg || !user_id) {
+		throw new Error('Invalid form data');
+	  }
+	  
 	const fileDate = Date.now().toString()
 
 	let uuid = crypto.randomUUID();
@@ -337,7 +344,6 @@ export async function displayPhoto(searchParams: FormData) {
 		// .in("type", ["photo"])
 		// .in("users.school", ["bsu"])
 		// .in("users.department", ["qwerty", "temp"])
-
 	console.log(user_sdg_data)
 	return user_sdg_data
 }
