@@ -12,7 +12,8 @@ export async function authenticateUser() {
 
 	const { data, error } = await supabase.auth.getUser()
 	if (error || !data?.user) {
-		redirect('/auth/login')
+		return { redirect: '/auth/login' };
+		//redirect('/auth/login')
 	}
 
 	console.log(data.user.id)
@@ -22,7 +23,9 @@ export async function authenticateUser() {
 
 
 export async function getUserById(supabase, data) {
+	
 	const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", data.user.id).single();
+
 	return users_data.user_id
 }
 
@@ -57,6 +60,10 @@ export async function uploadPhoto(formData: FormData) {
 	const user_id = formData.get("user_id")
 	const caption = formData.get("caption")
 
+	if (!file || !sdg || !user_id) {
+		throw new Error('Invalid form data');
+	  }
+	  
 	const fileDate = Date.now().toString()
 
 	let uuid = crypto.randomUUID();
@@ -92,6 +99,153 @@ export async function uploadPhoto(formData: FormData) {
 	}
 
 	// return user_data
+}
+
+
+export async function getLeaderboardsSchools(sdg) {
+	console.log("sdg", sdg);
+
+	const supabase = await createClient()
+
+	const { data, error } = await supabase.from('leaderboards_schools').select().eq("sdg_number", `sdg${sdg}`);
+
+	if (error) {
+		console.log("Error", error)
+		return
+	}
+
+	return data
+}
+
+
+export async function getLeaderboardsEvents() {
+}
+
+
+// get photo_event per sdg /// di ko pa magawa eventtt
+
+
+// top liked sa school? sdg?
+export async function getTopLiked() {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase.from('top_liked_sdg').select();
+
+	if (error) {
+		console.log("Error", error)
+		return
+	}
+
+	console.log(data)
+}
+
+
+// latest post per day sdg_users
+export async function getLatestPostPerDaySdgs() {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("latest_post_sdg")
+		.select()
+	
+	if (error) {
+		console.log("Error getLatestPostPerDaySdgs", error)
+		return
+	}
+
+	console.log(data)
+}
+
+
+// liked posts
+export async function getLikedPostsSdgs(user_id, sdg) {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("liked_sdg_posts")
+		.select(`user_sdg_id, user_sdgs(sdg_number)`)
+		.eq("user_id", user_id)
+		.eq("user_sdgs.sdg_number", `sdg${sdg}`)
+
+	if (error) {
+		console.log("Error getLikedPostsSdgs", error)
+		return
+	}
+
+	console.log(data)
+}
+
+
+// unlike 
+export async function removeLike(user_sdg_id, user_id) {
+	const supabase = await createClient()
+
+	const res = await supabase
+		.from('liked_sdg_posts')
+		.delete()
+		.eq("user_sdg_id", user_sdg_id)
+		.eq("user_id", user_id)
+}
+
+
+// add likes +1
+export async function addLike(user_sdg_id, user_id) {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("liked_sdg_posts")
+		.insert({user_sdg_id, user_id})
+
+	if (error) {
+		console.log("Error addLike", error)
+		return
+	}
+	console.log("data")
+}
+
+
+// get school photo per sdg
+export async function getSchoolPhotoPerSdg(school, sdg) {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("user_sdgs")
+		.select(`
+			user_sdg_id, 
+			users!user_sdgs_user_id_fkey!inner(school), 
+			url, 
+			caption, 
+			likes, 
+			created_at
+		`)
+		.order('created_at', { ascending: false })
+		.eq("users.school", school)
+		.eq("sdg_number", `sdg${sdg}`)
+
+	if (error) {
+		console.log("Error getSchoolPhotoPerSdg", error)
+		return
+	}
+	console.log(data)
+}
+
+
+// get own photo per sdg
+export async function getPhotoSdgByUserId(user_id, sdg) {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("user_sdgs")
+		.select(`url, caption, likes, created_at`)
+		.order('created_at', { ascending: false })
+		.eq('user_id', user_id)
+		.eq('sdg_number', `sdg${sdg}`);
+
+	if (error) {
+		console.log("Error getPhotoSdgByUserId", error)
+		return
+	}
+	console.log(data)
 }
 
 
@@ -190,7 +344,8 @@ export async function displayPhoto(searchParams: FormData) {
 		// .in("type", ["photo"])
 		// .in("users.school", ["bsu"])
 		// .in("users.department", ["qwerty", "temp"])
-
+	
+	console.log(user_sdg_data)
 	return user_sdg_data
 }
 

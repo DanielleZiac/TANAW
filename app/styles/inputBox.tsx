@@ -8,6 +8,7 @@ interface InputBoxProps {
   setValue: React.Dispatch<React.SetStateAction<string>>;
   placeholder: string;
   widthClass?: string; // Optional class for width customization
+  style?: React.CSSProperties;
 }
 
 const InputBox: React.FC<InputBoxProps> = ({

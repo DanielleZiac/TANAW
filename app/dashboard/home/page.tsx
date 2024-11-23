@@ -1,6 +1,6 @@
 // app/pages/home.tsx
-import MainLayout from '../../components/layouts/MainLayout'; // Adjust the path as necessary
-import Home from '../../components/Home'; // Adjust the path as necessary
+import MainLayout from '../../components/layouts/MainLayout';
+import Home from '../../components/Home';
 import { authenticateUser } from "../actions";
 
 

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { FaBars, FaTrophy } from 'react-icons/fa';
 import { usePathname } from 'next/navigation'; // usePathname is better suited for Next.js 13+
+import Link from 'next/link';
 
 const TopNav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +25,7 @@ const TopNav: React.FC = () => {
           onClick={toggleMenu}
           className="flex flex-col items-center text-navGray hover:text-gray-200"
         >
-          <FaBars size={50} />
+          <FaBars size={30} />
         </button>
 
         {/* App Name */}
@@ -32,29 +33,37 @@ const TopNav: React.FC = () => {
 
         {/* Leaderboard Icon */}
         <button className="flex flex-col items-center text-navGray hover:text-gray-200">
-          <FaTrophy size={50} />
+          <FaTrophy size={30} />
         </button>
       </nav>
 
-      {/* Side Panel for Settings */}
+      {/* Side Panel for Mobile Menu */}
       <div
         className={`fixed top-0 left-0 h-full bg-neutral-200 shadow-lg w-64 p-6 transform ${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         } transition-transform duration-300 ease-in-out z-40`}
       >
-        
-        <ul className="space-y-4 text-neutral-500">
-        <li className="hover:text-gray-100 mt-20 cursor-pointer text-2xl">Learn more about SDGs</li>
-        <li className="hover:text-gray-100 cursor-pointer text-2xl">Feedback</li>
-        <li className="hover:text-gray-100 cursor-pointer text-2xl">View & Report Photos</li>
-      </ul>
-
-        <button
+       {/* Close Button */}
+       <button
           onClick={toggleMenu}
+          aria-label="Close Menu"
           className="absolute top-4 right-4 text-neutral-500 hover:text-gray-100 focus:outline-none text-2xl"
         >
           ✕
         </button>
+
+        {/* Menu Links */}
+        <ul className="mt-20 space-y-6 text-neutral-800">
+          <li className="hover:text-cBlue cursor-pointer text-xl">
+            <Link href="component/LearnMore">Learn more about SDGs</Link>
+          </li>
+          <li className="hover:text-cBlue cursor-pointer text-xl">
+            <Link href="/feedback">Feedback</Link>
+          </li>
+          <li className="hover:text-cBlue cursor-pointer text-xl">
+            <Link href="/view-report-photos">View & Report Photos</Link>
+          </li>
+        </ul>
       </div>
 
       {/* Background Overlay */}

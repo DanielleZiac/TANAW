@@ -29,7 +29,7 @@ const CreateAvatar1: React.FC = (data) => {
       <div className="text-center mb-8 w-full">
         <p className="text-gray-800 text-5xl font-bold mb-10">Your Avatar Preview</p>
         <div
-          className="rounded-3xl w-full h-[800px] flex items-center justify-center mb-12 px-6"
+          className="rounded-3xl w-full h-[800px] flex items-center justify-center mb-12 px-6 relative overflow-hidden"
           style={{
             backgroundColor: "white",
             boxShadow: "inset 0px 8px 20px rgba(0, 0, 0, 0.4)",
@@ -37,18 +37,21 @@ const CreateAvatar1: React.FC = (data) => {
         >
           <div className="text-gray-400 text-2xl">{gender} {shirtStyle} {eyewear} {college}</div>
 
-          {/* add glasses */}
+          {/*add glasses*/}
           <img 
             src={`/images/avatar/bg/bg_${college}.png`}
-            style={{position: "absolute"}}
+            alt="Gender"
+            className= "absolute inset-0 w-full h-full object-cover"
           />
           <img 
             src={`/images/avatar/sex/${gender}.png`}
-            style={{position: "absolute"}}
+            alt="Shirt Style"
+            className= "absolute inset-0 w-full h-full object-contain"
           />
           <img 
             src={`/images/avatar/shirt_style/${shirtStyle}.png`}
-            style={{position: "absolute"}}
+            alt="Eyewear"
+            className= "absolute inset-0 w-full h-full object-contain"
           />
 
         </div>
