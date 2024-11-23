@@ -33,7 +33,7 @@ const AuthPage: React.FC = () => {
       style={{ width: '200vw' }}
     >
       {/* Part 1 - Login Section */}
-      <div className="flex-shrink-0 w-2/5 h-full flex items-start justify-start p-8 bg-[#dbdfe2] bg-opacity-70">
+      <div className="flex-shrink-0 w-2/5 h-full flex items-start justify-start p-8 bg-[#dfe5e9] bg-opacity-100">
         <div className="w-full max-w-sm p-8 rounded-lg ml-8 mt-24">
           <h1 className="font-bold text-2xl mb-4">TANAW/Logo</h1>
           <InputBox id="sr-code" type="text" value={srCode} setValue={setSrCode} placeholder="SR-Code" style={{ width: '120%'}} />
@@ -47,10 +47,10 @@ const AuthPage: React.FC = () => {
 
       {/* Part 2 - Center Section (with Background Image) */}
       <div
-        className="flex-shrink-0 w-3/5 h-full flex items-center justify-center p-8 bg-[#dbdfe2] bg-opacity-70"
+        className="flex-shrink-0 w-3/5 h-full flex items-center justify-center p-8 bg-[#dfe5e9] bg-opacity-100"
         style={{
           backgroundImage: `url(${backgroundImage.src})`,
-          backgroundSize: '80%',
+          backgroundSize: '100%',
           backgroundPosition: 'bottom',
           backgroundRepeat: 'no-repeat',
         }}
@@ -58,7 +58,7 @@ const AuthPage: React.FC = () => {
       </div>
 
       {/* Part 3 - Sign-Up Section */}
-      <div className="flex-shrink-0 w-2/5 h-full flex items-start justify-end p-8 bg-[#dbdfe2] bg-opacity-70">
+      <div className="flex-shrink-0 w-2/5 h-full flex items-start justify-end p-8 bg-[#dfe5e9] bg-opacity-100">
         <div className="w-full max-w-sm p-8 rounded-lg mr-24 mt-8">
           <InputBox id="sign-up-sr-code" type="text" value={srCode} setValue={setSrCode} placeholder="SR-Code" style={{ width: '120%'}} />
           <InputBox id="first-name" type="text" value={firstName} setValue={setFirstName} placeholder="First Name" style={{ width: '120%'}} />

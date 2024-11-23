@@ -4,8 +4,8 @@ import AuthPage from '../components/Auth'; // Adjust the path as necessary
 
 export default function HomePage() {
   return (
-    <MainLayout>
+    
       <AuthPage />
-    </MainLayout>
+    
   );
 }

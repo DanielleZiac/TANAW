@@ -1,7 +1,4 @@
 {
-  "/settings/aboutUs/page": "app/settings/aboutUs/page.js",
-  "/profile/page": "app/profile/page.js",
-  "/home/page": "app/home/page.js",
-  "/explore/page": "app/explore/page.js",
-  "/gallery/page": "app/gallery/page.js"
+  "/auth/page": "app/auth/page.js",
+  "/home/page": "app/home/page.js"
 }
