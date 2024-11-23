@@ -19,6 +19,8 @@ const Login: React.FC = () => {
   const [lastName, setLastName] = useState('');
   const [school, setSchool] = useState('');
   const [signUpPassword, setSignUpPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [institutions, setInstitution] = useState([]);
 
   const handleSignUpClick = () => {
     if (containerRef.current) {

@@ -7,9 +7,9 @@ import { useRouter } from 'next/router'; // For navigation
 
 const Gallery: React.FC = () => {
   const sdgImages = Array.from({ length: 17 }, (_, i) => ({
-    src: `/images/SDG${i + 1}.png`, // Assume you have these images in public/images/
+    src: `/images/SDG/SDG${i + 1}.jpg`, // Assume you have these images in public/images/
     alt: `SDG ${i + 1}`,
-    link: `/sdg/${i + 1}`, // Link to SDG page
+    link: `/dashboard/sdg/${i + 1}`, // Link to SDG page
   }));
 
   // Placeholder images for the grid

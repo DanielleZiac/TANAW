@@ -1,6 +1,6 @@
 // upload/page.tsx
-import UploadPhoto from "../../../components/CapturePhoto"; // Import the newly renamed component
-import { authenticateUser } from "../../actions";
+import UploadPhoto from "../../../../components/CapturePhoto"; // Import the newly renamed component
+import { authenticateUser } from "../../../actions";
 
 export default async function UploadPage({
   params} : {

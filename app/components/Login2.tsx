@@ -3,7 +3,7 @@
 import { React, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import InputBox from '../styles/inputBox'; // Import the InputBox component
+import InputBox from '../styles/inputBox';
 import { baseButtonClass } from '../styles/buttonStyles';
 
 import { login, getInstitutions } from "../auth/actions"

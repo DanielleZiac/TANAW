@@ -8,27 +8,27 @@ const institutions = [
   {
     name: "Batangas State University (BSU)",
     description: "Known for excellence in agriculture and research.",
-    image: "/images/SDGlink1.jpg", // Image for BSU
+    image: "/images/SDG/SDGlink1.jpg", // Image for BSU
   },
   {
     name: "University of Batangas (UB)",
     description: "A leader in innovation and academic development.",
-    image: "/images/SDGlink2.jpg", // Image for UB
+    image: "/images/SDG/SDGlink2.jpg", // Image for UB
   },
   {
     name: "Ateneo de Manila University",
     description: "Excels in education and leadership development.",
-    image: "/images/SDGlink3.jpg", // Image for Ateneo
+    image: "/images/SDG/SDGlink3.jpg", // Image for Ateneo
   },
   {
     name: "De La Salle University",
     description: "Renowned for business and science programs.",
-    image: "/images/SDGlink4.jpg", // Image for DLSU
+    image: "/images/SDG/SDGlink4.jpg", // Image for DLSU
   },
   {
     name: "University of Santo Tomas",
     description: "Historic institution known for cultural heritage.",
-    image: "/images/SDGlink5.jpg", // Image for UST
+    image: "/images/SDG/SDGlink5.jpg", // Image for UST
   },
 ];
 

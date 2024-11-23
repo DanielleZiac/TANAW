@@ -30,7 +30,7 @@ export async function getUserById(supabase, data) {
 }
 
 
-export async function getUserAvatar(data) {
+export async function getUserAvatar(data: String) {
 	console.log("dataaaaa", data)
 
 	const supabase = await createClient()
@@ -38,7 +38,7 @@ export async function getUserAvatar(data) {
 	const { data: user_avatars, error: user_avatar_error} = await supabase.from('avatars').select(`avatar_id, avatar_url, avatar_label, is_selected`).eq("user_id", data);
 
 	console.log("user_avatars", user_avatars)
-	if(user_avatars.length < 1) {
+	if(!user_avatars || user_avatars.length < 1) {
 		redirect("/dashboard/createAvatar1")
 		console.log("no avatar");
 	} else {

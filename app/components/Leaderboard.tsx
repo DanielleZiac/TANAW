@@ -6,16 +6,16 @@ type LeaderboardEntry = {
   rank: number;
   name: string;
   score: number;
-  image: string; // Image for icons or avatars
+  image: string;
 };
 
 // Example leaderboard data with schools and scores
 const leaderboardData: LeaderboardEntry[] = [
-  { rank: 1, name: "Batangas State University TNEU", score: 5255, image: "/images/bsulogo.png" },
-  { rank: 2, name: "Ateneo de Manila University", score: 4155, image: "/images/admulogo.png" },
-  { rank: 3, name: "De La Salle University", score: 3255, image: "/images/dlsulogo.png" },
-  { rank: 4, name: "University of Santo Tomas", score: 2255, image: "/images/ustlogo.png" },
-  { rank: 5, name: "Far Eastern University", score: 1000, image: "/images/feulogo.png" },
+  { rank: 1, name: "Batangas State University TNEU", score: 5255, image: "/images/institution/bsulogo.png" },
+  { rank: 2, name: "Ateneo de Manila University", score: 4155, image: "/images/institution/admulogo.png" },
+  { rank: 3, name: "De La Salle University", score: 3255, image: "/images/institution/dlsulogo.png" },
+  { rank: 4, name: "University of Santo Tomas", score: 2255, image: "/images/institution/ustlogo.png" },
+  { rank: 5, name: "Far Eastern University", score: 1000, image: "/images/institution/feulogo.png" },
 ];
 
 const Leaderboard: React.FC = () => {

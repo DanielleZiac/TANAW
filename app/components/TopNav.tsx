@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FaBars, FaTrophy } from 'react-icons/fa';
 import { usePathname } from 'next/navigation'; // usePathname is better suited for Next.js 13+
 import Link from 'next/link';
+import { logout } from "../auth/actions"
 
 const TopNav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,13 +56,28 @@ const TopNav: React.FC = () => {
         {/* Menu Links */}
         <ul className="mt-20 space-y-6 text-neutral-800">
           <li className="hover:text-cBlue cursor-pointer text-xl">
-            <Link href="component/LearnMore">Learn more about SDGs</Link>
+            <Link href="component/LearnMore">Events</Link>
           </li>
           <li className="hover:text-cBlue cursor-pointer text-xl">
-            <Link href="/feedback">Feedback</Link>
+            <Link href="/feedback">About</Link>
           </li>
           <li className="hover:text-cBlue cursor-pointer text-xl">
-            <Link href="/view-report-photos">View & Report Photos</Link>
+            <Link href="/view-report-photos">Contact</Link>
+          </li>
+          <li className="hover:text-cBlue cursor-pointer text-xl">
+            <Link href="/view-report-photos">Help Center</Link>
+          </li>
+          <li className="hover:text-cBlue cursor-pointer text-xl">
+            <Link href="/view-report-photos">Feedback</Link>
+          </li>
+          <li className="hover:text-cBlue cursor-pointer text-xl">
+            <Link href="/view-report-photos">Terms and Conditions</Link>
+          </li>
+          <li className="hover:text-cBlue cursor-pointer text-xl"
+            onClick={() => {
+            logout();
+          }}>
+            Logout
           </li>
         </ul>
       </div>
