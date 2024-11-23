@@ -8,16 +8,12 @@ const CreateAvatar3: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center min-h-screen px-24 py-16">
-      <h1 className="text-5xl font-extrabold text-center text-sky-950 mb-14">
-        Your Avatars
-      </h1>
+    <div className="flex flex-col items-center justify-center min-h-screen px-24 py-16">
 
       {/* Avatar Display Area */}
-      <div className="text-center mb-8 w-full">
-        <p className="text-gray-800 text-5xl font-bold mb-10">Are You Satisfied?</p>
+        <p className="text-blue-700 text-3xl font-bold mb-10">Are You Satisfied With Your Avatar?</p>
         <div
-          className="rounded-3xl w-full h-[800px] flex items-center justify-center mb-12 px-6"
+          className="rounded-3xl w-[400px] h-[400px] flex items-center justify-center mb-12 px-6"
           style={{
             backgroundColor: "white",
             boxShadow: "inset 0px 8px 20px rgba(0, 0, 0, 0.4)",
@@ -25,12 +21,10 @@ const CreateAvatar3: React.FC = () => {
         >
           <div className="text-gray-400 text-2xl">Avatar will be displayed here</div>
         </div>
-      </div>
 
-      {/* Buttons */}
-      <div className="flex flex-col space-y-8 w-full mt-8">
+      <div className="flex flex-row gap-10">
         <button
-          className={`${baseButtonClass} text-dBlue py-8 px-12 text-3xl w-full`}
+          className={`${baseButtonClass} text-dBlue px-8 text-base w-[180px]`}
           style={{
             boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1), 4px 0px 6px rgba(0, 0, 0, 0.1)"
           }}
@@ -40,7 +34,7 @@ const CreateAvatar3: React.FC = () => {
         </button>
 
         <button
-          className={`${baseButtonClass} text-dBlue py-8 px-12 text-3xl w-full`}
+          className={`${baseButtonClass} text-dBlue px-8 text-base w-[180px]`}
           style={{
             boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
           }}

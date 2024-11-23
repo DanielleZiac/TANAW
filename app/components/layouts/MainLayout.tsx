@@ -1,17 +1,20 @@
 "use client";
 
-import React from 'react';
-import TopNav from '../TopNav';
-import Footer from '../Footer';
+import React from "react";
+import TopNav from "../TopNav";
+import Sidebar from "../Sidebar";
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-lightGray">
-      <TopNav />
-      <main className="flex-1">{children}</main>
-      <footer className="fixed bottom-0 left-0 right-0 bg-cGray  p-4 hidden">
-        <Footer />
-      </footer>
+    <div className="min-h-screen flex bg-lightGray relative">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col ml-24 relative"> {/* Lower z-index than the sidebar */}
+        <TopNav />
+        <main className="flex-1">{children}</main>
+      </div>
     </div>
   );
 };
