@@ -18,6 +18,8 @@ const SdgContent = ({ id }: { id: string }) => {
     message: `Message ${index + 1}`,
   }));
 
+  console.log(id);
+
   // State to manage the clicked post
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
@@ -131,7 +133,7 @@ const SdgContent = ({ id }: { id: string }) => {
       
   <div className="max-w-5xl w-full mx-auto sm:mt-10 mb-10 flex items-center bg-white rounded-full shadow-lg px-5 py-4">
     {/* Left Circular Button */}
-    <Link href={`/sdg/${id}/createpost`}>
+    <Link href={`/dashboard/sdg/upload/${id}`}>
       <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"

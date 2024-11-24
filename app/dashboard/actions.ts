@@ -105,12 +105,11 @@ export async function uploadPhoto(formData: FormData) {
 }
 
 
-export async function getLeaderboardsSchools(sdg: number) {
-	console.log("sdg", sdg);
+export async function getLeaderboardsSchools() {
 
 	const supabase = await createClient()
 
-	const { data, error } = await supabase.from('leaderboards_schools').select().eq("sdg_number", `sdg${sdg}`);
+	const { data, error } = await supabase.from('leaderboards_schools').select();
 
 	if (error) {
 		console.log("Error", error)
@@ -249,6 +248,24 @@ export async function getPhotoSdgByUserId(user_id: string, sdg: number) {
 		return
 	}
 	console.log(data)
+}
+
+
+export async function getPhotoByUserId(user_id: string) {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("user_sdgs")
+		.select(`user_sdg_id, url, caption, likes, created_at`)
+		.order('created_at', { ascending: false })
+		.eq('user_id', user_id)
+
+	if (error) {
+		console.log("Error getPhotoSdgByUserId", error)
+		return
+	}
+	console.log(data)
+	return data;
 }
 
 

@@ -25,14 +25,14 @@ const SdgPage = ({ params }: { params: Promise<Params> }) => {
 
   if (!unwrappedParams) return <div>Loading...</div>;
 
-  const { id } = unwrappedParams;
-
+  const { sdg } = unwrappedParams;
+  console.log(sdg);
   return (
     <MainLayout>
       <div>
-        <h1>SDG {id}</h1>
+        <h1>SDG {sdg}</h1>
         {/* Render the SdgContent component, passing the SDG ID */}
-        <SdgContent id={id} />
+        <SdgContent id={sdg} />
       </div>
     </MainLayout>
   );

@@ -18,7 +18,20 @@ const leaderboardData: LeaderboardEntry[] = [
   { rank: 5, name: "Far Eastern University", score: 1000, image: "/images/institution/feulogo.png" },
 ];
 
-const Leaderboard: React.FC = () => {
+interface DataProps {
+  data: Array<{
+    campus: string,
+    count: number,
+    institution: string,
+    institution_id: string,
+    institution_logo: string,
+  }> | undefined
+}
+
+const Leaderboard: React.FC<DataProps> = ({data}) => {
+
+  console.log(data)
+
   return (
     <div className="min-h-screen mt-10 flex flex-col items-center bg-transparent py-6 px-4">
       {/* Header */}
@@ -28,28 +41,28 @@ const Leaderboard: React.FC = () => {
 
       {/* Top 3 Section */}
       <div className="flex justify-center  gap-4 mb-8 w-full max-w-4xl">
-        {leaderboardData.slice(0, 3).map((entry, index) => (
+        {data ? data.slice(0, 3).map((entry, index) => (
           <div
-            key={entry.rank}
+            key={index}
             className={`${getButtonStyles(false).className} flex flex-col items-center   bg-white shadow-lg rounded-lg p-4 relative flex-shrink-0 w-28 sm:w-32`}
         style={getButtonStyles(false).style}
           >
             <img
-              src={entry.image}
-              alt={`${entry.name} logo`}
+              src={entry.institution_logo}
+              alt={`${entry.institution} logo`}
               className="w-16 sm:w-20 h-16 sm:h-20 rounded-full border-4 border-cBlue mb-2"
             />
             <span className="text-sm sm:text-lg font-semibold text-gray-700 text-center">
-              {entry.name}
+              {entry.institution} - {entry.campus}
             </span>
             <span className="text-sm sm:text-lg font-semibold text-cBlue text-center">
-              {entry.score}
+              {entry.count}
             </span>
             {index === 0 && (
               <span className="absolute top-[-20px] sm:top-[-25px] text-2xl sm:text-3xl">👑</span>
             )}
           </div>
-        ))}
+        )) : null}
       </div>
       <hr className="w-full max-w-4xl border-t-2 border-gray-300" />
       {/* Leaderboard Table */}
@@ -58,27 +71,27 @@ const Leaderboard: React.FC = () => {
           R A N K I N G S
         </h2>
         <ul className="space-y-2">
-          {leaderboardData.map((entry, index) => (
+          {data ? data.map((entry, index) => (
             <li
-              key={entry.rank}
+              key={index}
               className={`flex items-center p-3 rounded-lg ${
                 index < 1 ? "bg-gray-100" : "bg-white"
               } hover:bg-gray-50`}
             >
               <span className="text-sm sm:text-lg font-semibold text-gray-600 w-8 sm:w-10 text-center">
-                {entry.rank}
+                {index + 1}
               </span>
               <img
-                src={entry.image}
-                alt={`${entry.name} logo`}
+                src={entry.institution_logo}
+                alt={`${entry.institution} logo`}
                 className="w-6 sm:w-8 h-6 sm:h-8 rounded-full ml-2"
               />
-              <span className="ml-4 text-sm sm:text-base text-gray-700">{entry.name}</span>
+              <span className="ml-4 text-sm sm:text-base text-gray-700">{entry.institution} - {entry.campus}</span>
               <span className="ml-auto text-cBlue font-bold text-sm sm:text-base">
-                {entry.score}
+                {entry.count}
               </span>
             </li>
-          ))}
+          )) : null}
         </ul>
       </div>
     </div>
