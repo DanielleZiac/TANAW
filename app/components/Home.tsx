@@ -11,12 +11,22 @@ const Home: React.FC = () => {
   }));
 
   return (
-    <div className="overflow-hidden bg-cover bg-top bg-no-repeat bg-fixed bg-[url('/images/background/homebg3.png')] h-full min-h-[100vh]">
+    //<div className="overflow-hidden bg-cover bg-top bg-no-repeat bg-fixed bg-[url('/images/background/homebg3.png')] h-full min-h-[100vh]">
+    <div className="min-h-screen flex flex-col bg-[#67A8BF]">
       {/* Floating Dropdown Component */}
       <FloatingDropdown />
 
+      {/* Background Image Section */}
+      <div className="w-full mt-12">
+        <img
+          src="/images/background/homebgMobile.png"
+          alt="Background"
+          className="w-full h-auto object-contain"
+        />
+      </div>
+
       {/* Container for SDG Images */}
-      <div className="relative w-full py-[50vh] overflow-y-auto">
+      <div className="w-full py-8">
         <div className="w-full flex flex-col items-center">
           {sdgImages.map((item, index) => {
             let alignmentClass = 'justify-start ';
@@ -38,7 +48,7 @@ const Home: React.FC = () => {
                   <img
                     src={item.src}
                     alt={`SDG ${index + 1}`}
-                    className="w-[100px] h-[100px] sm:w-48 sm:h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-full object-cover cursor-pointer z-50"
+                    className="w-[100px] h-[100px] sm:w-48 sm:h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-full object-cover cursor-pointer z-10"
                   />
                 </Link>
               </div>

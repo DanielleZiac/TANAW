@@ -5,7 +5,26 @@ import React from 'react';
 import Image from 'next/image'; // For optimized image handling
 import { useRouter } from 'next/router'; // For navigation
 
-const Gallery: React.FC = () => {
+interface DataProps {
+  data: [
+    user_id: string, 
+    photos: Array<{
+      caption: string, 
+      created_at: string, 
+      likes: number, 
+      url: string, 
+      user_sdg_id: string
+    }> | undefined
+  ];
+}
+
+const Gallery: React.FC<DataProps> = ({data}) => {
+  console.log(data);
+  const user_id = data[0];
+  const photoData = data[1];
+  console.log(user_id);
+  console.log(photoData);
+
   const sdgImages = Array.from({ length: 17 }, (_, i) => ({
     src: `/images/SDG/SDG${i + 1}.jpg`, // Assume you have these images in public/images/
     alt: `SDG ${i + 1}`,
@@ -13,7 +32,6 @@ const Gallery: React.FC = () => {
   }));
 
   // Placeholder images for the grid
-  const uploadImages = Array.from({ length: 17 }, (_, i) => `/images/SDG/SDGlink${i + 1}.jpg`);
   const eventImages = Array.from({ length: 17 }, (_, i) => `/images/SDG/SDG${i + 1}.jpg`);
 
   // State to track active tab
@@ -60,18 +78,18 @@ const Gallery: React.FC = () => {
 
       {/* Image Grid Section */}
       <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0.5 bg-transparent overflow-y-auto max-h-[calc(80vh-200px)]">
-        {(activeTab === 'uploads' ? uploadImages : eventImages).map((img, index) => (
+        {photoData ? (activeTab === 'uploads' ? photoData : photoData).map((img, index) => (
           <div key={index} className="relative w-full h-32"> {/* Fixed height */}
             <Image
-              src={img}
+              src={img.url}
               alt={`Gallery Image ${index + 1}`}
               width={400}
               height={400}
               className="w-full h-full object-cover"  // Object cover to maintain aspect ratio
             />
           </div>
-  ))}
-</div>
+        )) : null}
+      </div>
     </div>
   );
 };

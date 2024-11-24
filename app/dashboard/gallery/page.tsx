@@ -2,15 +2,32 @@
 import Gallery from '../../components/Gallery';
 import MainLayout from '../../components/layouts/MainLayout'; 
 
-const GalleryPage: React.FC = () => {
+import { authenticateUser, getPhotoByUserId } from "../actions";
+
+
+interface Photo {
+  caption: string, 
+  created_at: string, 
+  likes: number, 
+  url: string, 
+  user_sdg_id: string
+}
+
+export default async function GalleryPage() {
+
+  const user_id = await authenticateUser()
+
+
+  const photos: Array<Photo> | undefined = await getPhotoByUserId(user_id);
+  // console.log("asd", data)
+
+
   return (
     <MainLayout>
       <div className="container mx-auto p-5">
         <h1 className="text-3xl font-bold mb-5">My Gallery</h1>
-        <Gallery />
+        <Gallery data={[user_id, photos]}/>
       </div>
     </MainLayout>
   );
 };
-
-export default GalleryPage;
