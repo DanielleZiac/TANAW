@@ -8,12 +8,13 @@ interface SunBackgroundProps {
 const SunBackground: React.FC<SunBackgroundProps> = ({ children }) => {
   return (
     <div
-      className="ml-auto w-full min-h-screen bg-cover bg-center bg-fixed"
+      className="w-full min-h-screen bg-cover bg-center bg-fixed bg-[#7db7cb]"
       style={{
-        backgroundImage: `url(${Sun.src})`, // Make sure this path is correct
-        backgroundSize: 'cover', // This ensures the image covers the entire container
-        backgroundPosition: 'center', // Ensures the image is centered
+        backgroundImage: `url(${Sun.src})`, // Ensure this path is correct
+        backgroundSize: '80%', // Ensures the image covers the entire container
+        backgroundPosition: '250px center', // Moves the image 10% to the right from center
         backgroundAttachment: 'fixed', // Ensures the background stays fixed during scroll
+        backgroundRepeat: 'no-repeat',
       }}
     >
       {children}

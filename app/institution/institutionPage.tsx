@@ -34,11 +34,11 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#dbdfe2] flex flex-col md:flex-row h-screen space-x-8 overflow-hidden p-12">
+    <div className="bg-[#dbdfe2] flex flex-col md:flex-row h-screen space-x-8 overflow-hidden p-12 ml-36 mt-4">
       {/* Left Column */}
       <div className="flex flex-col justify-start md:w-2/3 sm:w-full">
 
-        <div className="w-[500px] h-[350px] flex items-center justify-center ml-28 mt-2"> 
+        <div className="w-[500px] h-[350px] flex items-center justify-center ml-24 mt-8"> 
         <img
             src={selectedInstitution.image.src} 
             alt="Logo"
@@ -47,14 +47,14 @@ const Page: React.FC = () => {
         </div>
         <br/>
 
-        <section className="mt-16">
+        <section className="mt-4">
           <h2 className="text-2xl font-semibold mb-2">
-            TOP 3 LIKED POSTS OF {selectedInstitution.title.toUpperCase()}
+            TOP 3 LIKED POSTS OF <br/>{selectedInstitution.title.toUpperCase()}
           </h2>
           <hr className="border-black mb-4 w-3/5" />
           <div
             className="grid grid-cols-3 gap-4 px-8 -ml-8"
-            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}
+            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))' }}
           >
             {top3Posts[selectedInstitution.id]?.map((image, index) => (
               <div

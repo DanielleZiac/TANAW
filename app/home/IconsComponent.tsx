@@ -141,7 +141,7 @@ const IconsComponent: React.FC = () => {
               >
                 <button
                   onClick={() => {}}
-                  className="w-40 h-40 max-w-full max-h-full object-cover rounded-full shadow-md focus:outline-none"
+                  className="w-36 h-36 max-w-full max-h-full object-cover rounded-full shadow-md focus:outline-none"
                 >
                   <img
                     src={icon.src} // Use .src to get the correct image path

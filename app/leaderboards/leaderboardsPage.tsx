@@ -19,9 +19,9 @@ const leaderboardData: LeaderboardEntry[] = [
 
 const Leaderboards: React.FC = () => {
   return (
-    <div className="min-h-screen mt-10 flex flex-col items-center bg-transparent py-6 px-8">
+    <div className="min-h-screen mt-20 ml-32 flex flex-col items-center bg-transparent py-6 px-8">
       {/* Header */}
-      <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">
+      <h1 className="text-xl sm:text-4xl font-bold text-blue-900 mb-6 text-center">
         COLLEGE LEADERBOARD
       </h1>
 
