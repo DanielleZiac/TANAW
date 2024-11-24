@@ -5,12 +5,7 @@ import CreateAvatar3 from '../../components/CreateAvatar3'; // Adjust the path a
 
 import { authenticateUser } from "../actions";
 
-export default async function Page({ 
-  searchParams }: {
-    searchParams: string
-  }
-){
-  const params = await searchParams;
+export default async function Page(){
 
   const data = await authenticateUser()
 
@@ -18,7 +13,7 @@ export default async function Page({
 
   return (
     <MainLayout>
-      <CreateAvatar3 params={params} data={data}/>
+      <CreateAvatar3 data={data}/>
     </MainLayout>
   );
 }

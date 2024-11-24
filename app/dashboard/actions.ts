@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '../../utils/supabase/server'
 import { headers } from 'next/headers';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 
 // move this function sa other file??
@@ -22,11 +23,13 @@ export async function authenticateUser() {
 }
 
 
-export async function getUserById(supabase, data) {
+export async function getUserById(supabase: SupabaseClient<any, "public", any>, data: { user: any; }) {
 	
 	const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", data.user.id).single();
 
-	return users_data.user_id
+	if (users_data) {
+		return users_data.user_id
+	}
 }
 
 
@@ -80,7 +83,7 @@ export async function uploadPhoto(formData: FormData) {
 		console.log(uploadError)
 	}
 
-	const { data: data_public_url, error: error_public_url } = await supabase.storage.from(`user_sdgs/${sdg}`).getPublicUrl(fileName);
+	const { data: data_public_url } = await supabase.storage.from(`user_sdgs/${sdg}`).getPublicUrl(fileName);
 
 	// console.log(data_public_url.publicUrl)
 
@@ -102,7 +105,7 @@ export async function uploadPhoto(formData: FormData) {
 }
 
 
-export async function getLeaderboardsSchools(sdg) {
+export async function getLeaderboardsSchools(sdg: number) {
 	console.log("sdg", sdg);
 
 	const supabase = await createClient()
@@ -158,7 +161,7 @@ export async function getLatestPostPerDaySdgs() {
 
 
 // liked posts
-export async function getLikedPostsSdgs(user_id, sdg) {
+export async function getLikedPostsSdgs(user_id: string, sdg: number) {
 	const supabase = await createClient()
 
 	const { data, error } = await supabase
@@ -177,7 +180,7 @@ export async function getLikedPostsSdgs(user_id, sdg) {
 
 
 // unlike 
-export async function removeLike(user_sdg_id, user_id) {
+export async function removeLike(user_sdg_id: string, user_id: string) {
 	const supabase = await createClient()
 
 	const res = await supabase
@@ -189,7 +192,7 @@ export async function removeLike(user_sdg_id, user_id) {
 
 
 // add likes +1
-export async function addLike(user_sdg_id, user_id) {
+export async function addLike(user_sdg_id: string, user_id: string) {
 	const supabase = await createClient()
 
 	const { data, error } = await supabase
@@ -205,7 +208,7 @@ export async function addLike(user_sdg_id, user_id) {
 
 
 // get school photo per sdg
-export async function getSchoolPhotoPerSdg(school, sdg) {
+export async function getSchoolPhotoPerSdg(school: string, sdg:  number) {
 	const supabase = await createClient()
 
 	const { data, error } = await supabase
@@ -231,7 +234,7 @@ export async function getSchoolPhotoPerSdg(school, sdg) {
 
 
 // get own photo per sdg
-export async function getPhotoSdgByUserId(user_id, sdg) {
+export async function getPhotoSdgByUserId(user_id: string, sdg: number) {
 	const supabase = await createClient()
 
 	const { data, error } = await supabase
@@ -254,12 +257,12 @@ export async function getPhotoSdgByUserId(user_id, sdg) {
 // top liked per event // filter eventid get max like 3 lang
 // school per sdg
 // event per sdg
-export async function displayPhoto(searchParams: FormData) {
+export async function displayPhoto(searchParams: FormData | null): Promise<Array<any>> {
 	console.log("displaying photo")
 	// console.log(searchParams)
 	let sdgs
 	let types
-	let institutions = []
+	let institutions: Array<any> = [];
 	let departments
 	let sdg_query0 = ""
 	let sdg_query1 = ""
@@ -345,31 +348,36 @@ export async function displayPhoto(searchParams: FormData) {
 		// .in("users.school", ["bsu"])
 		// .in("users.department", ["qwerty", "temp"])
 	console.log(user_sdg_data)
-	return user_sdg_data
+
+	if (user_sdg_data) {
+		return user_sdg_data
+	} else {
+		return [];
+	}
 }
 
 
 // display photo per user -- temp
-export async function displayPhotoByUserID(user_id) {
-	const supabase = await createClient()
+// export async function displayPhotoByUserID(user_id: string) {
+// 	const supabase = await createClient()
 
-	console.log(sdg_query0, sdg_query1, sdg_query2)
-	console.log(dept_query0, dept_query1, dept_query2)
+// 	console.log(sdg_query0, sdg_query1, sdg_query2)
+// 	console.log(dept_query0, dept_query1, dept_query2)
 
-	const { data: user_sdg_data, error: user_sdg_error } = await supabase
-		.from('user_sdgs')
-		.select(`
-			*,
-			users!inner(
-				school, 
-				department
-			)
-		`)
-		.filter(sdg_query0, sdg_query1, sdg_query2)
-		.filter(type_query0, type_query1, type_query2)
-		.filter(institution_query0, institution_query1, institution_query2)
-		.filter(dept_query0, dept_query1, dept_query2)
-}
+// 	const { data: user_sdg_data, error: user_sdg_error } = await supabase
+// 		.from('user_sdgs')
+// 		.select(`
+// 			*,
+// 			users!inner(
+// 				school, 
+// 				department
+// 			)
+// 		`)
+// 		.filter(sdg_query0, sdg_query1, sdg_query2)
+// 		.filter(type_query0, type_query1, type_query2)
+// 		.filter(institution_query0, institution_query1, institution_query2)
+// 		.filter(dept_query0, dept_query1, dept_query2)
+// }
 
 
 export async function uploadAvatar(user_id: String, file: File, avatar_lbl: String) {
@@ -387,28 +395,33 @@ export async function uploadAvatar(user_id: String, file: File, avatar_lbl: Stri
 		console.log(uploadError)
 	}
 
-	const { data: data_public_url, error: error_public_url } = await supabase.storage.from(`avatars/${user_id}`).getPublicUrl(date);
+	const { data: data_public_url } = await supabase.storage.from(`avatars/${user_id}`).getPublicUrl(date);
 
-	if (error_public_url) {
-		console.log(error_public_url)
-	}
-
+	interface AvatarData {
+		user_id: String;
+		avatar_url: string;
+		avatar_label?: String; // Optional property
+		is_selected?: boolean; // Optional property
+	  }
 
 	// do formdata
-	const avatar_data = {}
-	avatar_data["user_id"] = user_id
-	avatar_data["avatar_url"] = data_public_url.publicUrl
+	const avatar_data: AvatarData = {
+		user_id: user_id, 
+		avatar_url: data_public_url.publicUrl
+	}
 	console.log(avatar_data)
 
 	if (avatar_lbl.trim() != "") {
-		avatar_data["avatar_label"] = avatar_lbl
+		avatar_data.avatar_label = avatar_lbl
 	}
 
 
 	const { data: user_avatars, error: user_avatar_error} = await supabase.from('avatars').select("avatar_id").eq("user_id", user_id);
 
-	if(user_avatars.length < 1) {
-		avatar_data["is_selected"] = true
+	if (user_avatars) {
+		if(user_avatars.length < 1) {
+			avatar_data.is_selected = true
+		}
 	}
 
 	const { data: upload_avatar_upload, error: error_avatar_upload} = await supabase.from('avatars').insert(avatar_data);
@@ -461,11 +474,13 @@ export async function updateAvatarSelected(avatar_id: String, user_id: String) {
 
 
 export async function deleteAvatarSelected(avatar_id: String) {
-const { data, error } = await supabase
-	.from('countries')
-	.delete()
-	.eq('avatar_id', avatar_id)
-	.select()
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from('countries')
+		.delete()
+		.eq('avatar_id', avatar_id)
+		.select()
 }
 
 

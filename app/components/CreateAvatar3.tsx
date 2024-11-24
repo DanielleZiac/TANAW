@@ -1,16 +1,20 @@
 "use client";
 
-import { React, useState, useEffect} from "react";
+import React, { useState, useEffect} from "react";
 import { baseButtonClass } from '../styles/buttonStyles'; // Import your shared button styles
 import { useRouter, redirect } from "next/navigation";
 
 import { uploadAvatar } from "../dashboard/actions"
 
-const CreateAvatar3: React.FC = (params) => {
+interface DataProps {
+  data: string;
+}
+
+const CreateAvatar3: React.FC<DataProps> = ({data}) => {
   const router = useRouter();
-  const [b64, setB64] = useState(null);
-  console.log(params)
-  var user_id = params.data
+  const [b64, setB64] = useState<string | null>(null);
+  console.log(data)
+  var user_id = data
 
   useEffect(() => {
     var dataImage = sessionStorage.getItem(user_id);
@@ -23,18 +27,44 @@ const CreateAvatar3: React.FC = (params) => {
   }, []);
 
   const createFile = () => {
-    const avatar_lbl = document.getElementById("avatar_lbl").value;
+    const avatarElement = document.getElementById("avatar_lbl") as HTMLInputElement | null;
 
-    var arr = b64.split(','), mime = arr[0].match(/:(.*?);/)[1],
-     bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-     while(n--){
-     u8arr[n] = bstr.charCodeAt(n);
-     }
+    if (avatarElement) {
+      const avatar_lbl = avatarElement.value;
+      
+      if (b64 !== null) {
+        const arr = b64.split(',');
 
-    const file = new File([u8arr], "avatar.png", {type:mime})
-    uploadAvatar(user_id, file, avatar_lbl)
-    sessionStorage.removeItem(user_id);
-    redirect("/dashboard/createAvatar1")
+        if (arr.length > 0) {
+          const matchRes = arr[0].match(/:(.*?);/);
+
+          if (matchRes && matchRes[1]) {
+            const mime = matchRes[1];
+            const bstr = atob(arr[1]);
+            var n = bstr.length;
+            const u8arr = new Uint8Array(n);
+
+            while(n--){
+              u8arr[n] = bstr.charCodeAt(n);
+            }
+
+            const file = new File([u8arr], "avatar.png", {type:mime})
+            uploadAvatar(user_id, file, avatar_lbl)
+            sessionStorage.removeItem(user_id);
+            redirect("/dashboard/createAvatar1")
+  
+          } else {
+            console.log("matchRes null?");
+          }
+        } else {
+          console.log("arr.length < 0");
+        }
+      } else {
+        console.log("b64 is null");
+      }
+    } else {
+      console.error("Element with id 'avatar_lbl' not found.");
+    }
   }
 
   const retake = () => {

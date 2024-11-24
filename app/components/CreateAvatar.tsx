@@ -4,9 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import { uploadAvatar } from "../dashboard/actions"
 import { runFacemesh } from "./faceLandmarkDetection"
 
-const CreateAvatar: React.FC = (data) => {
+interface DataProps {
+  data: [data: string];
+}
 
-  const user_id = data.data.user_id;
+const CreateAvatar: React.FC<DataProps> = ({data}) => {
+
+  const user_id = data;
 
   const camera = useRef<HTMLVideoElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -28,7 +32,7 @@ const CreateAvatar: React.FC = (data) => {
 
   const photo = useRef<HTMLImageElement>(null);
 
-  const [stream, setStream] = useState(null);
+  const [stream, setStream] = useState<MediaStream | null>(null);
   const [file, setFile] = useState(null);
 
   async function openCam() {

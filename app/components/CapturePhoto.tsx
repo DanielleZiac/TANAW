@@ -6,10 +6,15 @@ import { baseButtonClass } from '../styles/buttonStyles';
 import { useRouter, useParams } from "next/navigation";  // Import useParams for dynamic routes
 import InputBox from '../styles/inputBox';
 
-const UploadPhoto: React.FC = (data) => {
-  const user_id = data.data[0];
-  const sdg = data.data[1]
-  const user_id = data.data;
+interface DataProps {
+  data: [data: string, sdg: string];
+}
+
+const UploadPhoto: React.FC<DataProps> = ({data}) => {
+
+  console.log(data);
+  const user_id = data[0];
+  const sdg = data[1];
 
   const camera = useRef<HTMLVideoElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);

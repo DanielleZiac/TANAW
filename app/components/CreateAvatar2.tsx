@@ -2,13 +2,30 @@
 
 import mergeImages from 'merge-images';
 import { useRouter, redirect } from "next/navigation";
-import { React, useEffect, useRef, useState  } from "react";
+import React, { useEffect, useRef, useState  } from "react";
 import { baseButtonClass, getButtonStyles } from '../styles/buttonStyles'; // Import your shared button styles
 
 import { runFacemesh } from "./faceLandmarkDetection"
 
+interface ParamsProps {
+  params: [
+    params: {
+      college: string, 
+      eyewear: string, 
+      gender: string, 
+      shirtStyle: string
+    }, 
+    data: string
+    ];
+}
+
+interface ChildrenProps {
+  children: any
+}
+
+
 // Avatar Display Component (similar to the textbox, using pressed style)
-const AvatarDisplayArea: React.FC = ({ children }) => (
+const AvatarDisplayArea: React.FC<ChildrenProps> = ({ children }) => (
   <div
     className="rounded-3xl w-full h-[800px] flex items-center justify-center mb-12 px-6"
     style={{
@@ -17,15 +34,14 @@ const AvatarDisplayArea: React.FC = ({ children }) => (
     }}
   >
     {children}
-    }
   </div>
 );
 
 // add parameters
-const CreateAvatar2: React.FC = (params) => {
+const CreateAvatar2: React.FC<ParamsProps> = ({params}) => {
   console.log(params)
-  var user_id = params.params[1]
-  var avatar = params.params[0]
+  var user_id = params[1]
+  var avatar = params[0]
 
   if (!avatar.college || 
     !avatar.gender || 
@@ -34,7 +50,7 @@ const CreateAvatar2: React.FC = (params) => {
     redirect("/dashboard/createAvatar1")
   }
 
-  const [stream, setStream] = useState(null);
+  const [stream, setStream] = useState<MediaStream | null>(null);
   const [leftEye, setLeftEye] = useState("eyes_opened");
   const [rightEye, setRightEye] = useState("rightEyeOpened");
   const [eyePos, setEyePos] = useState("normal");
@@ -59,7 +75,8 @@ const CreateAvatar2: React.FC = (params) => {
           }
         })
       } else {
-        camera.src = URL.createObjectURL(stream);
+        // camera.src = URL.createObjectURL(stream);
+        console.log("error");
       }
     }
     setCamera();
@@ -74,14 +91,14 @@ const CreateAvatar2: React.FC = (params) => {
   })
 
   const capture = async() => {
-    function dataURLtoFile(dataurl, filename) {
-      var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-      while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], filename, {type:mime});
-    }
+    // function dataURLtoFile(dataurl, filename) {
+    //   var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+    //   bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    //   while(n--){
+    //     u8arr[n] = bstr.charCodeAt(n);
+    //   }
+    //   return new File([u8arr], filename, {type:mime});
+    // }
 
     console.log("pic");
     console.log(params)
@@ -92,21 +109,42 @@ const CreateAvatar2: React.FC = (params) => {
       console.log("disable capture btn")
     } else {
       console.log(stream)
-      stream.getVideoTracks()[0].stop()
 
+      if (stream !== null) {
+        stream.getVideoTracks()[0].stop();
+      }
+    
       for (let i = 0; i < Object.keys(avatar).length; i++) {
-        qry += `${Object.keys(avatar)[i]}=${avatar[Object.keys(avatar)[i]]}&`
+        const key = Object.keys(avatar)[i] as keyof typeof avatar;
+        qry += `${Object.keys(avatar)[i]}=${avatar[key]}&`
       }
 
       qry += `eye=${leftEye}`
       console.log("stream stop", qry)
       qry = qry.toString().replaceAll("&amp;", "&");
 
-      var filename;
-      var b64 = await mergeImages([document.getElementById("college").src, 
-        document.getElementById("gender").src,
-        document.getElementById("shirtStyle").src,
-        document.getElementById("leftEye").src])
+      const collegeElem = document.getElementById("college");
+      const genderElem = document.getElementById("gender");
+      const shirtStyleElem = document.getElementById("shirtStyle");
+      const leftEyeElem = document.getElementById("leftEye");
+      let b64;
+
+      if (
+        collegeElem instanceof HTMLImageElement &&
+        genderElem instanceof HTMLImageElement &&
+        shirtStyleElem instanceof HTMLImageElement &&
+        leftEyeElem instanceof HTMLImageElement
+      ) {
+        b64 = await mergeImages([
+          collegeElem.src,
+          genderElem.src,
+          shirtStyleElem.src,
+          leftEyeElem.src,
+        ]);
+        console.log(b64);
+      } else {
+        console.error("One or more elements are missing or not images.");
+      }
 
       sessionStorage.setItem(user_id, b64);
       router.push(`/dashboard/createAvatar3`)

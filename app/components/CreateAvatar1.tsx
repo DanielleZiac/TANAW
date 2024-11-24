@@ -5,7 +5,12 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getButtonStyles } from "../styles/buttonStyles"; // Importing getButtonStyles
 
-const CreateAvatar1: React.FC = (data) => {
+interface DataProps {
+  data: string;
+}
+
+const CreateAvatar1: React.FC<DataProps> = ({data}) => {
+  console.log(data);
   const router = useRouter();
   const [gender, setGender] = useState("boy");
   const [shirtStyle, setShirtStyle] = useState("shirt");

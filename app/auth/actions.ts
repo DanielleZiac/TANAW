@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '../../utils/supabase/server'
+import { SupabaseClient } from '@supabase/supabase-js';
 
 
 export async function getInstitutions() {
@@ -16,7 +17,7 @@ export async function getInstitutions() {
 }
 
 
-export async function login(data) {
+export async function login(data: { srCode: string; password: string; school: string; }) {
 	const supabase = await createClient();
 
 	console.log(data);
@@ -24,10 +25,13 @@ export async function login(data) {
 	const srCode = data.srCode as string;
 	const school = data.school as string;
 	const password = data.password as string;
+	let email = "";
 
 	const { data: data_email } = await supabase.from("institutions").select("email_extension").eq("institution", school).single();
 
-	const email = srCode + data_email.email_extension
+	if (data_email !== null) {
+		email = srCode + data_email.email_extension
+	}
 
 	console.log(email)
 
@@ -98,10 +102,10 @@ export async function login(data) {
 	// redirect('/dashboard/profile')
 }
 
-export async function getUserAvatar(supabase, data) {
+export async function getUserAvatar(supabase: SupabaseClient<any, "public", any>,  data: { user: { id: string; }; }) {
 	console.log(data.user.id);
 	const { data: user_avatars, error: user_avatars_error} = await supabase.from('avatars').select("user_id").eq("user_id", data.user.id);
-	console.log("user_avatars", user_avatars, user_avatars.length)
+	// console.log("user_avatars", user_avatars, user_avatars.length)
 
 	if (!user_avatars || user_avatars.length < 1) {
 		return false
@@ -111,7 +115,7 @@ export async function getUserAvatar(supabase, data) {
 	}
 }
 
-export async function signup(data) {
+export async function signup(data: { srCode: string, firstName: string, lastName: string, school: string, password: string }) {
 	console.log(data);
 
 
@@ -125,8 +129,10 @@ export async function signup(data) {
 
 	console.log(srCode, firstName, lastName, school, password);
 	const { data: data_email } = await supabase.from("institutions").select("email_extension").eq("institution", school).single();
-
-	const email = srCode + data_email.email_extension
+	let email = "";
+	if (data_email !== null) {
+		email = srCode + data_email.email_extension;
+	}
 
 	console.log(email)
 
@@ -194,15 +200,16 @@ export async function resetPassword(formData: FormData) {
 }
 
 export async function updatePassword(formData: FormData) {
-	const email = formData.get("newPassword")
-	const newPassword = formData.get("confirmNewPassword")
-	const confirmNewPassword = formData.get("email")
+	const email = formData.get("newPassword") as string
+	const newPassword = formData.get("confirmNewPassword") as string
+	const confirmNewPassword = formData.get("email") as string
 
 	console.log(newPassword);
 	console.log(confirmNewPassword);
 	console.log(email);
 
 	const supabase = await createClient();
+	
 	const { data, error} = await supabase.auth.updateUser({ password: newPassword })
 
 	if (error) {

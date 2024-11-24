@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 
 const HomePage: React.FC = (params) => {
 
-  const [avatars, setAvatars] = useState([])
-  const [userId, setUserId] = useState(null)
+  const [avatars, setAvatars] = useState<any | null>(null)
+  const [userId, setUserId] = useState<String | null>(null)
 
   useEffect(() => {
     const auth = (async() => {
@@ -24,17 +24,20 @@ const HomePage: React.FC = (params) => {
 
   console.log(avatars)
 
-  const changeCurAvatar = (avatar_id) => {
+  const changeCurAvatar = (avatar_id: string) => {
     console.log("clicked")
     console.log(avatar_id)
-    updateAvatarSelected(avatar_id, userId)
+
+    if (userId !== null) {
+      updateAvatarSelected(avatar_id, userId)
+    }
   }
 
   return (
     <div>
       <button onClick={logout}>Logout</button>
       <h1>Photo</h1>
-      {avatars.map((avatar, index) => (
+      {avatars.map((avatar: {avatar_url: string, avatar_id: string, avatar_label: string}, index: number) => (
         <div key={index}>
           <img src={avatar.avatar_url}></img>
           <button onClick={() => changeCurAvatar(avatar.avatar_id)} style={{backgroundColor: "red", color: "white"}}>{avatar.avatar_label}</button>

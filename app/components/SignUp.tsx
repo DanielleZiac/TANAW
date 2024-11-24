@@ -1,6 +1,6 @@
 "use client";
 
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import InputBox from "../styles/inputBox"; // Corrected import path for InputBox
@@ -18,9 +18,8 @@ const Signup: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false); // Add state for terms acceptance
-
-  const [institutions, setInstitution] = useState([]);
-  const [error, setError] = useState(null);
+  const [institutions, setInstitution] = useState<Array<any> | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
 
@@ -33,29 +32,36 @@ const Signup: React.FC = () => {
 
   const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    let school = document.getElementById("school").value;
-    
-    if (password != confirmPassword) {
-      setError("password != confirmPassword")
-      return
-    }
 
-    if (termsAccepted) {
-      // router.push("/createavatar");
-      let data = {
-        srCode: srCode,
-        firstName: firstname,
-        lastName: lastname,
-        school: school,
-        password: password
+    const schoolElement = document.getElementById("school") as HTMLSelectElement | null;
+
+    if (schoolElement) {
+      const school = schoolElement.value;
+
+      if (password != confirmPassword) {
+        setError("password != confirmPassword")
+        return
       }
-
-      let res = await signup(data);
-      setError(res)
-
+  
+      if (termsAccepted) {
+        // router.push("/createavatar");
+        let data = {
+          srCode: srCode,
+          firstName: firstname,
+          lastName: lastname,
+          school: school,
+          password: password
+        }
+  
+        let res = await signup(data) as string;
+        setError(res)
+  
+      } else {
+        setError("Please accept the terms and conditions.")
+        // alert("Please accept the terms and conditions.");
+      }
     } else {
-      setError("Please accept the terms and conditions.")
-      // alert("Please accept the terms and conditions.");
+      console.log("School elem not foun");
     }
   };
 
@@ -106,9 +112,9 @@ const Signup: React.FC = () => {
               }}
               >
               <option value="">--</option>
-              {institutions.map((institution, index) => (
+              {institutions ? institutions.map((institution, index) => (
                 <option key={index} value={institution.institution}>{institution.institution}</option>
-              ))}
+              )) : null}
             </select>
           </div>
           <InputBox

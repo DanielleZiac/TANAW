@@ -9,7 +9,7 @@ export default async function CreateAvatarPage() {
 
   const data = await authenticateUser()
 
-  console.log(data)
+  console.log("asd", data)
 
   return (
     <MainLayout>

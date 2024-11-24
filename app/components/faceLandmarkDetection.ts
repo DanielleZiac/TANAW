@@ -10,37 +10,41 @@ import { drawMesh } from "./utilities"
 const earThreshold = 0.21;
 const sideEyeRightThreshold = 21;
 const sideEyeLeftThreshold = 10.5;
-let model;
-let is_leftEyeClose;
-let is_rightEyeClose;
-let mouth;
+// let model;
+let is_leftEyeClose = false;
+let is_rightEyeClose = false;
+let mouth = "";
 let leftBrow;
 let rightBrow;
 let eyePos;
 var intervalId;
-var intervals = [];
+var intervals = new Array();
 
 
-export async function runFacemesh(video, setStatus, setLeftEye, setSmile) {
-	model = await faceLandmarksDetection.load(
-	  faceLandmarksDetection.SupportedPackages.mediapipeFacemesh,
-	  { maxFaces: 1 }
-	);
+export async function runFacemesh(
+	video: HTMLVideoElement, 
+	setStatus: React.Dispatch<React.SetStateAction<boolean>>, 
+	setLeftEye: React.Dispatch<React.SetStateAction<string>>, 
+	setSmile: React.Dispatch<React.SetStateAction<string>>) {
+		const model = await faceLandmarksDetection.load(
+		faceLandmarksDetection.SupportedPackages.mediapipeFacemesh,
+		{ maxFaces: 1 }
+		);
 
-	intervalId = setInterval(() => {
-		startPrediciton(model, video, setStatus, setLeftEye, setSmile);
-	}, 1000)
-	intervals.push(intervalId)
+		intervalId = setInterval(() => {
+			startPrediciton(model, video, setStatus, setLeftEye, setSmile);
+		}, 1000)
+		intervals.push(intervalId)
 }
 
 
 // merge ear functions into one
-function euclidean(x2, x1, y2, y1) {
+function euclidean(x2: number, x1:  number, y2: number, y1: number) {
 	return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2))
 }
 
 
-function getEAR(upper, lower) {
+function getEAR(upper: Array<Array<number>>, lower: Array<Array<number>>) {
 	return (
 		(euclidean(upper[2][0], lower[3][0], upper[2][1], lower[3][1]) 
 			+ euclidean(upper[4][0], lower[3][0], upper[4][1], lower[3][1])) 
@@ -49,7 +53,7 @@ function getEAR(upper, lower) {
 }
 
 
-function getMAR(upperLip, lowerLip) {
+function getMAR(upperLip: Array<Array<number>>, lowerLip: Array<Array<number>>) {
 	return (
 		(euclidean(upperLip[5][0], lowerLip[5][0], upperLip[5][1], lowerLip[5][1]))
 		/ (1 * euclidean(upperLip[0][0], upperLip[10][0], upperLip[0][1], upperLip[10][1]))
@@ -57,7 +61,7 @@ function getMAR(upperLip, lowerLip) {
 }
 
 
-function getBrow(upperBrow, eye) {
+function getBrow(upperBrow: Array<Array<number>>, eye: Array<Array<number>>) {
 	return (
 		euclidean(upperBrow[6][0], eye[8][0], upperBrow[6][1], eye[8][1]) /
 		euclidean(upperBrow[6][0], upperBrow[2][0], upperBrow[6][1], upperBrow[2][1])
@@ -67,7 +71,13 @@ function getBrow(upperBrow, eye) {
 }
 
 
-async function startPrediciton(model, video, setStatus, setLeftEye, setSmile) {
+async function startPrediciton(
+	model: any, 
+	video: HTMLVideoElement, 
+	setStatus: React.Dispatch<React.SetStateAction<boolean>>, 
+	setLeftEye: React.Dispatch<React.SetStateAction<string>>, 
+	setSmile: React.Dispatch<React.SetStateAction<string>>
+	) {
 	// Sending video to model for prediction
 	const predictions = await model.estimateFaces({
 		input: video
@@ -80,43 +90,45 @@ async function startPrediciton(model, video, setStatus, setLeftEye, setSmile) {
 	// console.log(video.srcObject.active)
 	// console.log(eye.current)
 
-	if (video.srcObject.active) {
-		if (predictions.length > 0) {
-			predictions.forEach((prediction) => {
-				eyeClosed(prediction);
-				sideEye(prediction);
-				smile(prediction);
-				eyeBrow(prediction);
-			}) 
-
-			if (is_leftEyeClose) {
-				setLeftEye("eyes_closed")
+	if (video.srcObject !== null && video.srcObject instanceof MediaStream) {
+		if (video.srcObject.active) {
+			if (predictions.length > 0) {
+				predictions.forEach((prediction: any) => {
+					eyeClosed(prediction);
+					sideEye(prediction);
+					smile(prediction);
+					eyeBrow(prediction);
+				}) 
+	
+				if (is_leftEyeClose) {
+					setLeftEye("eyes_closed")
+				} else {
+					setLeftEye("eyes_opened")
+				}
+	
+				if(mouth) {
+					setSmile(mouth)
+				}
+	
+	
+				setStatus(true)
 			} else {
-				setLeftEye("eyes_opened")
+				setStatus(false)
 			}
-
-			if(mouth) {
-				setSmile(mouth)
-			}
-
-
-			setStatus(true)
 		} else {
-			setStatus(false)
+			console.log("terminating loop")
+	
+			for (let i = 0; i < intervals.length; i++) {
+				clearInterval(intervals[i])
+			}
+			intervals = []
 		}
-	} else {
-		console.log("terminating loop")
-
-		for (let i = 0; i < intervals.length; i++) {
-			clearInterval(intervals[i])
-		}
-		intervals = []
 	}
 	// drawMesh(predictions);
 }
 
 
-function eyeClosed(prediction) {
+function eyeClosed(prediction: { annotations: { rightEyeLower0: any; rightEyeUpper0: any; leftEyeUpper0: any; leftEyeLower0: any; }; }) {
 	// right eye
 	const rightEyeLower = prediction.annotations.rightEyeLower0;
 	const rightEyeUpper = prediction.annotations.rightEyeUpper0;
@@ -134,7 +146,7 @@ function eyeClosed(prediction) {
 }
 
 
-function sideEye(prediction) {
+function sideEye(prediction: { annotations: { rightEyeLower0: number[][]; rightEyeIris: number[][]; leftEyeIris: number[][]; leftEyeLower0: number[][]; }; }) {
 	if (!is_leftEyeClose && !is_rightEyeClose) {
 		// di pa sure
 		if (prediction.annotations.rightEyeLower0[8][0] - prediction.annotations.rightEyeIris[0][0] >= sideEyeRightThreshold ||
@@ -150,7 +162,7 @@ function sideEye(prediction) {
 }
 
 
-function smile(prediction) {
+function smile(prediction: { annotations: { lipsUpperInner: number[][]; lipsLowerInner: any; }; scaledMesh: number[][]; }) {
 	const upperLip = prediction.annotations.lipsUpperInner
 	const lowerLip = prediction.annotations.lipsLowerInner
 
@@ -181,7 +193,7 @@ function smile(prediction) {
 
 
 // not workingg
-function eyeBrow(prediction) {
+function eyeBrow(prediction: { annotations: { leftEyebrowUpper: any; leftEyeLower3: any; rightEyebrowUpper: any; rightEyeLower0: any; }; }) {
 	const leftEyeBrow = prediction.annotations.leftEyebrowUpper;
 	const leftEyeLower = prediction.annotations.leftEyeLower3;
 
