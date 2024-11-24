@@ -1,3 +1,8 @@
 {
-  "/events/page": "app/events/page.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/auth/page": "app/auth/page.js",
+  "/test/page": "app/test/page.js",
+  "/events/page": "app/events/page.js",
+  "/about-us/page": "app/about-us/page.js",
+  "/home/page": "app/home/page.js"
 }

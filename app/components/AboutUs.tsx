@@ -1,7 +1,7 @@
 // src/App.tsx
 
 import React from 'react';
-import AboutUsComponent from '../settings/aboutUs/AboutUsComponent';
+import AboutUsComponent from '../about-us/AboutUsComponent';
 
 const AboutUs: React.FC = () => {
   return (
