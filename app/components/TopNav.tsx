@@ -64,7 +64,7 @@ const TopNav: React.FC = () => {
         {/* Menu Links */}
         <ul className="mt-20 space-y-6 text-neutral-800">
           <li className="hover:text-cBlue cursor-pointer text-lg">
-            <Link href="component/LearnMore">About Us</Link>
+            <Link href="/about">About Us</Link>
           </li>
           <li className="hover:text-cBlue cursor-pointer text-lg">
             <Link href="component/LearnMore">Help Center</Link>

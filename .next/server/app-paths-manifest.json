@@ -1,9 +1,7 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/home/page": "app/home/page.js",
-  "/inbox/page": "app/inbox/page.js",
-  "/profile/page": "app/profile/page.js",
+  "/about/page": "app/about/page.js",
   "/gallery/page": "app/gallery/page.js",
+  "/inbox/page": "app/inbox/page.js",
   "/sdg/[id]/page": "app/sdg/[id]/page.js",
-  "/stickers/page": "app/stickers/page.js"
+  "/profile/page": "app/profile/page.js"
 }

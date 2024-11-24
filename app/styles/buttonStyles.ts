@@ -2,7 +2,7 @@
 export const baseButtonClass = `
   text-dBlue   px-2 rounded-xl
   focus:outline-none shadow-lg drop-shadow-xl
-  transition duration-300 ease-in-out w-full text-3xl
+  transition duration-300 ease-in-out w-full text-2xl
 `;
 
 export const getButtonStyles = (isSelected: boolean) => {

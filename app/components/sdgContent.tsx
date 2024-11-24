@@ -28,18 +28,34 @@ const SdgContent = ({ id }: { id: string }) => {
   // Function to render posts
   const renderPosts = (postArray: Post[], customClasses = '') =>
     postArray.map((post, index) => (
-      <div key={index} className={`relative flex  flex-col px-1 items-center ${customClasses}`}>
-        <button
-          onClick={() => handlePostClick(post)}
-          className="w-[70px] h-[70px] sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
-        >
-          <img src={post.src} alt={post.alt} className="object-cover w-full h-full" />
-        </button>
+      <div key={index} className={`relative flex flex-col px-1 items-center ${customClasses}`}>
+        <div className="group w-[70px] h-[70px] sm:w-32 sm:h-32 rounded-full overflow-hidden relative">
+          {/* Hoverable Flip Card */}
+          <button
+            onClick={() => handlePostClick(post)}
+            className="flip-card w-full h-full bg-gray-200 flex items-center justify-center focus:outline-none"
+          >
+            {/* Front of the circle */}
+            <img
+              src={post.src}
+              alt={post.alt}
+              className="object-cover w-full h-full flip-card-front"
+            />
+            
+            {/* Back of the circle (content shown when flipped) */}
+            <div className="flip-card-back w-full h-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
+              Flipped!
+            </div>
+          </button>
+        </div>
+  
+        {/* Tooltip with the message */}
         <div className="absolute z-20 -top-2 -right-2 sm:h-6 sm:w-28 bg-bubbleGray text-black text-xs sm:text-sm rounded-full px-1 py-1 shadow-lg">
           {post.message}
         </div>
       </div>
     ));
+  
 
     const sdgTitle = SDG_TITLES[parseInt(id) - 1];
   return (
