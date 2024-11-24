@@ -1,9 +1,9 @@
 {
-  "/leaderboard/page": "app/leaderboard/page.js",
-  "/halloffame/page": "app/halloffame/page.js",
-  "/sdg/[id]/createpost/createpost2/page": "app/sdg/[id]/createpost/createpost2/page.js",
-  "/institution/page": "app/institution/page.js",
-  "/gallery/page": "app/gallery/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/home/page": "app/home/page.js",
-  "/explore/page": "app/explore/page.js"
+  "/inbox/page": "app/inbox/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/gallery/page": "app/gallery/page.js",
+  "/sdg/[id]/page": "app/sdg/[id]/page.js",
+  "/stickers/page": "app/stickers/page.js"
 }

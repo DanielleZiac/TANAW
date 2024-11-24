@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface Message {
   id: number;
@@ -12,49 +12,100 @@ interface Message {
 const mockMessages: Message[] = [
   {
     id: 1,
-    sender: 'John Doe',
-    subject: 'Meeting Reminder',
-    preview: 'Don’t forget about the meeting tomorrow at 10 AM.',
-    timestamp: '2024-11-21 12:00 PM',
+    sender: "John Doe",
+    subject: "Meeting Reminder",
+    preview: "Don’t forget about the meeting tomorrow at 10 AM.",
+    timestamp: "2024-11-21 12:00 PM",
     isRead: false,
   },
   {
     id: 2,
-    sender: 'HR Department',
-    subject: 'Policy Update',
-    preview: 'Please review the new company policies effective immediately.',
-    timestamp: '2024-11-20 09:15 AM',
+    sender: "HR Department",
+    subject: "Policy Update",
+    preview: "Please review the new company policies effective immediately.",
+    timestamp: "2024-11-20 09:15 AM",
     isRead: true,
   },
-  // Add more mock messages as needed
+  {
+    id: 3,
+    sender: "Finance Team",
+    subject: "Invoice Received",
+    preview: "Your invoice has been successfully processed.",
+    timestamp: "2024-11-20 11:45 AM",
+    isRead: true,
+  },
+  {
+    id: 4,
+    sender: "Finance Team",
+    subject: "Invoice Received",
+    preview: "Your invoice has been successfully processed.",
+    timestamp: "2024-11-20 11:45 AM",
+    isRead: true,
+  },
+  {
+    id: 5,
+    sender: "Finance Team",
+    subject: "Invoice Received",
+    preview: "Your invoice has been successfully processed.",
+    timestamp: "2024-11-20 11:45 AM",
+    isRead: true,
+  },
+  {
+    id: 6,
+    sender: "Finance Team",
+    subject: "Invoice Received",
+    preview: "Your invoice has been successfully processed.",
+    timestamp: "2024-11-20 11:45 AM",
+    isRead: true,
+  },
+
 ];
+
+const generateAvatarColor = (sender: string) => {
+  const colors = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500"];
+  const index = sender.charCodeAt(0) % colors.length;
+  return colors[index];
+};
 
 const Inbox: React.FC = () => {
   return (
-    <div className="p-5 mt-20 bg-transparent rounded-lg w-full ">
-      <h2 className="text-xl text-black font-bold mb-4">Inbox</h2>
-      <ul>
+    <div className=" mt-20 bg-transparent w-full">
+      {/* Header */}
+    
+
+      {/* Message List */}
+      <div className="overflow-y-auto w-full ">
         {mockMessages.map((message) => (
-          <li
+          <div
             key={message.id}
-            className={`p-4 mb-2 rounded-md ${
-              message.isRead ? 'bg-white' : 'bg-bubbleGray'
-            } shadow hover:shadow-lg cursor-pointer`}
+            className={`flex items-center p-3  shadow ${
+              message.isRead ? "bg-transparent" : "bg-white"
+            }`}
           >
-            <div className="flex justify-between">
-              <div>
-                <h3 className="font-semibold text-black text-lg">{message.subject}</h3>
-                <p className="text-sm text-gray-500">
-                  {message.sender} - {message.preview}
-                </p>
-              </div>
-              <span className="text-xs text-gray-400">
-                {message.timestamp}
-              </span>
+            {/* Avatar */}
+            <div
+              className={`flex justify-center items-center w-10 h-10 rounded-full text-white font-medium ${
+                message.isRead ? "opacity-70" : ""
+              } ${generateAvatarColor(message.sender)}`}
+            >
+              {message.sender.charAt(0)}
             </div>
-          </li>
+
+            {/* Message Content */}
+            <div className="ml-4 flex-1">
+              <h3 className="text-sm font-semibold text-black">{message.subject}</h3>
+              <p className="text-xs text-gray-600">
+                {message.sender} - {message.preview}
+              </p>
+            </div>
+
+            {/* Timestamp */}
+            <span className="text-xs text-gray-400">{message.timestamp}</span>
+          </div>
         ))}
-      </ul>
+      </div>
+
+      
     </div>
   );
 };

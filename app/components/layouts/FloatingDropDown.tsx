@@ -13,7 +13,7 @@ const FloatingDropdown: React.FC = () => {
       {/* Floating Circle Button */}
       <button
         onClick={toggleDropdown}
-        className="fixed right-2 top-[90px] z-50 rounded-full bg-white p-2"
+        className="fixed right-2 top-[90px] z-50 rounded-full bg-white  p-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -60,8 +60,6 @@ const FloatingDropdown: React.FC = () => {
             </svg>
             
           </a>
-
-          {/* Hall of Fame Link */}
           <a
             href="/halloffame"
             className="flex flex-col items-center text-gray-300 hover:text-blue-500"

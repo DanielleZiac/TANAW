@@ -21,60 +21,50 @@
       "static/chunks/main-app.js",
       "static/chunks/app/home/page.js"
     ],
-    "/institution/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/institution/page.js"
-    ],
     "/leaderboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/leaderboard/page.js"
-    ],
-    "/sdg/[id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/sdg/[id]/page.js"
-    ],
-    "/gallery/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/gallery/page.js"
     ],
     "/explore/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/explore/page.js"
     ],
+    "/halloffame/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/halloffame/page.js"
+    ],
     "/inbox/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/inbox/page.js"
     ],
-    "/signup/page": [
+    "/gallery/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/signup/page.js"
+      "static/chunks/app/gallery/page.js"
     ],
-    "/createavatar/page": [
+    "/sdg/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/createavatar/page.js"
+      "static/chunks/app/sdg/[id]/page.js"
     ],
-    "/sdg/[id]/createpost/page": [
+    "/stickers/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/sdg/[id]/createpost/page.js"
+      "static/chunks/app/stickers/page.js"
     ],
-    "/sdg/[id]/createpost/createpost2/page": [
+    "/profile/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/sdg/[id]/createpost/createpost2/page.js"
+      "static/chunks/app/profile/page.js"
     ],
-    "/halloffame/page": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/halloffame/page.js"
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }

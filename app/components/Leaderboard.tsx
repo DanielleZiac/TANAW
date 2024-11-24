@@ -27,7 +27,7 @@ const Leaderboard: React.FC = () => {
       </h1>
 
       {/* Top 3 Section */}
-      <div className="flex justify-center  gap-4 mb-8 w-full max-w-4xl">
+      <div className="flex justify-center  gap-4 mb-8 sm:h-20 w-28">
         {leaderboardData.slice(0, 3).map((entry, index) => (
           <div
             key={entry.rank}
