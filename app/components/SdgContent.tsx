@@ -33,12 +33,12 @@ const SdgContent = ({ id }: { id: string }) => {
       <div key={index} className={`relative flex flex-col items-center ${customClasses}`}>
         <button
           onClick={() => handlePostClick(post)}
-          className="w-24 h-24 sm:w-56 sm:h-56 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
+          className="w-16 h-16 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
         >
           <img src={post.src} alt={post.alt} className="object-cover w-full h-full" />
         </button>
-        <div className="absolute -top-2 -right-2 sm:h-10 sm:w-40 bg-bubbleGray text-black text-lg rounded-full px-2 py-1 shadow-lg">
-          {post.message}
+        <div className="absolute -top-2 -right-2 sm:h-6 sm:w-24 bg-bubbleGray text-black text-[9px] sm:text-xs md:text-sm rounded-full px-1 py-0.5 shadow-lg">
+          {post.message} {/* gawing caption hehe*/}
         </div>
       </div>
     ));
@@ -46,7 +46,7 @@ const SdgContent = ({ id }: { id: string }) => {
   const sdgTitle = SDG_TITLES[parseInt(id) - 1];
 
   return (
-    <div className="content-container p-6 flex flex-col items-center overflow-hidden sm:-mt-12 ">
+    <div className="content-container p-6 flex flex-col items-center overflow-auto sm:-mt-12 ">
       {/* Extra Top Row */}
       <div className="flex space-x-6 mb-8 sm:ml-36">{renderPosts(posts.slice(0, 5))}</div>
 
@@ -73,55 +73,54 @@ const SdgContent = ({ id }: { id: string }) => {
       <div className="flex space-x-6 mb-8 sm:mr-36">{renderPosts(posts.slice(10, 15))}</div>
       <div className="flex space-x-6 sm:ml-36">{renderPosts(posts.slice(11, 17))}</div>
 
-
-      
       {/* Modal for the clicked post */}
       {selectedPost && (
-        <div className="fixed inset-0 bg-none bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-white bg-opacity-20 sm:rounded-[2.5rem] shadow-2xl sm:w-[80%] sm:h-[70%] relative p-6 overflow-y-auto">
-            <div className="bg-black bg-opacity-60 sm:rounded-[2.5rem] shadow-2xl sm:w-full sm:h-full relative p-6 overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="bg-white bg-opacity-20 sm:rounded-[2.5rem] shadow-2xl w-[350px] sm:w-[400px] lg:w-[420px] h-[600px] sm:h-[700px] lg:h-[750px] max-w-4xl max-h-screen relative overflow-visible">
+            <div className="bg-black bg-opacity-60 sm:rounded-[2.5rem] shadow-2xl w-[350px] sm:w-[400px] lg:w-[420px] h-[600px] sm:h-[700px] lg:h-[750px] relative p-6">
+
               {/* Close Button */}
-              <button onClick={closeModal} className="absolute top-10 right-10 text-white hover:text-red-500">
-                <AiOutlineClose size={96} />
+              <button onClick={closeModal} className="absolute top-5 right-5 text-white hover:text-red-500">
+                <AiOutlineClose size={36} />
               </button>
 
               {/* Warning Icon */}
-              <FaExclamationTriangle className="absolute top-10 left-10 text-white w-24 h-24 drop-shadow-[0_0_4px_white]" />
+              <FaExclamationTriangle className="absolute top-5 left-5 text-white w-8 h-8" />
 
               {/* Post Image */}
-              <div className="flex justify-center mt-36 mb-6">
-                <div className="w-full max-w-3xl overflow-hidden rounded-[9rem]">
-                  <img src={selectedPost.src} alt={selectedPost.alt} className="w-full h-full object-cover" />
+              <div className="flex justify-center mb-6 mt-12">
+                <div className="w-full max-w-2xl overflow-hidden rounded-3xl">
+                  <img src={selectedPost.src} alt={selectedPost.alt} className="w-full h-auto object-cover" />
                 </div>
               </div>
 
               {/* Post Description */}
-              <div className="flex justify-center items-center px-6 py-8 bg-white rounded-full shadow-inner mb-6 mx-4">
-                <p className="text-4xl text-black font-semibold text-center">{selectedPost.message}</p>
+              <div className="flex justify-center items-center px-3 py-3 bg-white rounded-full shadow-inner mb-0">
+                <p className="text-lg sm:text-2xl text-black font-semibold text-center">{selectedPost.message}</p>
               </div>
 
               {/* Likes and Date */}
-              <div className="flex justify-between items-center px-6 py-10 bg-none mb-6 mx-4">
+              <div className="flex justify-between items-center px-6 py-4 bg-none mb-0 mx-0">
                 <div className="flex items-center space-x-3">
-                  <svg className="w-24 h-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                   </svg>
-                  <span className="font-bold text-[50px]">67</span>
+                  <span className="font-bold text-lg sm:text-2xl">67</span>
                 </div>
-                <span className="font-bold text-[50px]">03/10/2024</span>
+                <span className="font-bold text-lg sm:text-2xl">03/10/2024</span>
               </div>
 
               {/* SDG Tag and Event Info */}
-              <div className="flex items-center justify-between bg-white p-3 rounded-[4rem] shadow-lg mx-4">
-                <img src={`/images/SDG/sdg${id}.png`} alt="SDG Icon" className="p-4 w-1/2 rounded-full" />
-                <div className="flex flex-col items-start w-2/3 ml-1">
-                  <p className="text-[2rem] font-extrabold text-dBlue">{sdgTitle}</p>
-                  <p className="text-[2rem] font-bold text-dBlue">Photo Challenge</p>
-                  <div className="flex items-center space-x-3 pt-16">
-                    <img src="/images/institution/bsu.png" alt="BSU Logo" className="w-24 h-24 rounded-full -ml-20" />
+              <div className="flex items-center justify-between w-full bg-white p-2 rounded-3xl shadow-lg">
+                <img src={`/images/SDG/SDG${id}.jpg`} alt="SDG Icon" className="p-2 w-1/3 rounded-full" />
+                <div className="flex flex-col items-start w-2/3 ml-4">
+                  <p className="text-base sm:text-lg font-extrabold text-dBlue">{sdgTitle}</p>
+                  <p className="text-base sm:text-lg font-bold text-dBlue">Photo Challenge</p>
+                  <div className="flex items-center space-x-2 mt-2">
+                    <img src="/images/institution/bsu.png" alt="BSU Logo" className="w-8 h-8 rounded-full" />
                     <div className="flex flex-col text-left">
-                      <p className="text-[28px] text-dBlue">Batangas State University</p>
-                      <p className="text-[28px] text-dBlue">What Event</p>
+                      <p className="text-sm sm:text-xs text-dBlue">Batangas State University</p>
+                      <p className="text-sm sm:text-xs text-dBlue">What Event</p>
                     </div>
                   </div>
                 </div>

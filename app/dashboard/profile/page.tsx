@@ -1,22 +1,10 @@
-import { logout } from "../../auth/actions"
-import { authenticateUser } from "../actions"
+import MainLayout from '../../components/layouts/MainLayout'; 
+import Profile from '../../components/Profile'; 
 
-export default async function ProfilePage() {
-
-  const data = await authenticateUser()
-
-  console.log(data)
-
+export default function HomePage() {
   return (
-    <div>
-      <p>Hello {data.user_id}</p>
-      <button onClick={logout}>Logout</button>
-      <div>
-        <a href="/auth/resetPassword">Reset Password</a>
-      </div>
-      <div>
-        <a href="/dashboard/home">Home</a>
-      </div>
-    </div>
-  )
+    <MainLayout>
+      <Profile />
+    </MainLayout>
+  );
 }

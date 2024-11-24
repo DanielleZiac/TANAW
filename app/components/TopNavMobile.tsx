@@ -1,25 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
-import { FaBars, FaTrophy } from "react-icons/fa";
-import { usePathname } from "next/navigation"; // usePathname is better suited for Next.js 13+
-import Link from "next/link";
-import { logout } from "../auth/actions";
+import React, { useState } from 'react';
+import { FaBars, FaTrophy } from 'react-icons/fa';
+import { usePathname } from 'next/navigation'; // usePathname is better suited for Next.js 13+
+import Link from 'next/link';
+import { logout } from "../auth/actions"
 
 const TopNav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname(); // Get current route
 
   // Apply different colors based on the current path
-  const navColor = pathname === "/home" ? "bg-bgStart" : "bg-lightGray";
+  const navColor = pathname === '/home' ? 'bg-bgStart' : 'bg-lightGray';
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <div className="relative">
-      {/* Top Navigation Bar for Mobile */}
+      {/* Top Navigation Bar */}
       <nav
-        className={`fixed top-0 left-0 w-full py-6 px-4 flex items-center justify-between z-50 ${navColor} sm:hidden`}
+        className={`fixed top-0 left-0 w-full py-6 px-4 flex items-center justify-between z-50 ${navColor}`}
       >
         {/* Hamburger Icon */}
         <button
@@ -41,11 +41,11 @@ const TopNav: React.FC = () => {
       {/* Side Panel for Mobile Menu */}
       <div
         className={`fixed top-0 left-0 h-full bg-neutral-200 shadow-lg w-64 p-6 transform ${
-          isMenuOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out z-40 sm:hidden`}
+          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        } transition-transform duration-300 ease-in-out z-40`}
       >
-        {/* Close Button */}
-        <button
+       {/* Close Button */}
+       <button
           onClick={toggleMenu}
           aria-label="Close Menu"
           className="absolute top-4 right-4 text-neutral-500 hover:text-gray-100 focus:outline-none text-2xl"
@@ -73,12 +73,10 @@ const TopNav: React.FC = () => {
           <li className="hover:text-cBlue cursor-pointer text-xl">
             <Link href="/termsAndConditions">Terms and Conditions</Link>
           </li>
-          <li
-            className="hover:text-cBlue cursor-pointer text-xl"
+          <li className="hover:text-cBlue cursor-pointer text-xl"
             onClick={() => {
-              logout();
-            }}
-          >
+            logout();
+          }}>
             Logout
           </li>
         </ul>
@@ -91,27 +89,6 @@ const TopNav: React.FC = () => {
           onClick={toggleMenu}
         />
       )}
-
-      {/* Top Navigation Bar for Desktop */}
-      <div className="relative bg-orange-200 hidden sm:block">
-        <nav className="fixed top-0 left-0 w-full px-4 py-2 flex items-center justify-end z-40 bg-[#e0e5e9] border-b-2 border-gray-400">
-          {/* Navigation Links */}
-          <ul className="flex items-center space-x-32 text-black-700 text-base font-semibold pr-8">
-            <li className="hover:text-blue-900 cursor-pointer">Events</li>
-            <li className="hover:text-blue-900 cursor-pointer">About</li>
-            <li className="hover:text-blue-900 cursor-pointer">Contact</li>
-            {/* Logout Button */}
-            <li>
-              <button
-                className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                onClick={() => alert("Logged out!")}
-              >
-                Logout
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
     </div>
   );
 };

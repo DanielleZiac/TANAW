@@ -365,7 +365,6 @@ export async function displayPhoto(searchParams: FormData | null): Promise<Array
 		// .in("users.school", ["bsu"])
 		// .in("users.department", ["qwerty", "temp"])
 	console.log(user_sdg_data)
-
 	if (user_sdg_data) {
 		return user_sdg_data
 	} else {
