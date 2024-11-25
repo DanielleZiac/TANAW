@@ -71,16 +71,17 @@ const Login: React.FC = () => {
   return (
     <div 
       ref={containerRef} 
-      className="flex h-screen overflow-x-hidden scroll-smooth" 
-      style={{ width: '200vw' }}
+      className="flex h-screen overflow-x-hidden overflow-y-hidden scroll-smooth" 
+      style={{ width: '100vw' }}
     >
       {/* Part 1 - Login Section */}
-      <div className="flex-shrink-0 w-2/5 h-full flex items-start justify-start p-8 bg-[#dbdfe2] bg-opacity-70">
+      <div className="flex-shrink-0 w-2/5 h-full flex items-start justify-start p-8 bg-[#dbdfe3]">
         <div className="w-full max-w-sm p-8 rounded-lg ml-8 mt-24">
         <p className="text-left -mr-14 font-extrabold text-blue-800 text-4xl mb-4">Welcome Back!</p>
         <p className="text-left -mr-14 text-blue-900 text-sm mb-8">To keep connected with us please <br />login with your personal info</p>
           <form onSubmit={handleSubmit}>
-          <InputBox id="sr-code" type="text" value={srCode} setValue={setSrCode} placeholder="SR-Code" style={{ width: '120%'}} />
+          <InputBox id="sr-code" type="text" value={srCode} setValue={setSrCode} placeholder="SR-Code" style={{ width: '110%'}} />
+          {/*
           <div className="mb-4">
               <select 
                 id="sign-up-school"
@@ -95,8 +96,19 @@ const Login: React.FC = () => {
                 ))}
               </select>
             </div>
-          <InputBox id="password" type="password" value={password} setValue={setPassword} placeholder="Password" style={{ width: '120%'}} />
-          <ButtonBox style={{ width: '120%'}}>Log In</ButtonBox>
+            */}
+          <InputBox 
+            id="school" 
+            type="select" 
+            value={school} 
+            setValue={setSchool} 
+            placeholder="Select School/Institution" 
+            style={{ width: '110%', height: '50%'}}
+            placeholderColor='#6F728F'
+            options={['BSU', 'ADMU', 'DLSU']} 
+          />
+          <InputBox id="password" type="password" value={password} setValue={setPassword} placeholder="Password" style={{ width: '110%'}} />
+          <ButtonBox style={{ width: '120%',}}>Log In</ButtonBox>
           </form>
           <p className="text-sm text-blue-700 mt-5">
           <Link href="/auth/resetPassword">
@@ -114,10 +126,10 @@ const Login: React.FC = () => {
 
       {/* Part 2 - Center Section (with Background Image) */}
       <div
-        className="flex-shrink-0 w-3/5 h-full flex items-center justify-center p-8 bg-[#dbdfe2] bg-opacity-70"
+        className="flex-shrink-0 w-3/5 h-full flex items-center justify-center p-8 bg-[#dbdfe3]"
         style={{
           backgroundImage: `url(${backgroundImage.src})`,
-          backgroundSize: '80%',
+          backgroundSize: '100%',
           backgroundPosition: 'bottom',
           backgroundRepeat: 'no-repeat',
         }}
@@ -125,16 +137,16 @@ const Login: React.FC = () => {
       </div>
 
       {/* Part 3 - Sign-Up Section */}
-      <div className="flex-shrink-0 w-2/5 h-full flex items-start justify-end p-8 bg-[#dbdfe2] bg-opacity-70">
+      <div className="flex-shrink-0 w-2/5 h-full flex items-start justify-end p-8 bg-[#dbdfe3]">
         <div className="w-full max-w-sm p-8 rounded-lg mr-24 mt-8">
           <p className="text-right -mr-14 font-extrabold text-blue-800 text-4xl mb-4">Hello, Friend!</p>
           <p className="text-right -mr-14 text-blue-900 text-sm mb-8">Enter your personal details and start journey with us</p>
           <form onSubmit={handleSubmit}>
-          <InputBox id="sign-up-sr-code" type="text" value={srCode} setValue={setSrCode} placeholder="SR-Code" style={{ width: '120%'}} />
-          <InputBox id="first-name" type="text" value={firstName} setValue={setFirstName} placeholder="First Name" style={{ width: '120%'}} />
-          <InputBox id="last-name" type="text" value={lastName} setValue={setLastName} placeholder="Last Name" style={{ width: '120%'}} />
+          <InputBox id="sign-up-sr-code" type="text" value={srCode} setValue={setSrCode} placeholder="SR-Code" style={{ width: '110%', height: '50%'}} />
+          <InputBox id="first-name" type="text" value={firstName} setValue={setFirstName} placeholder="First Name" style={{ width: '110%', height: '50%'}} />
+          <InputBox id="last-name" type="text" value={lastName} setValue={setLastName} placeholder="Last Name" style={{ width: '110%', height: '50%'}} />
           
-          {/* School/Institution Dropdown */}
+          {/*
           <div className="mb-4">
               <select 
                 id="school"
@@ -149,18 +161,31 @@ const Login: React.FC = () => {
                 ))}
               </select>
             </div>
+            */}
 
-          <InputBox id="sign-up-password" type="password" value={signUpPassword} setValue={setSignUpPassword} placeholder="Password" style={{ width: '120%'}} />
+                      {/* School/Institution Dropdown */}
+          <InputBox 
+            id="school" 
+            type="select" 
+            value={school} 
+            setValue={setSchool} 
+            placeholder="Select School/Institution" 
+            style={{ width: '110%', height: '50%'}}
+            placeholderColor='#6F728F'
+            options={['BSU', 'ADMU', 'DLSU']} 
+          />
+
+          <InputBox id="sign-up-password" type="password" value={signUpPassword} setValue={setSignUpPassword} placeholder="Password" style={{ width: '110%', height: '50%'}} />
 
           {/* Terms and Conditions within TextBoxPanel */}
-          <TextBoxPanel style={{ height: '10px', width: '120%' }}>
+          <TextBoxPanel style={{ height: '25px', width: '120%' }}>
             <label className="flex items-center justify-center text-xs -mt-2">
               <input type="checkbox" className="mr-2" />
               Terms and Conditions
             </label>
           </TextBoxPanel>
           
-          <ButtonBox style={{ width: '120%'}}>Proceed to Avatar</ButtonBox>
+          <ButtonBox style={{ width: '120%', height: '50%', marginTop: '12px'}}>Proceed to Avatar</ButtonBox>
           </form>
           <p className="text-sm text-blue-800 mb-4 mt-4">
             Already have an account? <span onClick={handleSignInClick} className="text-blue-800 cursor-pointer"><u>Sign in</u></span>
