@@ -22,8 +22,8 @@ const Gallery: React.FC<DataProps> = ({data}) => {
   console.log(data);
   const user_id = data[0];
   const photoData = data[1];
-  console.log(user_id);
-  console.log(photoData);
+  // console.log(user_id);
+  // console.log(photoData);
 
   const sdgImages = Array.from({ length: 17 }, (_, i) => ({
     src: `/images/SDG/SDG${i + 1}.jpg`, // Assume you have these images in public/images/

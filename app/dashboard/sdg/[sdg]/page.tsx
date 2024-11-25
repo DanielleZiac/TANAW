@@ -1,41 +1,38 @@
 // app/sdg/[id]/page.tsx
-'use client';  // Ensure this is marked as a client component
-
-import { useEffect, useState } from 'react';
 import SdgContent from '../../../components/SdgContent';
 import MainLayout from '../../../components/layouts/MainLayout';
 
-// Define the Params type with the 'id' property
-interface Params {
-  id: string;
+import { authenticateUser, getPhotoSdg, getLikedPostsSdgs } from "../../actions";
+
+interface Photo {
+  caption: string, 
+  created_date: date, 
+  likes: number, 
+  url: string, 
+  user_sdg_id: string
 }
 
-const SdgPage = ({ params }: { params: Promise<Params> }) => {
-  const [unwrappedParams, setUnwrappedParams] = useState<Params | null>(null);
 
-  useEffect(() => {
-    // Unwrap params using React.use
-    const fetchParams = async () => {
-      const resolvedParams = await params;
-      setUnwrappedParams(resolvedParams);
-    };
+export default async function SdgPage({
+  params} : {
+    params: Promise<{ sdg: string }>
+  }) {
 
-    fetchParams();
-  }, [params]);
+  const user_id: string = await authenticateUser()
+  const sdg: number = (await params).sdg
+  const photos: Array<Photo> | undefined = await getPhotoSdg(sdg);
+  const liked = await getLikedPostsSdgs(user_id, sdg);
 
-  if (!unwrappedParams) return <div>Loading...</div>;
+  // console.log("photos", photos);
 
-  const { sdg } = unwrappedParams;
-  console.log(sdg);
+  // console.log(user_id, sdg, ph);
   return (
     <MainLayout>
       <div>
         <h1>SDG {sdg}</h1>
         {/* Render the SdgContent component, passing the SDG ID */}
-        <SdgContent id={sdg} />
+        <SdgContent data={[user_id, sdg, photos, liked]} />
       </div>
     </MainLayout>
   );
-};
-
-export default SdgPage;
+}

@@ -120,9 +120,6 @@ export async function getLeaderboardsSchools() {
 }
 
 
-export async function getLeaderboardsEvents() {
-}
-
 
 // get photo_event per sdg /// di ko pa magawa eventtt
 
@@ -174,11 +171,47 @@ export async function getLikedPostsSdgs(user_id: string, sdg: number) {
 		return
 	}
 
-	console.log(data)
+	// console.log(data)
+	return data;
 }
 
 
-// unlike 
+export async function getNumberOfLikes(user_sdg_id: string) {
+	console.log(user_sdg_id);
+	const supabase = await createClient();
+
+	const { data, error } = await supabase
+		.from("liked_sdg_posts")
+		.select(`user_sdg_id, user_id`)
+		.eq("user_sdg_id", user_sdg_id)
+
+	if (error) {
+		console.log("Error getLikedPostsSdgs", error)
+		return
+	}
+
+	console.log("datassss", data)
+	return data.length;
+}
+
+
+export async function getHighestPostCount() {
+	const supabase = await createClient();
+
+	const { data, error } = await supabase
+		.from("get_top_post_count")
+		.select(`*, institutions(institution, campus)`)
+
+	if (error) {
+		console.log("Error getHighestPostCount", error)
+		return
+	}
+
+	// console.log("datassss", data)
+	return data;
+}
+
+// unlike -1
 export async function removeLike(user_sdg_id: string, user_id: string) {
 	const supabase = await createClient()
 
@@ -265,6 +298,23 @@ export async function getPhotoByUserId(user_id: string) {
 		return
 	}
 	console.log(data)
+	return data;
+}
+
+
+export async function getPhotoSdg(sdg: number) {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("get_photo_and_avatar")
+		.select()
+		.eq('sdg_number', `sdg${sdg}`)
+
+	if (error) {
+		console.log("Error getPhotoSdg", error)
+		return
+	}
+	// console.log("dataaaa", data);
 	return data;
 }
 
