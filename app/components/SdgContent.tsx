@@ -5,8 +5,8 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import Link from 'next/link';
 import { SDG_TITLES } from '../data/sdgTitles';
-
 import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes } from "../dashboard/actions";
+
 
 
 interface Photos {
@@ -34,12 +34,12 @@ interface DataProps {
   ];
 }
 
+
 const SdgContent: React.FC<DataProps> = ({data}) => {
   // console.log(data);
   const user_id = data[0];
   const sdg = data[1];
   const photos = data[2];
-  console.log(photos)
   const curLiked = data[3];
 
   // State to manage the clicked post
@@ -80,6 +80,7 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
   }
 
 
+
   // Function to handle post click
   const handlePostClick = async(post: Photos, user_id: string) => {
     const likeNums = await getNumberOfLikes(post.user_sdg_id);
@@ -110,6 +111,7 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
     setLiked("none");
   };
 
+
   // Function to render posts
   const renderPosts = (postArray: Photos[], customClasses = '') => {
     return postArray.map((post, index) => (
@@ -127,7 +129,10 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
           <img src={post.avatar_url} alt={post.url} className="object-cover w-full h-full" />
         </button>
         <div className="absolute -top-2 -right-2 sm:h-6 sm:w-24 bg-bubbleGray text-black text-[9px] sm:text-xs md:text-sm rounded-full px-1 py-0.5 shadow-lg">
-          {post.caption} {/* gawing caption hehe*/}
+
+
+        {post.caption} {/* gawing caption hehe*/}
+
         </div>
         <div>{post.likes}</div>
       </div>
@@ -138,7 +143,8 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
 
   return (
     <div className="content-container p-6 flex flex-col items-center overflow-auto sm:-mt-12 ">
-      {/* Center SDG Image */}
+
+    {/* Center SDG Image */}
       <div className="relative mb-10 z-10">
         <div className="image-container mb-8">
           <img src={`/images/SDG/SDG${sdg}.jpg`} alt={`SDG ${sdg}`} className="sdg-image" />
@@ -245,6 +251,7 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
           </button>
         </Link>
       </div>
+
     </div>
   )
 }

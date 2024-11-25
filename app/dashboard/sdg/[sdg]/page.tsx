@@ -20,6 +20,7 @@ interface Liked {
   user_sdgs: { sdg_number: string }[];
 }
 
+
 export default async function SdgPage({
   params} : {
     params: Promise<{ sdg: string }>
@@ -30,7 +31,7 @@ export default async function SdgPage({
   const photos: Array<Photo> | undefined = await getPhotoSdg(Number(sdg));
   const liked: Array<Liked> | undefined = await getLikedPostsSdgs(user_id, Number(sdg));
 
-  console.log("photos", liked);
+  // console.log("photos", liked);
 
   // console.log(user_id, sdg, ph);
   return (

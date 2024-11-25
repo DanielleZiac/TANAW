@@ -5,12 +5,12 @@ interface ButtonBoxProps {
   children: React.ReactNode;
   style?: React.CSSProperties;
   onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const ButtonBox: React.FC<ButtonBoxProps> = ({ children, onClick }) => {
   return (
     <button
-      type="button"
       onClick={onClick}
       className="bg-cGray text-gray-700 rounded-lg py-4 px-6 w-full shadow-lg flex items-center justify-center space-x-4 hover:bg-gray-100 focus:outline-none"
       style={{

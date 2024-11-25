@@ -22,7 +22,7 @@ export default async function HallOfFamePage() {
   const data:Array<Data> | undefined = await getHighestPostCount();
   // const
 
-  console.log("asd", data)
+  // console.log("asd", data)
 
   return (
     <MainLayout>

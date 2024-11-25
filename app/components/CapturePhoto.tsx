@@ -190,7 +190,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold text-center mb-8 text-sky-400">
+      <h1 className="text-3xl font-extrabold text-center mt-10 text-sky-400">
         SDG {sdg}
       </h1>
       <p className="text-gray-700 text-lg mb-4">Photo Challenge</p>
@@ -254,7 +254,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
             placeholder="Add a caption"
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
-            className="border mt-4 p-2 rounded text-black"
+            className="border mt-4 mb-4 p-2 rounded text-black"
           />
       
 
