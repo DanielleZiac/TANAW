@@ -5,20 +5,14 @@ import ButtonBox from '../styles/buttonBox'; // Adjust the import path based on 
 
 const Profile: React.FC = () => {
   return (
-    <div className="flex flex-col items-center mt- bg-transparent min-h-screen p-6">
+    <div className="flex flex-col items-center mt-5 bg-transparent min-h-screen p-6">
       {/* Cover Photo */}
-      <div className="relative h-40 w-screen rounded-md overflow-hidden">
+      <div className="relative h-40 w-screen  overflow-hidden">
         <img
           src="/images/SDGlink1.jpg" // Replace with the actual cover photo URL
           alt="Cover Photo"
           className="object-cover w-full h-full"
         />
-        <button
-          className="absolute top-2 right-2 bg-transparent p-1 rounded-full shadow"
-          aria-label="Change Cover Photo"
-        >
-          <img src="/camera-icon.svg" alt="Edit" className="w-5 h-5" />
-        </button>
       </div>
 
       {/* Profile Picture */}

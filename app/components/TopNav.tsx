@@ -1,19 +1,23 @@
 "use client";
 
-import React, { useState } from 'react';
-import { FaBars, FaTrophy } from 'react-icons/fa';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+import React, { useState } from "react";
+import { FaBars, FaTrophy } from "react-icons/fa";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { LuSticker } from "react-icons/lu";
+import Feedback from "../components/Feedback";
 
 const TopNav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false); // Manage Feedback modal state
   const pathname = usePathname();
 
   // Dynamic background color based on the current route
-  const navColor = pathname === '/home' ? 'bg-bgStart' : 'bg-lightGray';
+  const navColor = pathname === "/home" ? "bg-bgStart" : "bg-lightGray";
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const openFeedback = () => setIsFeedbackOpen(true); // Open Feedback modal
+  const closeFeedback = () => setIsFeedbackOpen(false); // Close Feedback modal
 
   return (
     <>
@@ -31,9 +35,7 @@ const TopNav: React.FC = () => {
         </button>
 
         {/* App Name */}
-        <h1 className="text-3xl md:text-4xl font-bold text-black">
-          Tanaw
-        </h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-black">Tanaw</h1>
 
         {/* Leaderboard Icon */}
         <Link href="/stickers">
@@ -49,7 +51,7 @@ const TopNav: React.FC = () => {
       {/* Side Panel for Mobile Menu */}
       <div
         className={`fixed top-0 left-0 h-full bg-white shadow-lg w-44 p-6 transform ${
-          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out z-40`}
       >
         {/* Close Button */}
@@ -69,8 +71,11 @@ const TopNav: React.FC = () => {
           <li className="hover:text-cBlue cursor-pointer text-lg">
             <Link href="component/LearnMore">Help Center</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-lg">
-            <Link href="/feedback">Feedback</Link>
+          <li
+            className="hover:text-cBlue cursor-pointer text-lg"
+            onClick={openFeedback} // Trigger the Feedback modal
+          >
+            Feedback
           </li>
           <li className="hover:text-cBlue cursor-pointer text-lg">
             <Link href="/view-report-photos">Terms and Conditions</Link>
@@ -86,8 +91,8 @@ const TopNav: React.FC = () => {
         />
       )}
 
-      
-      
+      {/* Feedback Modal */}
+      <Feedback isOpen={isFeedbackOpen} onClose={closeFeedback} />
     </>
   );
 };

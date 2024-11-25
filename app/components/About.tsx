@@ -5,7 +5,7 @@ import { baseButtonClass } from "../styles/buttonStyles"; // Import your button 
 
 const About: React.FC = () => {
   return (
-    <div className="min-h-screen relative bg-transparent text-gray-900 p-4 mt-12">
+    <div className="min-h-screen absolute lg:w-full  left-0 bg-[url('/images/bg.png')] bg-fixed bg-bottom bg-no-repeat text-gray-900 p-4 mt-12">
       {/* Header */}
       <header className="text-center mb-6">
         <h1 className="text-2xl font-bold">ABOUT US</h1>
@@ -59,11 +59,8 @@ const About: React.FC = () => {
         <p className="font-bold text-gray-700">Tanaw.Inc</p>
       </section>
 
-      {/* Fixed Background Image */}
-      <div
-        className="fixed bottom-0 z-10 left-0 w-full h-40 bg-cover bg-center pointer-events-none"
-        style={{ backgroundImage: "url('/images/bg.png')" }}
-      ></div>
+     
+      
     </div>
   );
 };

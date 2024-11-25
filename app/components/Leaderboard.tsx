@@ -20,7 +20,7 @@ const leaderboardData: LeaderboardEntry[] = [
 
 const Leaderboard: React.FC = () => {
   return (
-    <div className="min-h-screen mt-10 flex flex-col items-center bg-transparent py-6 px-4">
+    <div className="min-h-screen mt-10 flex flex-col items-center bg-[url('/images/bg.png')] bg-no-repeat bg-bottom bg-fixed  py-6 px-4">
       {/* Header */}
       <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">
         COLLEGE LEADERBOARD

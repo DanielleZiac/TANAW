@@ -561,9 +561,6 @@ video {
     max-width: 1536px;
   }
 }
-.pointer-events-none {
-  pointer-events: none;
-}
 .fixed {
   position: fixed;
 }
@@ -1164,14 +1161,32 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity));
 }
+.bg-green-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 252 231 / var(--tw-bg-opacity));
+}
+.bg-green-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(134 239 172 / var(--tw-bg-opacity));
+}
+.bg-cBlue {
+  --tw-bg-opacity: 1;
+  background-color: rgb(60 131 167 / var(--tw-bg-opacity));
+}
 .bg-opacity-30 {
   --tw-bg-opacity: 0.3;
+}
+.bg-opacity-50 {
+  --tw-bg-opacity: 0.5;
 }
 .bg-opacity-60 {
   --tw-bg-opacity: 0.6;
 }
 .bg-opacity-80 {
   --tw-bg-opacity: 0.8;
+}
+.bg-\[url\(\'\/images\/bg\.png\'\)\] {
+  background-image: url('/images/bg.png');
 }
 .bg-\[url\(\'\/images\/homebg3\.png\'\)\] {
   background-image: url('/images/homebg3.png');
@@ -1181,6 +1196,9 @@ video {
 }
 .bg-fixed {
   background-attachment: fixed;
+}
+.bg-bottom {
+  background-position: bottom;
 }
 .bg-center {
   background-position: center;
@@ -1434,6 +1452,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
+.text-cGray {
+  --tw-text-opacity: 1;
+  color: rgb(229 234 240 / var(--tw-text-opacity));
+}
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1587,6 +1609,11 @@ body {
   transform: rotateY(0deg);
 }
 
+.hover\:bg-blue-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -1600,6 +1627,11 @@ body {
 .hover\:bg-gray-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-gray-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 }
 
 .hover\:text-blue-500:hover {
@@ -1893,6 +1925,10 @@ body {
 
   .lg\:w-72 {
     width: 18rem;
+  }
+
+  .lg\:w-full {
+    width: 100%;
   }
 
   .lg\:grid-cols-5 {
