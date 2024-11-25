@@ -24,6 +24,7 @@ const config: Config = {
         bubbleGray: '#f3f3f3',
         footerGray: '#e5eaf0',
         exploreGray: '#dfe3e5',
+        bgBlue: '#74b4ca',
       },
     },
   },

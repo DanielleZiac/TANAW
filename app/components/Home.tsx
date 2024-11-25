@@ -11,22 +11,22 @@ const Home: React.FC = () => {
   }));
 
   return (
-    <div className="overflow-hidden bg-cover bg-top bg-no-repeat bg-fixed bg-[url('/images/homebg3.png')] h-full min-h-[100vh]">
+    <div className="overflow-hidden bg-cover xl:bg-left  bg-top bg-no-repeat bg-fixed bg-[url('/images/homebg3.png')] xl:bg-[url('/images/homebg3.png')] h-full min-h-[100vh]">
       {/* Floating Dropdown Component */}
       <FloatingDropdown />
 
       {/* Container for SDG Images */}
-      <div className="relative w-full py-[50vh] overflow-y-auto">
-        <div className="w-full flex flex-col items-center">
+      <div className=" xl:bg-bgBlue relative w-full py-[50vh] lg:px-[50vh] lg:ml-[50vh]  overflow-y-auto">
+        <div className="w-full flex flex-col items-center lg:items-end lg:py-10">
           {sdgImages.map((item, index) => {
             let alignmentClass = 'justify-start ';
             if (index % 6 === 1 || index % 6 === 4) {
               alignmentClass = 'justify-center ';
             } else if (index % 6 === 2 || index % 6 === 3) {
-              alignmentClass = 'justify-end ';
+              alignmentClass = 'justify-end';
             }
-            const extraPadding = 'px-6 sm:px-10 md:px-20';
-            const groupGapClass = index % 3 !== 2 ? 'mb-[-80px]' : '';
+            const extraPadding = 'px-6 sm:px-10 md:px-20 xl:px-7';
+            const groupGapClass = index % 3 !== 2 ? 'mb-[-80px] lg:mb-[-100px] xl:mb-[-130px]'  : '';
 
             return (
               <div
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
                   <img
                     src={item.src}
                     alt={`SDG ${index + 1}`}
-                    className="w-[100px] h-[100px] sm:w-48 sm:h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-full object-cover cursor-pointer z-50"
+                    className="w-[100px] h-[100px] sm:w-48 sm:h-48 md:w-60 md:h-60 lg:w-[150px] lg:h-[150px] rounded-full object-cover cursor-pointer z-50"
                   />
                 </Link>
               </div>
