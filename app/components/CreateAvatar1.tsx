@@ -14,13 +14,14 @@ const CreateAvatar1: React.FC<DataProps> = ({data}) => {
   const router = useRouter();
   const [gender, setGender] = useState("boy");
   const [shirtStyle, setShirtStyle] = useState("shirt");
-  const [eyewear, setEyewear] = useState("none");
+  const [eyewear, setEyewear] = useState(null);
   const [college, setCollege] = useState("cics");
 
   console.log(gender, shirtStyle, eyewear, college);
 
   const handleConfirmAvatar = () => {
-    const query = `gender=${gender}&shirtStyle=${shirtStyle}&eyewear=${eyewear}&college=${college}`;
+    const query = `gender=${gender}&shirtStyle=${shirtStyle}` + (eyewear ? `&eyewear=${eyewear}` : "") + `&college=${college}`;
+    // console.log(query)
     router.push(`/dashboard/createAvatar2?${query}`);
   };
 
@@ -58,6 +59,17 @@ const CreateAvatar1: React.FC<DataProps> = ({data}) => {
             alt="Eyewear"
             className= "absolute inset-0 w-full h-full object-contain"
           />
+
+          {eyewear 
+            ? 
+              <img 
+                src={`/images/avatar/eye/${eyewear}.png`}
+                alt="Gender"
+                className= "absolute inset-0 w-full h-full object-contain"
+              />
+            : 
+              null
+          }
 
         </div>
       </div>
@@ -112,7 +124,7 @@ const CreateAvatar1: React.FC<DataProps> = ({data}) => {
             <button
               className={`${getButtonStyles(eyewear === "none").className} py-6 px-10 text-3xl`}
               style={getButtonStyles(eyewear === "none").style}
-              onClick={() => setEyewear("none")}
+              onClick={() => setEyewear(null)}
             >
               None
             </button>

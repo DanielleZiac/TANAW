@@ -100,8 +100,12 @@ async function startPrediciton(
 					eyeBrow(prediction);
 				}) 
 	
-				if (is_leftEyeClose) {
+				if (is_leftEyeClose && is_rightEyeClose) {
 					setLeftEye("eyes_closed")
+				} else if (is_leftEyeClose){
+					setLeftEye("righteye_opened")
+				} else if (is_rightEyeClose) {
+					setLeftEye("lefteye_opened")
 				} else {
 					setLeftEye("eyes_opened")
 				}

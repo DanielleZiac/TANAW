@@ -43,6 +43,8 @@ const CreateAvatar2: React.FC<ParamsProps> = ({params}) => {
   var user_id = params[1]
   var avatar = params[0]
 
+  console.log(avatar);
+
   if (!avatar.college || 
     !avatar.gender || 
     !avatar.shirtStyle) { 
@@ -128,6 +130,7 @@ const CreateAvatar2: React.FC<ParamsProps> = ({params}) => {
       const shirtStyleElem = document.getElementById("shirtStyle");
       const leftEyeElem = document.getElementById("leftEye");
       const smileElem = document.getElementById("smile");
+      const eyewearElem = document.getElementById("eyewear");
       let b64;
 
       if (
@@ -137,13 +140,24 @@ const CreateAvatar2: React.FC<ParamsProps> = ({params}) => {
         leftEyeElem instanceof HTMLImageElement && 
         smileElem instanceof HTMLImageElement
       ) {
-        b64 = await mergeImages([
-          collegeElem.src,
-          genderElem.src,
-          shirtStyleElem.src,
-          leftEyeElem.src,
-          smileElem.src,
-        ]);
+        if (eyewearElem) {
+          b64 = await mergeImages([
+            collegeElem.src,
+            genderElem.src,
+            shirtStyleElem.src,
+            leftEyeElem.src,
+            smileElem.src,
+            eyewearElem.src
+          ]);
+        } else {
+          b64 = await mergeImages([
+            collegeElem.src,
+            genderElem.src,
+            shirtStyleElem.src,
+            leftEyeElem.src,
+            smileElem.src
+          ]);
+        }
         console.log(b64);
       } else {
         console.error("One or more elements are missing or not images.");
@@ -188,6 +202,18 @@ const CreateAvatar2: React.FC<ParamsProps> = ({params}) => {
             src={`/images/avatar/shirt_style/${avatar.shirtStyle}.png`}
             style={{position: "absolute"}}
           />
+
+          {avatar.eyewear 
+            ? 
+              <img 
+                id="eyewear"
+                src={`/images/avatar/eye/${avatar.eyewear}.png`}
+                style={{position: "absolute"}}
+              />
+            :
+              null 
+          }
+
           <img 
             id="leftEye"
             src={`/images/avatar/eye/${leftEye}.png`}
