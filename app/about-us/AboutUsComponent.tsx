@@ -1,8 +1,6 @@
 
 import React from "react";
-import Page from "./page"; // Correct the import path if needed
 import ButtonBox from "../styles/buttonBox";
-import Placeholder from "../auth/auth.png";
 import TextBoxPanel from "../styles/textBox";
 import icon from "../home/icons/SDG1.jpg";
 import SDGlink7 from "/public/images/SDGlink17.jpg";

@@ -1,7 +1,6 @@
 {
-  "/gallery/page": "app/gallery/page.js",
-  "/explore/page": "app/explore/page.js",
+  "/auth/page": "app/auth/page.js",
   "/home/page": "app/home/page.js",
-  "/institution/page": "app/institution/page.js",
-  "/leaderboards/page": "app/leaderboards/page.js"
+  "/gallery/page": "app/gallery/page.js",
+  "/about-us/page": "app/about-us/page.js"
 }

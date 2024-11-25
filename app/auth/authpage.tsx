@@ -38,7 +38,20 @@ const AuthPage: React.FC = () => {
           <p className="text-center -mr-14 font-extrabold text-blue-800 text-4xl mb-4">Welcome Back!</p>
           <p className="text-center -mr-14 text-blue-900 text-sm mb-8">To keep connected with us please <br />login with your personal info</p>
           <InputBox id="sr-code" type="text" value={srCode} setValue={setSrCode} placeholder="SR-Code" style={{ width: '110%'}} />
+
+          <InputBox 
+            id="school" 
+            type="select" 
+            value={school} 
+            setValue={setSchool} 
+            placeholder="Select School/Institution" 
+            style={{ width: '110%', height: '50%'}}
+            placeholderColor='#6F728F'
+            options={['BSU', 'ADMU', 'DLSU']} 
+          />
+          
           <InputBox id="password" type="password" value={password} setValue={setPassword} placeholder="Password" style={{ width: '110%'}} />
+
           <p className="text-sm text-blue-700 mb-4">
             Don’t have an account yet? <span onClick={handleSignUpClick} className="text-blue-700 cursor-pointer"><u>Sign up</u></span>
           </p>
@@ -77,7 +90,7 @@ const AuthPage: React.FC = () => {
             placeholder="Select School/Institution" 
             style={{ width: '110%', height: '50%'}}
             placeholderColor='#6F728F'
-            options={['BSU', 'ADMU', 'DLSU']} // Pass the list of options to InputBox
+            options={['BSU', 'ADMU', 'DLSU']} 
           />
 
           <InputBox id="sign-up-password" type="password" value={signUpPassword} setValue={setSignUpPassword} placeholder="Password" style={{ width: '110%', height: '50%'}} />
