@@ -127,19 +127,22 @@ const CreateAvatar2: React.FC<ParamsProps> = ({params}) => {
       const genderElem = document.getElementById("gender");
       const shirtStyleElem = document.getElementById("shirtStyle");
       const leftEyeElem = document.getElementById("leftEye");
+      const smileElem = document.getElementById("smile");
       let b64;
 
       if (
         collegeElem instanceof HTMLImageElement &&
         genderElem instanceof HTMLImageElement &&
         shirtStyleElem instanceof HTMLImageElement &&
-        leftEyeElem instanceof HTMLImageElement
+        leftEyeElem instanceof HTMLImageElement && 
+        smileElem instanceof HTMLImageElement
       ) {
         b64 = await mergeImages([
           collegeElem.src,
           genderElem.src,
           shirtStyleElem.src,
           leftEyeElem.src,
+          smileElem.src,
         ]);
         console.log(b64);
       } else {

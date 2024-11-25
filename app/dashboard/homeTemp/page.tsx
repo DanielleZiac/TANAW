@@ -12,6 +12,7 @@ const HomePage: React.FC = (params) => {
 
   useEffect(() => {
     const auth = (async() => {
+      console.log("aa");
       const user_id = await authenticateUser()
       console.log(user_id)
       let user_avatars = await getUserAvatar(user_id);
@@ -37,12 +38,12 @@ const HomePage: React.FC = (params) => {
     <div>
       <button onClick={logout}>Logout</button>
       <h1>Photo</h1>
-      {avatars.map((avatar: {avatar_url: string, avatar_id: string, avatar_label: string}, index: number) => (
+      {avatars? avatars.map((avatar: {avatar_url: string, avatar_id: string, avatar_label: string}, index: number) => (
         <div key={index}>
           <img src={avatar.avatar_url}></img>
           <button onClick={() => changeCurAvatar(avatar.avatar_id)} style={{backgroundColor: "red", color: "white"}}>{avatar.avatar_label}</button>
         </div>
-      ))}
+      )) : null}
       {/*<form>
         <div>
           <input type="file" id="file" name="file"></input>

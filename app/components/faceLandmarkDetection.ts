@@ -33,7 +33,7 @@ export async function runFacemesh(
 
 		intervalId = setInterval(() => {
 			startPrediciton(model, video, setStatus, setLeftEye, setSmile);
-		}, 1000)
+		}, 100)
 		intervals.push(intervalId)
 }
 
@@ -175,18 +175,18 @@ function smile(prediction: { annotations: { lipsUpperInner: number[][]; lipsLowe
 	if(smileMAR < 0.083) {
 		if (lips_jaw_ratio < 0.38) {
 			mouth = "mouth_closed"
-			// console.log("normal")
+			console.log("normal")
 		} else {
 			mouth = "mouth_closed"
-			// console.log("close smile")
+			console.log("close smile")
 		}
 	} else {
 		if (lips_jaw_ratio < 0.40) {
 			mouth = "mouth_opened"
-			// console.log("wow")
+			console.log("wow")
 		} else {
 			mouth = "mouth_opened"
-			// console.log("open smile")
+			console.log("open smile")
 		}
 	}
 }
