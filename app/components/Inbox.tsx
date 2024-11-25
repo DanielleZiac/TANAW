@@ -2,7 +2,6 @@ import React from 'react';
 
 interface Message {
   id: number;
-  sender: string;
   subject: string;
   preview: string;
   timestamp: string;
@@ -12,18 +11,23 @@ interface Message {
 const mockMessages: Message[] = [
   {
     id: 1,
-    sender: 'John Doe',
-    subject: 'Meeting Reminder',
-    preview: 'Don’t forget about the meeting tomorrow at 10 AM.',
-    timestamp: '2024-11-21 12:00 PM',
+    subject: 'Image Uploaded Successfully',
+    preview: 'Your image has been uploaded successfully! Check it out in your gallery.',
+    timestamp: '2024-11-25 02:34 PM',
     isRead: false,
   },
   {
     id: 2,
-    sender: 'HR Department',
-    subject: 'Policy Update',
-    preview: 'Please review the new company policies effective immediately.',
-    timestamp: '2024-11-20 09:15 AM',
+    subject: 'Action Reminder',
+    preview: 'Check out the latest updates in your dashboard and stay on top of your goals.',
+    timestamp: '2024-11-24 08:34 AM',
+    isRead: false,
+  },
+  {
+    id: 3,
+    subject: 'Profile Update Confirmation',
+    preview: 'Your profile has been updated successfully. You’re all set!',
+    timestamp: '2024-11-22 09:15 AM',
     isRead: true,
   },
   // Add more mock messages as needed
@@ -45,10 +49,10 @@ const Inbox: React.FC = () => {
               <div>
                 <h3 className="font-semibold text-black text-lg">{message.subject}</h3>
                 <p className="text-sm text-gray-500">
-                  {message.sender} - {message.preview}
+                  {message.preview}
                 </p>
               </div>
-              <span className="text-xs text-gray-400">
+              <span className="text-xs text-gray-400 text-right">
                 {message.timestamp}
               </span>
             </div>

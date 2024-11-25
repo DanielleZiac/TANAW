@@ -29,7 +29,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="fixed top-0 left-0 h-full z-50 w-64 bg-gray-900 flex flex-col items-center gap-4 py-8 px-4">
+    <aside className="hidden lg:flex fixed top-0 left-0 h-full z-50 w-64 bg-gray-900 flex-col items-center gap-4 py-8 px-4">
       {/* Placeholder Logo */}
       <div className="mb-4">
         <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center text-white text-2xl font-bold">
@@ -39,9 +39,9 @@ const Sidebar = () => {
 
       {/* Navigation Links */}
       <a
-        href="/home"
+        href="/dashboard/home"
         className={`flex items-center w-full py-3 px-4 text-white hover:text-blue-500 ${
-          isActive("/home") ? "font-bold" : "font-base"
+          isActive("/dashboard/home") ? "font-bold" : "font-base"
         }`}
       >
         <FaHome
@@ -51,9 +51,9 @@ const Sidebar = () => {
         <span className="text-base leading-none">Home</span>
       </a>
       <a
-        href="/gallery"
+        href="/dashboard/gallery"
         className={`flex items-center w-full py-3 px-4 text-white hover:text-blue-500 ${
-          isActive("/gallery") ? "font-bold" : "font-base"
+          isActive("/dashboard/gallery") ? "font-bold" : "font-base"
         }`}
       >
         <FaImage
@@ -63,9 +63,9 @@ const Sidebar = () => {
         <span className="text-base leading-none">Gallery</span>
       </a>
       <a
-        href="/explore"
+        href="/dashboard/explore"
         className={`flex items-center w-full py-3 px-4 text-white hover:text-blue-500 ${
-          isActive("/explore") ? "font-bold" : "font-base"
+          isActive("/dashboard/explore") ? "font-bold" : "font-base"
         }`}
       >
         <FaGlobeAsia
@@ -75,9 +75,9 @@ const Sidebar = () => {
         <span className="text-base leading-none">Explore</span>
       </a>
       <a
-        href="/inbox"
+        href="/dashboard/inbox"
         className={`flex items-center w-full py-3 px-4 text-white hover:text-blue-500 ${
-          isActive("/inbox") ? "font-bold" : "font-base"
+          isActive("/dashboard/inbox") ? "font-bold" : "font-base"
         }`}
       >
         <FaInbox
@@ -87,9 +87,9 @@ const Sidebar = () => {
         <span className="text-base leading-none">Inbox</span>
       </a>
       <a
-        href="/profile"
+        href="/dashboard/profile"
         className={`flex items-center w-full py-3 px-4 text-white hover:text-blue-500 ${
-          isActive("/profile") ? "font-bold" : "font-base"
+          isActive("/dashboard/profile") ? "font-bold" : "font-base"
         }`}
       >
         <FaUser

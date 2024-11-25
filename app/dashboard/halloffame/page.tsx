@@ -4,10 +4,22 @@ import MainLayout from '../../components/layouts/MainLayout'; // Adjust to your 
 import { authenticateUser, getHighestPostCount } from "../actions";
 
 
+interface Data {
+  count: number;
+  first_name: string;
+  institution_id: string;
+  institutions: {
+    campus: string;
+    institution: string;
+  };
+  last_name: string;
+  user_id: string;
+}
+
 export default async function HallOfFamePage() {
 
   const user_id = await authenticateUser()
-  const data = await getHighestPostCount();
+  const data:Array<Data> | undefined = await getHighestPostCount();
   // const
 
   // console.log("asd", data)

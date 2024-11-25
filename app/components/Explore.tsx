@@ -1,70 +1,106 @@
-"use client";
+import React from 'react';
 
-import React from "react";
-import { SDG_TITLES } from "../data/sdgTitles"; // Make sure to adjust the import path if needed
+// Import all images using Webpack (StaticImageData)
+import SDGlink1 from '/public/images/SDG/SDGlink1.jpg';
+import SDGlink2 from '/public/images/SDG/SDGlink2.jpg';
+import SDGlink3 from '/public/images/SDG/SDGlink3.jpg';
+import SDGlink4 from '/public/images/SDG/SDGlink4.jpg';
+import SDGlink5 from '/public/images/SDG/SDGlink5.jpg';
+import SDGlink6 from '/public/images/SDG/SDGlink6.jpg';
+import SDGlink7 from '/public/images/SDG/SDGlink7.jpg';
+import SDGlink8 from '/public/images/SDG/SDGlink8.jpg';
+import SDGlink9 from '/public/images/SDG/SDGlink9.jpg';
+import SDGlink10 from '/public/images/SDG/SDGlink10.jpg';
+import SDGlink11 from '/public/images/SDG/SDGlink11.jpg';
+import SDGlink12 from '/public/images/SDG/SDGlink12.jpg';
+import SDGlink13 from '/public/images/SDG/SDGlink13.jpg';
+import SDGlink14 from '/public/images/SDG/SDGlink14.jpg';
+import SDGlink15 from '/public/images/SDG/SDGlink15.jpg';
+import SDGlink16 from '/public/images/SDG/SDGlink16.jpg';
+import SDGlink17 from '/public/images/SDG/SDGlink17.jpg';
+import Logo from '/public/images/background/logoexplore.png';
 
-const Explore = () => {
+// SDG Goals Data
+const sdgGoals = [
+  { id: 1, title: 'No Poverty', image: SDGlink1 },
+  { id: 2, title: 'Zero Hunger', image: SDGlink2 },
+  { id: 3, title: 'Good Health and Well-Being', image: SDGlink3 },
+  { id: 4, title: 'Quality Education', image: SDGlink4 },
+  { id: 5, title: 'Gender Equality', image: SDGlink5 },
+  { id: 6, title: 'Clean Water and Sanitation', image: SDGlink6 },
+  { id: 7, title: 'Affordable and Clean Energy', image: SDGlink7 },
+  { id: 8, title: 'Decent Work and Economic Growth', image: SDGlink8 },
+  { id: 9, title: 'Industry, Innovation, and Infrastructure', image: SDGlink9 },
+  { id: 10, title: 'Reduced Inequality', image: SDGlink10 },
+  { id: 11, title: 'Sustainable Cities and Communities', image: SDGlink11 },
+  { id: 12, title: 'Responsible Consumption and Production', image: SDGlink12 },
+  { id: 13, title: 'Climate Action', image: SDGlink13 },
+  { id: 14, title: 'Life Below Water', image: SDGlink14 },
+  { id: 15, title: 'Life on Land', image: SDGlink15 },
+  { id: 16, title: 'Peace, Justice, and Strong Institutions', image: SDGlink16 },
+  { id: 17, title: 'Partnerships for the Goals', image: SDGlink17 },
+];
+
+const ExploreComponent: React.FC = () => {
   return (
-    <div className="fixed flex flex-col min-h-screen w-[100%] bg-exploreGray text-white">
-      {/* Top Background Section */}
-      <div
-        className="w-full h-64 bg-cover bg-center flex items-center justify-center"
-        style={{
-          backgroundImage: "url('images/explorebg.png')", // Ensure explorebg.png is in your public folder
-        }}
-      >
-        {/* Optionally add content or title here */}
-      
-</div>
-      {/* United Nations Section */}
-      <div className="px-4 py-6">
-        <h2 className="text-2xl text-black font-semibold mb-4 ">UNITED NATIONS</h2>
-        <div className="grid grid-cols-2 gap-4">
-          {/* Example containers */}
-          <div className="h-32 bg-transparent rounded-lg overflow-hidden">
-            <img
-              src="/images/un1.png" // Replace with actual image paths
-              alt="United Nations 1"
-              className="w-full h-full object-cover"
-            />
+    <div className="bg-[#dbdfe2] flex flex-col md:flex-row h-screen space-x-8 overflow-hidden p-12 ml-32">
+      {/* Left Column */}
+      <div className="flex flex-col justify-start md:w-1/2 sm:w-full">
+        {/* Logo Section */}
+        <div>
+          <img
+            src={Logo.src} 
+            alt="Logo"
+            className="object-cover rounded-lg -m-16 ml-1"
+          />
+        </div>
+
+        {/* United Nations Section */}
+        <section className="mt-4">
+          <h2 className="text-2xl font-semibold mb-2">UNITED NATIONS</h2>
+          <hr className="border-black mb-4 w-3/5" />
+          <div className="flex flex-wrap gap-4 px-8 -ml-8 -mr-32">
+            {/* Placeholder images for UN section */}
+            <img src={SDGlink1.src} alt="UN Image 1" className="bg-gray-300 h-32 rounded-lg object-cover" />
+            <img src={SDGlink2.src} alt="UN Image 2" className="bg-gray-300 h-32 rounded-lg object-cover" />
+            <img src={SDGlink3.src} alt="UN Image 3" className="bg-gray-300 h-32 rounded-lg object-cover" />
           </div>
-          <div className="h-32 bg-transparent rounded-lg overflow-hidden">
-            <img
-              src="/images/un2.png" // Replace with actual image paths
-              alt="United Nations 2"
-              className="w-full h-full object-cover"
-            />
-          </div>
+
+        </section>
+      </div>
+
+      {/* Right Column */}
+      <div className="flex flex-col pt-8 md:w-1/2 sm:w-full">
+        {/* Header for the 17 Goals Section */}
+        <section className="flex-none">
+          <h1 className="text-3xl font-bold mb-2">THE 17 GOALS</h1>
+          <hr className="border-black mb-4 w-2/3" />
+        </section>
+
+        {/* Scrollable SDG Goals */}
+        <div className="flex-grow overflow-y-auto space-y-2 scrollbar-hide">
+          {sdgGoals.map(goal => (
+            <div
+              key={goal.id}
+              className="relative bg-gray-200 rounded-lg p-12 hover:bg-gray-300"
+              style={{
+                backgroundImage: `url(${goal.image.src})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            >
+              {/* Transparent black background */}
+              <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-start pl-4">
+                <h2 className="font-semibold text-3xl text-gray-200 p-2">
+                  SDG {goal.id} | {goal.title}
+                </h2>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-      
-
-      {/* Scrollable Goals Section */}
-      <h2 className="text-2xl text-black font-semibold mb-4 ml-4">THE 17 GOALS</h2>
-      <div className="flex-1 px-4 py-1 overflow-y-auto max-h-[200px]">
-  <div className="space-y-4">
-    {/* Map through SDG_TITLES and create each SDG goal */}
-    {SDG_TITLES.map((title, index) => (
-      <div
-        key={index}
-        className="h-20 rounded-lg flex items-center px-4 text-white bg-gray-800 bg-cover bg-center relative"
-        style={{
-          backgroundImage: `url('/images/SDG/SDGlink${index + 1}.jpg')`, // Dynamic background image
-        }}
-      >
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black opacity-50 rounded-lg"></div>
-        
-        <h3 className="text-lg font-medium bg-transparent p-2 rounded relative z-10">
-          SDG {index + 1} | {title}
-        </h3>
-      </div>
-    ))}
-  </div>
-</div>
-
     </div>
   );
 };
 
-export default Explore;
+export default ExploreComponent;

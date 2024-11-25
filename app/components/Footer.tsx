@@ -5,7 +5,7 @@ import { FaHome, FaImage, FaInbox, FaUser, FaGlobeAsia } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-cGray p-1 py-3 md:p-6 z-70">
+    <footer className="fixed bottom-0 left-0 w-full bg-cGray p-1 py-3 md:p-6 z-50 md:block lg:hidden">
       <div className="container mx-auto flex justify-around items-center z-50">
         {/* Home Link */}
         <a href="/dashboard/home" className="flex flex-col items-center text-gray-300 hover:text-blue-500">

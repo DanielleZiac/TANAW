@@ -5,11 +5,19 @@ import MainLayout from '../../../components/layouts/MainLayout';
 import { authenticateUser, getPhotoSdg, getLikedPostsSdgs } from "../../actions";
 
 interface Photo {
-  caption: string, 
-  created_date: date, 
-  likes: number, 
-  url: string, 
-  user_sdg_id: string
+  avatar_url: string;
+  caption: string;
+  created_date: string;
+  likes: number;
+  sdg_number: string;
+  url: string;
+  user_id: string;
+  user_sdg_id: string;
+}
+
+interface Liked {
+  user_sdg_id: string;
+  user_sdgs: { sdg_number: string }[];
 }
 
 
@@ -19,11 +27,11 @@ export default async function SdgPage({
   }) {
 
   const user_id: string = await authenticateUser()
-  const sdg: number = (await params).sdg
-  const photos: Array<Photo> | undefined = await getPhotoSdg(sdg);
-  const liked = await getLikedPostsSdgs(user_id, sdg);
+  const sdg: string = (await params).sdg
+  const photos: Array<Photo> | undefined = await getPhotoSdg(Number(sdg));
+  const liked: Array<Liked> | undefined = await getLikedPostsSdgs(user_id, Number(sdg));
 
-  // console.log("photos", photos);
+  // console.log("photos", liked);
 
   // console.log(user_id, sdg, ph);
   return (
@@ -31,7 +39,7 @@ export default async function SdgPage({
       <div>
         <h1>SDG {sdg}</h1>
         {/* Render the SdgContent component, passing the SDG ID */}
-        <SdgContent data={[user_id, sdg, photos, liked]} />
+        <SdgContent data={[user_id, Number(sdg), photos, liked]} />
       </div>
     </MainLayout>
   );

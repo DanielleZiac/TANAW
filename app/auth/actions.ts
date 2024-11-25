@@ -68,7 +68,7 @@ export async function login(data) {
 		}
 	}
 
-	redirect("/dashboard/homeTemp")
+	redirect("/dashboard/home")
 
 	// const user_avatars = await getUserAvatar(supabase, user_data);
 	// console.log(user_avatars);

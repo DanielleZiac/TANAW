@@ -3,6 +3,7 @@
 import { React, useState, useEffect} from "react";
 import { baseButtonClass } from '../styles/buttonStyles'; // Import your shared button styles
 import { useRouter, redirect } from "next/navigation";
+import AvatarBox from "../styles/avatarBox";
 
 import { uploadAvatar } from "../dashboard/actions"
 
@@ -45,7 +46,7 @@ const CreateAvatar3: React.FC = (params) => {
 
   return (
     <div className="flex flex-col items-center min-h-screen px-24 py-16">
-      <h1 className="text-5xl font-extrabold text-center text-sky-950 mb-14">
+      <h1 className="text-xl font-extrabold text-center text-sky-950 mb-14">
         Your Avatars
       </h1>
 
@@ -75,7 +76,7 @@ const CreateAvatar3: React.FC = (params) => {
       {/* Buttons */}
       <div className="flex flex-col space-y-8 w-full mt-8">
         <button
-          className={`${baseButtonClass} text-dBlue py-8 px-12 text-3xl w-full`}
+          className={`${baseButtonClass} text-dBlue py-1 font-bold text-lg w-full`}
           style={{
             boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1), 4px 0px 6px rgba(0, 0, 0, 0.1)"
           }}
@@ -85,7 +86,7 @@ const CreateAvatar3: React.FC = (params) => {
         </button>
 
         <button
-          className={`${baseButtonClass} text-dBlue py-8 px-12 text-3xl w-full`}
+          className={`${baseButtonClass} text-dBlue py-1 text-lg  font-bold w-full`}
           style={{
             boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
           }}

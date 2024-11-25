@@ -42,6 +42,41 @@ body {
   max-width: none; /* Remove the default max-width constraint */
   height: auto;
   border-radius: 50%; /* Optional: adds rounded corners */
+  object-fit: cover;
+}
+
+.flip-card {
+  perspective: 1000px; /* Enables the 3D effect */
+  position: relative;
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  backface-visibility: hidden; /* Hides the back content when not flipped */
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease-in-out;
+  border-radius: 9999px; /* To ensure the circle shape is maintained */
+}
+
+.flip-card-front {
+  transform: rotateY(0deg);
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.group:hover .flip-card-front {
+  transform: rotateY(-180deg);
+}
+
+.group:hover .flip-card-back {
+  transform: rotateY(0deg);
 }
 
 @media (max-width: 768px) {

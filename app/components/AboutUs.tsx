@@ -1,12 +1,10 @@
 
 import React from "react";
-// import Page from "./page"; // Correct the import path if needed
 import ButtonBox from "../styles/buttonBox";
-import Placeholder from "../auth/auth.png";
 import TextBoxPanel from "../styles/textBox";
 import icon from "/public/images/SDG/SDG1.jpg";
 import SDGlink7 from "/public/images/SDG/SDGlink17.jpg";
-import logo from "/public/images/sun.jpeg";
+import logo from "/public/images/background/logo.png";
 import SDGlink4 from "/public/images/SDG/SDGlink4.jpg";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa"
 

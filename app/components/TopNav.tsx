@@ -65,7 +65,7 @@ const TopNav: React.FC = () => {
             <Link href="component/LearnMore">Events</Link>
           </li>
           <li className="hover:text-cBlue cursor-pointer text-xl">
-            <Link href="/feedback">About</Link>
+            <Link href="/dashboard/aboutUs">About</Link>
           </li>
           <li className="hover:text-cBlue cursor-pointer text-xl">
             <Link href="/contact">Contact</Link>
@@ -100,12 +100,27 @@ const TopNav: React.FC = () => {
 
       {/* Top Navigation Bar for Desktop */}
       <div className="relative bg-orange-200 hidden sm:block">
-        <nav className="fixed top-0 left-0 w-full px-4 py-2 flex items-center justify-end z-40 bg-[#e0e5e9] border-b-2 border-gray-400">
+        <nav className="fixed top-0 left-0 w-full px-4 py-2 flex items-center justify-between z-40 bg-[#e0e5e9] border-b-2 border-gray-400">
+          
+          {/* Hamburger Icon */}
+          <button
+            onClick={toggleMenu}
+            className="hidden md:flex flex-col items-center text-navGray hover:text-gray-200"
+          >
+          <FaBars size={30} />
+          </button>
+          
           {/* Navigation Links */}
           <ul className="flex items-center space-x-32 text-black-700 text-base font-semibold pr-8">
-            <li className="hover:text-blue-900 cursor-pointer">Events</li>
-            <li className="hover:text-blue-900 cursor-pointer">About</li>
-            <li className="hover:text-blue-900 cursor-pointer">Contact</li>
+            <li className="text-black hover:text-blue-900 cursor-pointer">
+              <Link href="/dashboard/events">Events</Link>
+            </li>
+            <li className="text-black hover:text-blue-900 cursor-pointer">
+              <Link href="/dashboard/aboutUs">About</Link>
+            </li>
+            <li className="text-black hover:text-blue-900 cursor-pointer">
+              <Link href="/dashboard/contact">Contact</Link>  
+            </li>
             {/* Logout Button */}
             <li>
               <button

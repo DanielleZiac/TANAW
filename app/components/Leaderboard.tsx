@@ -11,11 +11,11 @@ type LeaderboardEntry = {
 
 // Example leaderboard data with schools and scores
 const leaderboardData: LeaderboardEntry[] = [
-  { rank: 1, name: "Batangas State University TNEU", score: 5255, image: "/images/institution/bsulogo.png" },
-  { rank: 2, name: "Ateneo de Manila University", score: 4155, image: "/images/institution/admulogo.png" },
-  { rank: 3, name: "De La Salle University", score: 3255, image: "/images/institution/dlsulogo.png" },
-  { rank: 4, name: "University of Santo Tomas", score: 2255, image: "/images/institution/ustlogo.png" },
-  { rank: 5, name: "Far Eastern University", score: 1000, image: "/images/institution/feulogo.png" },
+  { rank: 1, name: "Batangas State University TNEU", score: 855, image: "/images/institution/bsulogo.png" },
+  { rank: 2, name: "Ateneo de Manila University", score: 415, image: "/images/institution/admulogo.png" },
+  { rank: 3, name: "De La Salle University", score: 325, image: "/images/institution/dlsulogo.png" },
+  { rank: 4, name: "University of Santo Tomas", score: 224, image: "/images/institution/ustlogo.png" },
+  { rank: 5, name: "Far Eastern University", score: 103, image: "/images/institution/feulogo.png" },
 ];
 
 interface DataProps {

@@ -6,8 +6,17 @@ import { baseButtonClass } from '../styles/buttonStyles';
 import { useRouter, useParams } from "next/navigation";  // Import useParams for dynamic routes
 import InputBox from '../styles/inputBox';
 
-const UploadPhoto: React.FC = (data) => {
-  const user_id = data.data;
+interface DataProps {
+  data: [data: string, sdg: string];
+}
+
+const UploadPhoto: React.FC<DataProps> = ({data}) => {
+
+  const router = useRouter();
+  
+  console.log(data);
+  const user_id = data[0];
+  const sdg = data[1];
 
   const camera = useRef<HTMLVideoElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -140,6 +149,7 @@ const UploadPhoto: React.FC = (data) => {
     return new File([u8arr], filename, { type: mime });
   }
 
+
   async function handleUploadPhoto() {
     if (!file) {
       console.error("File missing");
@@ -164,7 +174,7 @@ const UploadPhoto: React.FC = (data) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("user_id", user_id);
-    formData.append("sdgs", "sdg1"); // Adjust SDG value as needed
+    formData.append("sdgs", `sdg${sdg}`); // Adjust SDG value as needed
     formData.append("caption", caption);
 
     console.log("Uploading photo...");
@@ -174,6 +184,7 @@ const UploadPhoto: React.FC = (data) => {
       await uploadPhoto(formData);
       console.log("Photo uploaded successfully!");
       console.log("Current caption:", caption);
+      router.push(`/dashboard/sdg/${parseInt(sdg)}`);
     } catch (error) {
       setError("Failed to upload photo. Please try again.");
       console.error("Error uploading photo:", error);
@@ -183,7 +194,7 @@ const UploadPhoto: React.FC = (data) => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100">
       <h1 className="text-3xl font-extrabold text-center mt-10 text-sky-400">
-        SDG 1: No Poverty
+        SDG {sdg}
       </h1>
       <p className="text-gray-700 text-lg mb-4">Photo Challenge</p>
 
