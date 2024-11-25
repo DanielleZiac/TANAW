@@ -2,7 +2,11 @@
 
 import React from "react";
 
-const HallOfFame: React.FC = () => {
+const HallOfFame: React.FC = ({data}) => {
+  console.log(data);
+  const user_id = data[0];
+  const candidates = data[1];
+  
   const hallOfFameEntries = [
     { name: "John Doe", achievement: "Top Performer" },
     { name: "Jane Smith", achievement: "Best Innovator" },

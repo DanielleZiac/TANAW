@@ -3,75 +3,151 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import Link from 'next/link';
 import { SDG_TITLES } from '../data/sdgTitles';
+import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes } from "../dashboard/actions";
 
-interface Post {
-  src: string;
-  alt: string;
-  message: string;
+interface DataProps {
+  data: [
+    user_id: string,
+    sdg: number, 
+    photos: Array<{
+      caption: string, 
+      created_date: date, 
+      likes: number, 
+      url: string, 
+      user_sdg_id: string
+    }> | undefined
+  ];
 }
 
-const SdgContent = ({ id }: { id: string }) => {
-  // Using the SDG PNG images as placeholders for trial
-  const posts: Post[] = Array.from({ length: 16 }, (_, index) => ({
-    src: `/images/SDG/sdg${index + 1}.jpg`,
-    alt: `Post ${index + 1} for SDG ${id}`,
-    message: `Message ${index + 1}`,
-  }));
+interface Post {
+  caption: string;
+  created_date: date;
+  likes: number;
+  url: string;
+  user_id: string;
+  user_sdg_id: string;
+}
 
-  console.log(id);
+const SdgContent: React.FC<DataProps> = ({data}) => {
+  // console.log(data);
+  const user_id = data[0];
+  const sdg = data[1];
+  const photos = data[2];
 
   // State to manage the clicked post
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [isLiked, setLiked] = useState<bool | null>("none");
+  const [likedPosts, setLikedPosts] = useState<Array<any> | null>(data[3]);
+  const [likes, setLikes] = useState<number | null>(0);
+
+  const liked = async (user_sdg_id: string) => {
+    const fill = document.getElementById(user_sdg_id).getAttribute('fill');
+    var numLikes = document.getElementById(user_sdg_id + "likes");
+
+    if (fill == "red") {
+      removeLike(user_sdg_id, user_id);
+      document.getElementById(user_sdg_id).setAttribute("fill", "none");
+      numLikes.textContent = Number(numLikes.textContent) - 1
+      // document.getElementById(user_sdg_id + "likes").TextContent = 
+      
+    } else {
+      addLike(user_sdg_id, user_id);
+      document.getElementById(user_sdg_id).setAttribute("fill", "red");
+      numLikes.textContent = Number(numLikes.textContent) + 1
+    }
+
+    const liked = await getLikedPostsSdgs(user_id, sdg);
+    setLikedPosts(liked);
+  }
 
   // Function to handle post click
-  const handlePostClick = (post: Post) => setSelectedPost(post);
-  const closeModal = () => setSelectedPost(null);
+  const handlePostClick = async(post: Post, user_id: string) => {
+    const likeNums = await getNumberOfLikes(post.user_sdg_id);
+    for(var i = 0; i < likedPosts.length; i++) {
+      if (post.user_sdg_id == likedPosts[i].user_sdg_id) {
+        setLiked("red");
+        break;
+      }
+    }
+    setLikes(likeNums);
+    setSelectedPost(post)
+  };
+  const closeModal = () => {
+    setSelectedPost(null);
+    setLiked("none");
+  };
 
   // Function to render posts
-  const renderPosts = (postArray: Post[], customClasses = '') =>
-    postArray.map((post, index) => (
+  const renderPosts = (postArray, customClasses = '') => {
+    return postArray.map((post, index) => (
       <div key={index} className={`relative flex flex-col items-center ${customClasses}`}>
         <button
-          onClick={() => handlePostClick(post)}
+          onClick={() => handlePostClick(post, user_id)}
           className="w-16 h-16 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
         >
-          <img src={post.src} alt={post.alt} className="object-cover w-full h-full" />
+          <img src={post.url} alt={post.url} className="object-cover w-full h-full" />
+        </button>
+        <button
+          // onClick={() => handlePostClick(post, user_id)}
+          className="w-16 h-16 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
+        >
+          <img src={post.avatar_url} alt={post.url} className="object-cover w-full h-full" />
         </button>
         <div className="absolute -top-2 -right-2 sm:h-6 sm:w-24 bg-bubbleGray text-black text-[9px] sm:text-xs md:text-sm rounded-full px-1 py-0.5 shadow-lg">
-          {post.message} {/* gawing caption hehe*/}
+          {post.caption} 
         </div>
+        <div>{post.likes}</div>
       </div>
     ));
+  }
 
-  const sdgTitle = SDG_TITLES[parseInt(id) - 1];
+  const sdgTitle = SDG_TITLES[parseInt(sdg) - 1];
+
+    const photoChallenges = [
+      "Photo Challenge 1",
+      "Photo Challenge 2",
+      "Photo Challenge 3",
+      "Photo Challenge 4",
+      "Photo Challenge 5",
+    ]; // Array of challenges
+  
+    const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
+  
+    // Handler to go to the next challenge
+    const handleNextChallenge = () => {
+      setCurrentChallengeIndex((prevIndex) =>
+        (prevIndex + 1) % photoChallenges.length
+      ); // Cycle back to the first challenge
+    };
 
   return (
-    <div className="content-container p-6 flex flex-col items-center overflow-auto sm:-mt-12 ">
+    <div className="content-container p-6 flex flex-col items-center justify-center overflow-auto  max-w-max sm:-mt-12 ">
       {/* Extra Top Row */}
-      <div className="flex space-x-6 mb-8 sm:ml-36">{renderPosts(posts.slice(0, 5))}</div>
+      {/* <div className="flex space-x-6 mb-8 sm:ml-36 z-10">{renderPosts(posts.slice(0, 17))}</div> */}
 
       {/* Top Row */}
-      <div className="flex space-x-6 mb-8 sm:mr-36">{renderPosts(posts.slice(6, 11))}</div>
+      {/* <div className="flex space-x-6 mb-8 sm:mr-36">{renderPosts(posts.slice(6, 11))}</div> */}
 
       {/* Overlapping Rows */}
-      <div className="flex space-x-6 mb-8 sm:mr-[800px]">{renderPosts(posts.slice(11, 13), 'sm:-mb-96')}</div>
+      {/* <div className="flex space-x-6 mb-8 sm:mr-[800px]">{renderPosts(posts.slice(11, 13), 'sm:-mb-96')}</div>
       <div className="flex space-x-6 sm:ml-[1150px] sm:-mt-8">{renderPosts(posts.slice(12, 13), 'sm:-mb-96')}</div>
       <div className="flex space-x-6 sm:mr-[950px]">{renderPosts(posts.slice(14, 16), 'sm:-mb-[500px] sm:mt-64')}</div>
       <div className="flex space-x-6 sm:ml-[1300px]">{renderPosts(posts.slice(0, 1), 'sm:-mb-[500px] sm:mt-64')}</div>
       <div className="flex space-x-6 sm:mr-[800px]">{renderPosts(posts.slice(1, 3), 'sm:-mb-[700px] sm:mt-[500px]')}</div>
-      <div className="flex space-x-6 sm:ml-[1150px]">{renderPosts(posts.slice(1, 2), 'sm:-mb-[700px] sm:mt-[475px]')}</div>
+      <div className="flex space-x-6 sm:ml-[1150px]">{renderPosts(posts.slice(1, 2), 'sm:-mb-[700px] sm:mt-[475px]')}</div> */}
 
       {/* Center SDG Image */}
       <div className="relative mb-10 z-10">
         <div className="image-container mb-8">
-          <img src={`/images/SDG/SDG${id}.jpg`} alt={`SDG ${id}`} className="sdg-image" />
+          <img src={`/images/SDG/SDG${sdg}.jpg`} alt={`SDG ${sdg}`} className="sdg-image" />
         </div>
       </div>
+      <div className="flex space-x-6 mb-8 sm:ml-36">{renderPosts(photos)}</div>
 
       {/* Bottom Rows */}
-      <div className="flex space-x-6 mb-8 sm:ml-36">{renderPosts(posts.slice(7, 12))}</div>
+      {/* <div className="flex space-x-6 mb-8 sm:ml-36">{renderPosts(posts.slice(7, 12))}</div>
       <div className="flex space-x-6 mb-8 sm:mr-36">{renderPosts(posts.slice(10, 15))}</div>
-      <div className="flex space-x-6 sm:ml-36">{renderPosts(posts.slice(11, 17))}</div>
+      <div className="flex space-x-6 sm:ml-36">{renderPosts(posts.slice(11, 17))}</div> */}
 
       {/* Modal for the clicked post */}
       {selectedPost && (
@@ -90,13 +166,13 @@ const SdgContent = ({ id }: { id: string }) => {
               {/* Post Image */}
               <div className="flex justify-center mb-6 mt-12">
                 <div className="w-full max-w-2xl overflow-hidden rounded-3xl">
-                  <img src={selectedPost.src} alt={selectedPost.alt} className="w-full h-auto object-cover" />
+                  <img src={selectedPost.url} alt={selectedPost.url} className="w-full h-auto object-cover" />
                 </div>
               </div>
 
               {/* Post Description */}
               <div className="flex justify-center items-center px-3 py-3 bg-white rounded-full shadow-inner mb-0">
-                <p className="text-lg sm:text-2xl text-black font-semibold text-center">{selectedPost.message}</p>
+                <p className="text-lg sm:text-2xl text-black font-semibold text-center">{selectedPost.caption}</p>
               </div>
 
               {/* Likes and Date */}
@@ -112,7 +188,7 @@ const SdgContent = ({ id }: { id: string }) => {
 
               {/* SDG Tag and Event Info */}
               <div className="flex items-center justify-between w-full bg-white p-2 rounded-3xl shadow-lg">
-                <img src={`/images/SDG/SDG${id}.jpg`} alt="SDG Icon" className="p-2 w-1/3 rounded-full" />
+                <img src={`/images/SDG/SDG${sdg}.jpg`} alt="SDG Icon" className="p-2 w-1/3 rounded-full" />
                 <div className="flex flex-col items-start w-2/3 ml-4">
                   <p className="text-base sm:text-lg font-extrabold text-dBlue">{sdgTitle}</p>
                   <p className="text-base sm:text-lg font-bold text-dBlue">Photo Challenge</p>
@@ -130,48 +206,52 @@ const SdgContent = ({ id }: { id: string }) => {
         </div>
       )}
       
-  <div className="max-w-5xl w-full mx-auto sm:mt-10 mb-10 flex items-center bg-white rounded-full shadow-lg px-5 py-4">
+  <div className="fixed bottom-20 max-w-5xl w-full mx-auto mb-8 sm: mb-10 flex items-center justify-center bg-white rounded-full shadow-lg px-5 py-3 z-50"
+  style={{ maxWidth: "90%" }}
+  >
     {/* Left Circular Button */}
-    <Link href={`/dashboard/sdg/upload/${id}`}>
-      <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
+    <Link href={`/dashboard/sdg/upload/${sdg}`}>
+      <button className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={2}
           stroke="currentColor"
-          className="w-6 h-6 text-blue-500"
+          className="w-6 h-6 sm:w-5 sm:h-5 text-blue-500"
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
         </svg>
       </button>
     </Link>
 
-    {/* Input Field */}
-    <input
-      type="text"
-      placeholder="Choose a Photo Challenge"
-      className="flex-grow bg-gray-100 rounded-full py-2 px-4 focus:outline-none text-lg"
-    />
+    {/* Text Display */}
+    <div className="flex-grow bg-gray-100 text-black rounded-full py-2 px-4 text-lg sm:text-base text-left">
+        {photoChallenges[currentChallengeIndex]}
+    </div>
 
     {/* Right Circular Button */}
-    <Link href="/photochallenges">
-      <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md ml-4">
+    
+    <button
+        onClick={handleNextChallenge}
+        className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-md ml-4"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={2}
           stroke="currentColor"
-          className="w-6 h-6 text-blue-500"
+          className="w-6 h-6 sm:w-5 sm:h-5 text-blue-500"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M5 12h14m-7-7l7 7-7 7"
+          />
         </svg>
       </button>
-    </Link>
-  </div>
-
-
+    </div>
     </div>
   );
 };

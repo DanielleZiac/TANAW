@@ -7,7 +7,7 @@ import FloatingDropdown from '../components/layouts/FloatingDropDown';
 const Home: React.FC = () => {
   const sdgImages = Array.from({ length: 17 }, (_, i) => ({
     src: `/images/SDG/SDG${i + 1}.jpg`,
-    link: `/sdg/${i + 1}`, // Link to the dynamic SDG page (e.g., /sdg/1, /sdg/2, etc.)
+    link: `/dashboard/sdg/${i + 1}`, // Link to the dynamic SDG page (e.g., /sdg/1, /sdg/2, etc.)
   }));
 
   return (
@@ -26,7 +26,7 @@ const Home: React.FC = () => {
       </div>
 
       {/* Container for SDG Images */}
-      <div className="w-full py-8">
+      <div className="w-full py-8 z-10">
         <div className="w-full flex flex-col items-center">
           {sdgImages.map((item, index) => {
             let alignmentClass = 'justify-start ';

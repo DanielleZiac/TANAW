@@ -120,9 +120,6 @@ export async function getLeaderboardsSchools() {
 }
 
 
-export async function getLeaderboardsEvents() {
-}
-
 
 // get photo_event per sdg /// di ko pa magawa eventtt
 
@@ -174,11 +171,47 @@ export async function getLikedPostsSdgs(user_id: string, sdg: number) {
 		return
 	}
 
-	console.log(data)
+	// console.log(data)
+	return data;
 }
 
 
-// unlike 
+export async function getNumberOfLikes(user_sdg_id: string) {
+	console.log(user_sdg_id);
+	const supabase = await createClient();
+
+	const { data, error } = await supabase
+		.from("liked_sdg_posts")
+		.select(`user_sdg_id, user_id`)
+		.eq("user_sdg_id", user_sdg_id)
+
+	if (error) {
+		console.log("Error getLikedPostsSdgs", error)
+		return
+	}
+
+	console.log("datassss", data)
+	return data.length;
+}
+
+
+export async function getHighestPostCount() {
+	const supabase = await createClient();
+
+	const { data, error } = await supabase
+		.from("get_top_post_count")
+		.select(`*, institutions(institution, campus)`)
+
+	if (error) {
+		console.log("Error getHighestPostCount", error)
+		return
+	}
+
+	// console.log("datassss", data)
+	return data;
+}
+
+// unlike -1
 export async function removeLike(user_sdg_id: string, user_id: string) {
 	const supabase = await createClient()
 
@@ -269,9 +302,26 @@ export async function getPhotoByUserId(user_id: string) {
 }
 
 
+export async function getPhotoSdg(sdg: number) {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("get_photo_and_avatar")
+		.select()
+		.eq('sdg_number', `sdg${sdg}`)
+
+	if (error) {
+		console.log("Error getPhotoSdg", error)
+		return
+	}
+	// console.log("dataaaa", data);
+	return data;
+}
+
+
 // filter
 // add leaderboards posts per college sa sdgs and event
-// top liked per event // filter eventid get max like
+// top liked per event // filter eventid get max like 3 lang
 // school per sdg
 // event per sdg
 export async function displayPhoto(searchParams: FormData | null): Promise<Array<any>> {
@@ -365,7 +415,6 @@ export async function displayPhoto(searchParams: FormData | null): Promise<Array
 		// .in("users.school", ["bsu"])
 		// .in("users.department", ["qwerty", "temp"])
 	console.log(user_sdg_data)
-	
 	if (user_sdg_data) {
 		return user_sdg_data
 	} else {

@@ -15,12 +15,12 @@ const FloatingDropdown: React.FC = () => {
       {/* Floating Circle Button */}
       <button
   onClick={toggleDropdown}
-  className="fixed right-2 top-[90px] z-10 rounded-full bg-white p-2"
+  className="fixed right-4 top-[110px] z-10 rounded-full bg-white p-2"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="25"
-    height="25"
+    width="28"
+    height="28"
     viewBox="0 0 30 30"
     fill="none"
     className="text-cBlue"

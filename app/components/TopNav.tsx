@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { FaBars, FaTrophy } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
+import { LuSticker } from "react-icons/lu";
 import { usePathname } from "next/navigation"; // usePathname is better suited for Next.js 13+
 import Link from "next/link";
 import { logout } from "../auth/actions";
@@ -33,9 +34,14 @@ const TopNav: React.FC = () => {
         <h1 className="text-4xl md:text-5xl font-bold text-black">Tanaw</h1>
 
         {/* Leaderboard Icon */}
-        <button className="flex flex-col items-center text-navGray hover:text-gray-200">
-          <FaTrophy size={30} />
-        </button>
+        <Link href="/stickers">
+          <button
+            aria-label="View Leaderboard"
+            className="text-navGray hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-cBlue"
+          >
+            <LuSticker size={30} />
+          </button>
+        </Link>
       </nav>
 
       {/* Side Panel for Mobile Menu */}
@@ -104,7 +110,9 @@ const TopNav: React.FC = () => {
             <li>
               <button
                 className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                onClick={() => alert("Logged out!")}
+                onClick={() => {
+                  logout();
+                }}
               >
                 Logout
               </button>

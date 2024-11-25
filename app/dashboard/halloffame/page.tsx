@@ -1,15 +1,22 @@
-import React from 'react';
 import HallOfFame from '../../components/HallOfFame'; // Adjust the path if needed
 import MainLayout from '../../components/layouts/MainLayout'; // Adjust to your project structure
 
-const HallOfFamePage: React.FC = () => {
+import { authenticateUser, getHighestPostCount } from "../actions";
+
+
+export default async function HallOfFamePage() {
+
+  const user_id = await authenticateUser()
+  const data = await getHighestPostCount();
+  // const
+
+  // console.log("asd", data)
+
   return (
     <MainLayout>
       <div className="container mx-auto p-5">
-        <HallOfFame />
+        <HallOfFame data={[user_id, data]}/>
       </div>
     </MainLayout>
   );
 };
-
-export default HallOfFamePage;
