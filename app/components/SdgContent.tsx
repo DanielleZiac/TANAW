@@ -9,27 +9,29 @@ import { SDG_TITLES } from '../data/sdgTitles';
 import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes } from "../dashboard/actions";
 
 
+interface Photos {
+  avatar_url: string;
+  caption: string;
+  created_date: string;
+  likes: number;
+  sdg_number: string;
+  url: string;
+  user_id: string;
+  user_sdg_id: string;
+}
+
+interface Liked {
+  user_sdg_id: string;
+  user_sdgs: { sdg_number: string }[];
+}
+
 interface DataProps {
   data: [
     user_id: string,
     sdg: number, 
-    photos: Array<{
-      caption: string, 
-      created_date: date, 
-      likes: number, 
-      url: string, 
-      user_sdg_id: string
-    }> | undefined
+    photos: Array<Photos> | undefined,
+    liked: Array<Liked> | undefined
   ];
-}
-
-interface Post {
-  caption: string;
-  created_date: date;
-  likes: number;
-  url: string;
-  user_id: string;
-  user_sdg_id: string;
 }
 
 const SdgContent: React.FC<DataProps> = ({data}) => {
@@ -37,53 +39,79 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
   const user_id = data[0];
   const sdg = data[1];
   const photos = data[2];
+  console.log(photos)
+  const curLiked = data[3];
 
   // State to manage the clicked post
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
-  const [isLiked, setLiked] = useState<bool | null>("none");
-  const [likedPosts, setLikedPosts] = useState<Array<any> | null>(data[3]);
+  const [selectedPost, setSelectedPost] = useState<Photos | null>(null);
+  const [isLiked, setLiked] = useState<string | "none">("none");
+  const [likedPosts, setLikedPosts] = useState<Array<Liked> | undefined>(curLiked);
   const [likes, setLikes] = useState<number | null>(0);
 
   const liked = async (user_sdg_id: string) => {
-    const fill = document.getElementById(user_sdg_id).getAttribute('fill');
-    var numLikes = document.getElementById(user_sdg_id + "likes");
+    const userSdgIdElem = document.getElementById(user_sdg_id) as HTMLInputElement | null;
 
-    if (fill == "red") {
-      removeLike(user_sdg_id, user_id);
-      document.getElementById(user_sdg_id).setAttribute("fill", "none");
-      numLikes.textContent = Number(numLikes.textContent) - 1
-      // document.getElementById(user_sdg_id + "likes").TextContent = 
-      
+    if (userSdgIdElem) {
+      const fill = userSdgIdElem.getAttribute('fill');
+
+      const numLikesElem = document.getElementById(user_sdg_id + "likes") as HTMLInputElement | null;
+
+      if (numLikesElem) {
+        if (fill == "red") {
+          removeLike(user_sdg_id, user_id);
+          userSdgIdElem.setAttribute("fill", "none");
+          numLikesElem.textContent = String(Number(numLikesElem.textContent) - 1)
+          // document.getElementById(user_sdg_id + "likes").TextContent = 
+          
+        } else {
+          addLike(user_sdg_id, user_id);
+          userSdgIdElem.setAttribute("fill", "red");
+          numLikesElem.textContent = String(Number(numLikesElem.textContent) + 1)
+        }
+
+        const liked = await getLikedPostsSdgs(user_id, sdg);
+        setLikedPosts(liked);
+      } else {
+        console.log("numLikesElem not fouund")
+      }
     } else {
-      addLike(user_sdg_id, user_id);
-      document.getElementById(user_sdg_id).setAttribute("fill", "red");
-      numLikes.textContent = Number(numLikes.textContent) + 1
+      console.log("userSdgIdElem not fouund")
     }
-
-    const liked = await getLikedPostsSdgs(user_id, sdg);
-    setLikedPosts(liked);
   }
 
 
   // Function to handle post click
-  const handlePostClick = async(post: Post, user_id: string) => {
+  const handlePostClick = async(post: Photos, user_id: string) => {
     const likeNums = await getNumberOfLikes(post.user_sdg_id);
-    for(var i = 0; i < likedPosts.length; i++) {
-      if (post.user_sdg_id == likedPosts[i].user_sdg_id) {
-        setLiked("red");
-        break;
+
+    if (likedPosts) {
+      for(var i = 0; i < likedPosts.length; i++) {
+        if (post.user_sdg_id == likedPosts[i].user_sdg_id) {
+          setLiked("red");
+          break;
+        }
       }
+
+      // console.log(likeNums);
+      if (likeNums !== undefined) {
+        setLikes(likeNums);
+        setSelectedPost(post)
+      } else {
+        console.log("likeNums not found")
+      }
+    } else {
+      console.log("likedPosts not found")
     }
-    setLikes(likeNums);
-    setSelectedPost(post)
   };
+
+
   const closeModal = () => {
     setSelectedPost(null);
     setLiked("none");
   };
 
   // Function to render posts
-  const renderPosts = (postArray, customClasses = '') => {
+  const renderPosts = (postArray: Photos[], customClasses = '') => {
     return postArray.map((post, index) => (
       <div key={index} className={`relative flex flex-col items-center ${customClasses}`}>
         <button
@@ -106,7 +134,7 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
     ));
   }
 
-  const sdgTitle = SDG_TITLES[parseInt(sdg) - 1];
+  const sdgTitle = SDG_TITLES[Number(sdg) - 1];
 
   return (
     <div className="content-container p-6 flex flex-col items-center overflow-auto sm:-mt-12 ">
@@ -117,7 +145,11 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
         </div>
       </div>
 
-      <div className="flex space-x-6 mb-8 sm:ml-36">{renderPosts(photos)}</div>
+      {photos ? 
+        <div className="flex space-x-6 mb-8 sm:ml-36">{renderPosts(photos)}</div> 
+      : 
+        null
+      }
 
       {/* Modal for the clicked post */}
       {selectedPost && (

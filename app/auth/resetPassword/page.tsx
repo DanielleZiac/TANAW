@@ -6,7 +6,7 @@ export default async function ResetPassword({ searchParams }: {searchParams: {me
   return (
     <div>
       <form>
-        <label forhtml="email">Email</label>
+        <label htmlFor="email">Email</label>
         <input 
           id="email"
           name="email"

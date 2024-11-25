@@ -6,11 +6,11 @@ export default async function UpdatePassword({ searchParams }: {searchParams: {m
 	return (
 		<div>
 			<form>
-				<label forhtml="email">Email</label>
+				<label htmlFor="email">Email</label>
 				<input name="email" id="email"></input>
-				<label forhtml="newPassword">New Password</label>
+				<label htmlFor="newPassword">New Password</label>
 				<input type="password" name="newPassword" id="newPassword"></input>
-				<label forhtml="confirmNewPassword">Confirm New Password</label>
+				<label htmlFor="confirmNewPassword">Confirm New Password</label>
 				<input type="password" name="confirmNewPassword" id="confirmNewPassword"></input>
 				<div>
 					<button formAction={updatePassword}>Update Password</button>
