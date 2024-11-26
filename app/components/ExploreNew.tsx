@@ -43,7 +43,7 @@ const sdgGoals = [
 
 const ExploreComponent: React.FC = () => {
   return (
-    <div className="bg-[#dbdfe2] bg-cover items-center lg:items-start flex flex-col lg:flex-row h-full lg:h-screen space-x-8 lg:overflow-hidden lg:p-12 lg:ml-32 sm:p-8">
+    <div className="bg-[#dbdfe2] bg-cover items-center lg:items-start flex flex-col lg:flex-row h-full lg:h-screen lg:overflow-hidden lg:p-12 lg:ml-64 px-8">
       {/* Left Column */}
       <div className="flex flex-col justify-start lg:w-1/2 sm:w-full">
         {/* Logo Section */}
@@ -51,7 +51,7 @@ const ExploreComponent: React.FC = () => {
           <img
             src={Logo.src} 
             alt="Logo"
-            className="object-cover md:ml-12 rounded-lg lg:-m-16 ml-1"
+            className="object-cover md:ml-12 rounded-lg lg:-m-16 -ml-1"
           />
         </div>
 
@@ -85,11 +85,11 @@ const ExploreComponent: React.FC = () => {
         </section>
 
         {/* Scrollable SDG Goals */}
-        <div className="flex-grow md:flex-wrap lg:flex-grow overflow-y-auto space-y-2 scrollbar-hide -ml-10 lg:ml-2 lg:h-[70vh] -mb-10">
+        <div className="flex-grow md:flex-wrap lg:flex-grow overflow-y-auto space-y-2 scrollbar-hide pl-8 -ml-10 lg:pl-0 lg:ml-2 lg:h-[70vh] -mb-10">
           {sdgGoals.map(goal => (
             <div
               key={goal.id}
-              className="relative bg-gray-200 rounded-lg p-12 hover:bg-gray-300 mx-12 md:mx-10 lg:m-0"
+              className="relative bg-gray-200 rounded-lg p-12 hover:bg-gray-300 md:mx-10 lg:m-0"
               style={{
                 backgroundImage: `url(${goal.image.src})`,
                 backgroundSize: 'cover',
