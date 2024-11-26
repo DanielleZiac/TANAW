@@ -1,11 +1,11 @@
 import React from 'react';
-import ExploreNew from '../../components/ExploreNew';
+import Explore from '../../components/Explore';
 import MainLayout from '../../components/layouts/MainLayout';
 
 const ExploreComponent: React.FC = () => {
   return (
     <MainLayout>
-      <ExploreNew />
+      <Explore />
     </MainLayout>
   );
 };

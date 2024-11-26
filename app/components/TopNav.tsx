@@ -34,7 +34,7 @@ const TopNav: React.FC = () => {
         <h1 className="text-4xl md:text-5xl font-bold text-black">Tanaw</h1>
 
         {/* Leaderboard Icon */}
-        <Link href="/stickers">
+        <Link href="/dashboard/stickers">
           <button
             aria-label="View Leaderboard"
             className="text-navGray hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-cBlue"

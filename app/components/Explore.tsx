@@ -20,7 +20,7 @@ import SDGlink16 from '/public/images/SDG/SDGlink16.jpg';
 import SDGlink17 from '/public/images/SDG/SDGlink17.jpg';
 import Logo from '/public/images/background/logoexplore.png';
 
-// SDG Goals Data
+
 const sdgGoals = [
   { id: 1, title: 'No Poverty', image: SDGlink1 },
   { id: 2, title: 'Zero Hunger', image: SDGlink2 },
@@ -43,34 +43,41 @@ const sdgGoals = [
 
 const ExploreComponent: React.FC = () => {
   return (
-    <div className="bg-[#dbdfe2] flex flex-col md:flex-row h-screen space-x-8 overflow-hidden p-12 ml-32">
+    <div className="bg-[#dbdfe2] bg-cover items-center lg:items-start flex flex-col lg:flex-row h-full lg:h-screen lg:overflow-hidden lg:p-12 lg:ml-64 px-8">
       {/* Left Column */}
-      <div className="flex flex-col justify-start md:w-1/2 sm:w-full">
+      <div className="flex flex-col justify-start lg:w-1/2 sm:w-full">
         {/* Logo Section */}
         <div>
           <img
             src={Logo.src} 
             alt="Logo"
-            className="object-cover rounded-lg -m-16 ml-1"
+            className="object-cover md:ml-12 rounded-lg lg:-m-16 -ml-1"
           />
         </div>
 
         {/* United Nations Section */}
-        <section className="mt-4">
-          <h2 className="text-2xl font-semibold mb-2">UNITED NATIONS</h2>
-          <hr className="border-black mb-4 w-3/5" />
-          <div className="flex flex-wrap gap-4 px-8 -ml-8 -mr-32">
+        <div className="-mt-8 sm:mx-10 lg:-mt-4">
+          <h2 className="text-2xl font-semibold mb-2 text-center lg:text-start">UNITED NATIONS</h2>
+          <hr className="border-black mb-4 w-3/5 mx-auto lg:mx-0" />
+          <div className="flex w-full overflow-x-auto space-x-4 scrollbar-hide px-8 lg:-ml-8">
             {/* Placeholder images for UN section */}
-            <img src={SDGlink1.src} alt="UN Image 1" className="bg-gray-300 h-32 rounded-lg object-cover" />
-            <img src={SDGlink2.src} alt="UN Image 2" className="bg-gray-300 h-32 rounded-lg object-cover" />
-            <img src={SDGlink3.src} alt="UN Image 3" className="bg-gray-300 h-32 rounded-lg object-cover" />
+            <img src={SDGlink1.src} alt="UN Image 1" className="bg-gray-300 h-24 w-48 rounded-lg object-cover flex-shrink-0" />
+            <img src={SDGlink2.src} alt="UN Image 2" className="bg-gray-300 h-24 w-48 rounded-lg object-cover flex-shrink-0" />
+            <img src={SDGlink3.src} alt="UN Image 3" className="bg-gray-300 h-24 w-48 rounded-lg object-cover flex-shrink-0" />
+            <img src={SDGlink1.src} alt="UN Image 1" className="bg-gray-300 h-24 w-48 rounded-lg object-cover flex-shrink-0" />
+            <img src={SDGlink2.src} alt="UN Image 2" className="bg-gray-300 h-24 w-48 rounded-lg object-cover flex-shrink-0" />
+            <img src={SDGlink3.src} alt="UN Image 3" className="bg-gray-300 h-24 w-48 rounded-lg object-cover flex-shrink-0" />
+            <img src={SDGlink1.src} alt="UN Image 1" className="bg-gray-300 h-24 w-48 rounded-lg object-cover flex-shrink-0" />
+            <img src={SDGlink2.src} alt="UN Image 2" className="bg-gray-300 h-24 w-48 rounded-lg object-cover flex-shrink-0" />
+            <img src={SDGlink3.src} alt="UN Image 3" className="bg-gray-300 h-24 w-48 rounded-lg object-cover flex-shrink-0" />
           </div>
 
-        </section>
+
+        </div>
       </div>
 
       {/* Right Column */}
-      <div className="flex flex-col pt-8 md:w-1/2 sm:w-full">
+      <div className="flex flex-col pt-8 lg:w-1/2 w-full mb-14">
         {/* Header for the 17 Goals Section */}
         <section className="flex-none">
           <h1 className="text-3xl font-bold mb-2">THE 17 GOALS</h1>
@@ -78,20 +85,21 @@ const ExploreComponent: React.FC = () => {
         </section>
 
         {/* Scrollable SDG Goals */}
-        <div className="flex-grow overflow-y-auto space-y-2 scrollbar-hide">
+        <div className="flex-grow md:flex-wrap lg:flex-grow overflow-y-auto space-y-2 scrollbar-hide pl-8 -ml-10 lg:pl-0 lg:ml-2 lg:h-[70vh] -mb-10">
           {sdgGoals.map(goal => (
             <div
               key={goal.id}
-              className="relative bg-gray-200 rounded-lg p-12 hover:bg-gray-300"
+              className="relative bg-gray-200 rounded-lg p-12 hover:bg-gray-300 md:mx-10 lg:m-0"
               style={{
                 backgroundImage: `url(${goal.image.src})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
+
               }}
             >
               {/* Transparent black background */}
               <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-start pl-4">
-                <h2 className="font-semibold text-3xl text-gray-200 p-2">
+                <h2 className="font-semibold text-2xl md:text-3xl text-gray-200 p-2">
                   SDG {goal.id} | {goal.title}
                 </h2>
               </div>
