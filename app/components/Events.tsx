@@ -35,6 +35,62 @@ const Events: React.FC = () => {
       title: "Renewable Energy Fair",
       description: "Green energy for all.",
     },
+    {
+      image: SDGlink1.src,
+      month: "Sep",
+      day: 18,
+      title: "Indonesia-Korea Conference",
+      description: "Lorem ipsum",
+    },
+    {
+      image: SDGlink1.src,
+      month: "Oct",
+      day: 5,
+      title: "Global Sustainability Summit",
+      description: "Exploring future solutions.",
+    },
+    {
+      image: SDGlink1.src,
+      month: "Nov",
+      day: 12,
+      title: "Climate Action Meetup",
+      description: "Act today for tomorrow.",
+    },
+    {
+      image: SDGlink1.src,
+      month: "Dec",
+      day: 1,
+      title: "Renewable Energy Fair",
+      description: "Green energy for all.",
+    },
+    {
+      image: SDGlink1.src,
+      month: "Sep",
+      day: 18,
+      title: "Indonesia-Korea Conference",
+      description: "Lorem ipsum",
+    },
+    {
+      image: SDGlink1.src,
+      month: "Oct",
+      day: 5,
+      title: "Global Sustainability Summit",
+      description: "Exploring future solutions.",
+    },
+    {
+      image: SDGlink1.src,
+      month: "Nov",
+      day: 12,
+      title: "Climate Action Meetup",
+      description: "Act today for tomorrow.",
+    },
+    {
+      image: SDGlink1.src,
+      month: "Dec",
+      day: 1,
+      title: "Renewable Energy Fair",
+      description: "Green energy for all.",
+    },
   ];
 
   // Function to group events into rows of 3
@@ -49,19 +105,19 @@ const Events: React.FC = () => {
   const rows = createRows(eventData, 3);
 
   return (
-    <div className="flex flex-col justify-center items-center ml-64 mt-32 mr-16">
-      <img className="w-[1200px] h-[500px] rounded-lg" src={SDGlink1.src}></img>
+    <div className="flex flex-col justify-center items-center lg:ml-96 mt-32 lg:mr-16">
+      <img className="w-11/12 h- lg:p-0 lg:w-[1200px] lg:h-[500px] rounded-t-lg lg:rounded-lg" src={SDGlink1.src}></img>
 
-      <div className="bg-gray-900 w-[800px] h-[120px] p-8 pl-12 -mt-16 rounded-full flex items-center">
-        <div className="flex flex-row justify-between w-full">
+      <div className="bg-gray-900 w-11/12 h-auto lg:w-[800px] lg:h-[120px] p-8 lg:pl-12 lg:-mt-14 lg:-mt-16 rounded-b-lg  lg:rounded-full flex items-center">
+        <div className="flex flex-col w-full lg:flex-row justify-between">
           {/* Left Section */}
-          <div className="flex flex-col w-3/5 pr-4">
-            <p className="font-bold text-lg text-gray-200 truncate">Global Sustainability Summit</p>
-            <p className="text-base text-gray-200 line-clamp-2">Description lorem ipsum, this text can be longer and will still stay aligned properly.</p>
+          <div className="flex flex-col w-full lg:w-3/5 lg:pr-4 gap-2 lg:gap-0">
+            <p className="font-bold text-base lg:text-lg text-gray-200 text-center lg:text-start lg:truncate">Global Sustainability Summit</p>
+            <p className="text-sm lg:text-base text-gray-200 line-clamp-2 text-justify lg:text-left">Description lorem ipsum, this text can be longer and will still stay aligned properly.</p>
           </div>
 
           {/* Right Section with Border */}
-          <div className="flex flex-col justify-center items-center w-2/5 pl-2 border-l border-gray-600">
+          <div className="flex flex-col justify-center items-center w-full lg:w-2/5 pl-2 border-t pt-4 mt-4 lg:pt-0 lg:mt-0 lg:border-t-0 lg:border-l border-gray-600">
             <p className="font-bold text-base text-gray-200">December 9, 2024</p>
             <p className="text-base text-gray-200">2:00pm - 4:00pm</p>
           </div>
@@ -70,11 +126,11 @@ const Events: React.FC = () => {
 
 
 
-      <div className="flex flex-col mt-32 mb-32 w-full">
+      <div className="flex flex-col lg:mr-0 mt-10 lg:mt-32 mb-32 w-full">
         <p className="text-3xl font-semibold mb-8 text-center">Upcoming Events</p>
 
         {/* Dynamically generate rows */}
-        <div className="flex flex-col gap-8">
+        <div className="flex scrollbar-hide w-screen lg:w-[75vw] lg:-ml-32 px-8 lg:pl-32 overflow-x-auto gap-8">
           {rows.map((row, rowIndex) => (
             <div key={rowIndex} className="flex flex-row gap-8 justify-center">
               {row.map((event, eventIndex) => (
