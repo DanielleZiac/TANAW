@@ -3,11 +3,22 @@
 import React, { useEffect, useState } from "react";
 import { FaHome, FaImage, FaInbox, FaUser, FaGlobeAsia, FaBars, FaCog, FaInfoCircle, FaQuestionCircle, FaRegComments, FaFileAlt } from "react-icons/fa";
 import ProfilePopup from './Profile';
+import Feedback from "../components/Feedback";
+
+
+
+ 
 
 const Sidebar = () => {
   const [currentPath, setCurrentPath] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false); 
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const openFeedback = () => setIsFeedbackOpen(true); // Open Feedback modal
+  const closeFeedback = () => setIsFeedbackOpen(false);
   
 
   useEffect(() => {
@@ -149,10 +160,13 @@ const Sidebar = () => {
               Help Center
             </a>
             <a
-              href="/feedback"
+              
               className="flex items-center text-white py-2 px-4 hover:bg-gray-700"
+              onClick={openFeedback} // Trigger the Feedback modal
             >
-              <FaRegComments size={20} className="mr-4" />
+              <FaRegComments size={20} className="mr-4" 
+              />
+              
               Feedback
             </a>
             <a
@@ -163,8 +177,20 @@ const Sidebar = () => {
               Terms and Conditions
             </a>
           </div>
+
+          
         )}
       </aside>
+
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black opacity-30 z-30"
+          onClick={toggleMenu}
+        />
+      )}
+
+      {/* Feedback Modal */}
+      <Feedback isOpen={isFeedbackOpen} onClose={closeFeedback} />
 
       
       {isPopupVisible && (

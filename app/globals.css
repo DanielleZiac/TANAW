@@ -84,3 +84,16 @@ body {
     width: 150px;
   }
 }
+
+@media (max-width: 768px) {
+  .scroll-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: scroll;
+  }
+  .scroll-section {
+    height: 100vh;
+    flex: 0 0 100%;
+  }
+}

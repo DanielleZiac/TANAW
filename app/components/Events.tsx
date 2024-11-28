@@ -108,7 +108,7 @@ const Events: React.FC = () => {
     <div className="flex flex-col justify-center items-center lg:ml-96 mt-32 lg:mr-16">
       <img className="w-11/12 h- lg:p-0 lg:w-[1200px] lg:h-[500px] rounded-t-lg lg:rounded-lg" src={SDGlink1.src}></img>
 
-      <div className="bg-gray-900 w-11/12 h-auto lg:w-[800px] lg:h-[120px] p-8 lg:pl-12 lg:-mt-14 lg:-mt-16 rounded-b-lg  lg:rounded-full flex items-center">
+      <div className="bg-gray-900 w-11/12 h-auto lg:w-[800px] lg:h-[120px] p-8 lg:pl-12  lg:-mt-16 rounded-b-lg  lg:rounded-full flex items-center">
         <div className="flex flex-col w-full lg:flex-row justify-between">
           {/* Left Section */}
           <div className="flex flex-col w-full lg:w-3/5 lg:pr-4 gap-2 lg:gap-0">

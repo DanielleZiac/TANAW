@@ -6,16 +6,20 @@ import { LuSticker } from "react-icons/lu";
 import { usePathname } from "next/navigation"; // usePathname is better suited for Next.js 13+
 import Link from "next/link";
 import { logout } from "../auth/actions";
+import Feedback from "../components/Feedback";
 
 const TopNav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = usePathname(); // Get current route
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false); // Manage Feedback modal state
+  const pathname = usePathname();
 
-  // Apply different colors based on the current path
+  // Dynamic background color based on the current route
   const navColor = pathname === "/home" ? "bg-bgStart" : "bg-lightGray";
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
+  const openFeedback = () => setIsFeedbackOpen(true); // Open Feedback modal
+  const closeFeedback = () => setIsFeedbackOpen(false); // Close Feedback modal
+  
   return (
     <div className="relative">
       {/* Top Navigation Bar for Mobile */}
@@ -73,8 +77,11 @@ const TopNav: React.FC = () => {
           <li className="hover:text-cBlue cursor-pointer text-xl">
             <Link href="/helpCenter">Help Center</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-xl">
-            <Link href="/feedback">Feedback</Link>
+          <li
+            className="hover:text-cBlue cursor-pointer text-lg"
+            onClick={openFeedback} // Trigger the Feedback modal
+          >
+            Feedback
           </li>
           <li className="hover:text-cBlue cursor-pointer text-xl">
             <Link href="/termsAndConditions">Terms and Conditions</Link>
@@ -93,11 +100,14 @@ const TopNav: React.FC = () => {
       {/* Background Overlay */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-black opacity-25 z-30"
+          className="fixed inset-0 bg-black opacity-30 z-30"
           onClick={toggleMenu}
         />
       )}
 
+      {/* Feedback Modal */}
+      <Feedback isOpen={isFeedbackOpen} onClose={closeFeedback} />
+     
       {/* Top Navigation Bar for Desktop */}
       <div className="relative bg-orange-200 hidden md:block">
         <nav className="fixed top-0 left-0 w-full px-4 py-2 flex items-center justify-between lg:justify-end z-40 bg-[#e0e5e9] border-b-2 border-gray-400">

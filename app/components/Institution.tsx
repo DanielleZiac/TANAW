@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 
@@ -36,29 +36,26 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#dbdfe2] flex flex-col md:flex-row h-screen space-x-8 overflow-hidden p-12 ml-36 mt-4">
+    <div className="bg-[#dbdfe2] flex flex-col md:flex-row h-screen p-4 space-y-4 md:space-x-8 md:p-12 mt-20 lg:ml-64">
       {/* Left Column */}
-      <div className="flex flex-col justify-start md:w-2/3 sm:w-full">
-
-        <div className="w-[500px] h-[350px] flex items-center justify-center ml-24 mt-8"> 
-        <img
-            src={selectedInstitution.image.src} 
+      <div className="flex flex-col justify-start md:w-2/3 sm:w-full items-center">
+        <div className="w-full max-w-xs h-48 flex items-center justify-center mb-4">
+          <img
+            src={selectedInstitution.image.src}
             alt="Logo"
-            className="object-contain w-full h-full" 
-        />
+            className="object-contain w-full h-auto"
+          />
         </div>
-        <br/>
 
-        <section className="mt-4">
-          <h2 className="text-2xl font-semibold mb-2">
-            TOP 3 LIKED POSTS OF <br/>{selectedInstitution.title.toUpperCase()}
+        <section className="mt-4 w-full">
+          <h2 className="text-xl md:text-2xl font-semibold mb-2 text-center md:text-left">
+            TOP 3 LIKED POSTS OF <br /> {selectedInstitution.title.toUpperCase()}
           </h2>
-          <hr className="border-black mb-4 w-3/5" />
+          <hr className="border-black mb-4 w-1/2 mx-auto md:mx-0" />
           <div
-            className="grid grid-cols-3 gap-4 px-8 -ml-8"
-            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))' }}
+            className="grid grid-cols-3 lg:grid-rows-3 gap-2 sm:grid-cols-1 md:grid-cols-3 w-full max-w-xs mx-auto md:max-w-full"
           >
-            {top3Posts[selectedInstitution.id]?.map((image, index) => (
+            {top3Posts[selectedInstitution.id as keyof typeof top3Posts]?.map((image, index) => (
               <div
                 key={index}
                 className="relative bg-gray-300 h-32 rounded-lg overflow-hidden"
@@ -69,7 +66,7 @@ const Page: React.FC = () => {
                 }}
               >
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                  <p className="text-gray-200 font-semibold text-xl">Post {index + 1}</p>
+                  <p className="text-gray-200 font-semibold text-sm md:text-xl">Post {index + 1}</p>
                 </div>
               </div>
             ))}
@@ -78,34 +75,31 @@ const Page: React.FC = () => {
       </div>
 
       {/* Right Column */}
-      <div className="flex flex-col pt-8 md:w-1/2 sm:w-full">
-        <section className="flex-none">
-          <h1 className="text-3xl font-bold mb-2 pl-4">Institutions</h1>
-          <hr className="border-black mb-4 w-2/3 ml-4" />
-        </section>
-
-        <div className="flex-grow overflow-y-auto space-y-4 px-4 scrollbar-hide">
+      
+        <h1 className="text-lg font-bold mb-2">Institutions</h1>
+        
+        <hr className="border-black mb-4 w-1/2" />
+        <div className="flex flex-col flex-grow overflow-y-auto p-4">
+        <div className="space-y-2">
           {institutions.map((institution) => (
-            <div key={institution.id} className="w-full">
-              <TextBoxPanel>
-                <button
-                  onClick={() => handleInstitutionClick(institution)}
-                  className="flex flex-row items-center gap-4 w-full text-left"
-                >
-                  <img
-                    src={institution.image.src}
-                    alt={`${institution.title} logo`}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div className="flex flex-col">
-                    <p className="font-semibold text-lg text-gray-800">{institution.title}</p>
-                    <p className="text-sm text-gray-600">
-                      This institution focuses on {institution.title.toLowerCase()}.
-                    </p>
-                  </div>
-                </button>
-              </TextBoxPanel>
-            </div>
+            <TextBoxPanel key={institution.id}>
+              <button
+                onClick={() => handleInstitutionClick(institution)}
+                className="flex items-center gap-4 w-full text-left"
+              >
+                <img
+                  src={institution.image.src}
+                  alt={`${institution.title} logo`}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <div>
+                  <p className="font-semibold text-sm lg:mr-[90vh]">{institution.title}</p>
+                  <p className="text-xs text-gray-600 lg:mr-[50vh]">
+                    This institution focuses on {institution.title.toLowerCase()}.
+                  </p>
+                </div>
+              </button>
+            </TextBoxPanel>
           ))}
         </div>
       </div>
