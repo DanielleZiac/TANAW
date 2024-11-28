@@ -103,7 +103,7 @@ const AboutUsComponent: React.FC = () => {
         </div>
 
         <div className="flex flex-col lg:w-1/2 px-16 md:px-32 lg:p-0 gap-4">
-          <p className="text-base lg:text-lg font-bold">Who We Are</p>
+          <p className="text-base md:text-lg font-bold">Who We Are</p>
           <p className="font-bold text-2xl md:text-5xl break-words">
             A Group of Aspiring Developers
           </p>
