@@ -1,4 +1,3 @@
-// ProfilePopup.tsx
 import React from "react";
 import TextBoxPanel from "../styles/textBox";
 
@@ -9,8 +8,19 @@ interface ProfilePopupProps {
 const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
   return (
     <TextBoxPanel>
-      <div className="flex flex-col p-4 sm:p-6 mt-30">
-        <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
+      <div className="flex flex-col p-4 sm:p-6 relative mt-30">
+        {/* Close Button Inside Panel */}
+        <div className="flex justify-end -mt-5">
+          <button
+            onClick={closePopup}
+            className="rounded-full bg-gray-200 xl:pt-1 text-gray-800 text-lg sm:text-xl font-bold hover:bg-gray-300"
+          >
+            X
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 mt-2">
           {/* Profile Picture */}
           <div
             className="rounded-3xl w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] flex items-center justify-center mx-auto sm:mx-0"
@@ -33,14 +43,6 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
               <p className="font-bold text-gray-600">CICS</p>
             </div>
           </div>
-
-          {/* Close Button */}
-          <button
-            onClick={closePopup}
-            className="absolute top-2 right-2 text-gray-800 text-lg sm:text-xl font-bold"
-          >
-            X
-          </button>
         </div>
       </div>
     </TextBoxPanel>

@@ -17,39 +17,36 @@ interface DataProps {
 
 const Leaderboard: React.FC<DataProps> = ({ data }) => {
   return (
-    <div className="min-h-screen mt-10 flex flex-col items-center bg-[url('/images/background/signupbg.png')] bg-no-repeat bg-bottom bg-fixed py-6 px-4">
+    <div className="min-h-screen lg:ml-96 mt-10 pt-20 flex flex-col w-screen lg:w-[70vw] items-center bg-transparent py-6 px-4">
       {/* Header */}
       <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">
         COLLEGE LEADERBOARD
       </h1>
 
       {/* Top 3 Section */}
-      <div className="flex justify-center gap-4 mb-8 sm:h-20">
-        {data &&
-          data.slice(0, 3).map((entry, index) => (
-            <div
-              key={index}
-              className={`flex flex-col items-center bg-white shadow-lg rounded-lg p-4 relative w-24 sm:w-32`}
-              style={getButtonStyles(false).style}
-            >
-              <img
-                src={entry.institution_logo}
-                alt={`${entry.institution} logo`}
-                className="w-16 sm:w-20 h-16 sm:h-20 rounded-full border-4 border-cBlue mb-2"
-              />
-              <span className="text-sm sm:text-lg font-semibold text-gray-700 text-center">
-                {entry.institution}
-              </span>
-              <span className="text-sm sm:text-lg font-semibold text-cBlue text-center">
-                {entry.count}
-              </span>
-              {index === 0 && (
-                <span className="absolute top-[-20px] sm:top-[-25px] text-2xl sm:text-3xl">
-                  👑
-                </span>
-              )}
-            </div>
-          ))}
+      <div className="flex justify-center gap-4 mb-8 w-full max-w-4xl">
+        {data ? data.slice(0, 3).map((entry, index) => (
+          <div
+            key={index}
+            className={`${getButtonStyles(false).className} flex flex-col items-center bg-white shadow-lg rounded-lg sm:p-4 relative sm:w-40`}
+            style={getButtonStyles(false).style}
+          >
+            <img
+              src={entry.institution_logo}
+              alt={`${entry.institution} logo`}
+              className="w-16 sm:w-20 h-16 sm:h-20 rounded-full border-4 border-cBlue mb-2"
+            />
+            <span className="text-sm sm:text-lg font-semibold text-gray-700 text-center">
+              {entry.institution} - {entry.campus}
+            </span>
+            <span className="text-sm sm:text-lg font-semibold text-cBlue text-center">
+              {entry.count}
+            </span>
+            {index === 0 && (
+              <span className="absolute top-[-20px] sm:top-[-25px] text-2xl sm:text-3xl">👑</span>
+            )}
+          </div>
+        )) : null}
       </div>
 
       <hr className="w-full max-w-4xl border-t-2 border-gray-300" />
