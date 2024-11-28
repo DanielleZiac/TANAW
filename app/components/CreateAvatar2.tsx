@@ -130,7 +130,7 @@ const CreateAvatar2: React.FC<ParamsProps> = ({params}) => {
       const shirtStyleElem = document.getElementById("shirtStyle");
       const leftEyeElem = document.getElementById("leftEye");
       const smileElem = document.getElementById("smile");
-      const eyewearElem = document.getElementById("eyewear");
+      const eyewearElem = document.getElementById("eyewear") as HTMLImageElement | null;
       let b64;
 
       if (

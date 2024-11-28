@@ -14,7 +14,7 @@ const CreateAvatar1: React.FC<DataProps> = ({data}) => {
   const router = useRouter();
   const [gender, setGender] = useState("boy");
   const [shirtStyle, setShirtStyle] = useState("shirt");
-  const [eyewear, setEyewear] = useState(null);
+  const [eyewear, setEyewear] = useState<string | null>(null);
   const [college, setCollege] = useState("cics");
 
   console.log(gender, shirtStyle, eyewear, college);
