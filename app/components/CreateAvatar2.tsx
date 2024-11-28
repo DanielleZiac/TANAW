@@ -9,7 +9,7 @@ import { runFacemesh } from "./faceLandmarkDetection";
 // Avatar Display Component
 const AvatarDisplayArea: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div
-    className="w-full h-[400px] flex items-center justify-center mb-12 px-6 rounded-3xl bg-white shadow-inner"
+    className="w-[300px] h-[300px] md:w-[600px] md:h-[600px] lg:w-[400px] lg:h-[400px] flex items-center justify-center mb-12 px-6 rounded-3xl bg-white shadow-inner"
   >
     {children}
   </div>
@@ -101,40 +101,49 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen px-8 py-16 space-y-12">
-      <h1 className="text-5xl font-extrabold text-center text-sky-950">Your Avatar</h1>
+    <div className="flex flex-col w-screen lg:w-[80vw] min-h-screen justify-center lg:ml-64 lg:pl-20">
+      <h1 className="text-5xl lg:text-4xl font-extrabold text-center text-sky-950 mt-20 lg:mb-2">Your Avatar</h1>
+      <div className="flex flex-col lg:flex-row justify-center lg:gap-32">
 
-      {/* Camera View */}
-      <div className="w-full">
-        <p className="text-lg font-bold text-gray-800 mb-4 text-center">Camera View</p>
-        <AvatarDisplayArea>
-          <video playsInline ref={camera} autoPlay className="rounded-xl" />
-        </AvatarDisplayArea>
+       
+        {/* Camera View */}
+        <div className="flex flex-col items-center ">
+          <p className="text-lg font-bold text-gray-800 mb-4 text-center mt-4 lg:mt-0">Camera View</p>
+          <div>
+            <video playsInline ref={camera} autoPlay className="self-center flex-shrink-0 rounded-3xl w-[300px] h-[300px] md:w-[600px] md:h-[600px] lg:w-[400px] lg:h-[400px] object-cover" />
+          </div>
+        </div>
+        
+
+        {/* Avatar Preview */}
+        <div className="flex flex-col items-center">
+          <p className="text-lg font-bold text-gray-800 mb-4 text-center mt-12 lg:mt-0">Avatar Preview</p>
+          <AvatarDisplayArea>
+            <div className="relative w-[300px] h-[300px] md:w-[600px] md:h-[600px] lg:w-[400px] lg:h-[400px] -mx-8">
+              <img id="college" src={`/images/avatar/bg/bg_${avatar.college}.png`} className="absolute w-full h-full rounded-3xl" />
+              <img id="gender" src={`/images/avatar/sex/${avatar.gender}.png`} className="absolute w-full h-full" />
+              <img id="shirtStyle" src={`/images/avatar/shirt_style/${avatar.shirtStyle}.png`} className="absolute w-full h-full" />
+              {avatar.eyewear && (
+                <img id="eyewear" src={`/images/avatar/eye/${avatar.eyewear}.png`} className="absolute w-full h-full" />
+              )}
+              <img id="leftEye" src={`/images/avatar/eye/${leftEye}.png`} className="absolute w-full h-full" />
+              <img id="smile" src={`/images/avatar/mouth/${smile}.png`} className="absolute w-full h-full" />
+            </div>
+          </AvatarDisplayArea>
+        </div>
+
+
+
       </div>
-
-      {/* Avatar Preview */}
-      <div className="w-full">
-        <p className="text-lg font-bold text-gray-800 mb-4 text-center">Avatar Preview</p>
-        <AvatarDisplayArea>
-          <img id="college" src={`/images/avatar/bg/bg_${avatar.college}.png`} className="absolute" />
-          <img id="gender" src={`/images/avatar/sex/${avatar.gender}.png`} className="absolute" />
-          <img id="shirtStyle" src={`/images/avatar/shirt_style/${avatar.shirtStyle}.png`} className="absolute" />
-          {avatar.eyewear && (
-            <img id="eyewear" src={`/images/avatar/eye/${avatar.eyewear}.png`} className="absolute" />
-          )}
-          <img id="leftEye" src={`/images/avatar/eye/${leftEye}.png`} className="absolute" />
-          <img id="smile" src={`/images/avatar/mouth/${smile}.png`} className="absolute" />
-        </AvatarDisplayArea>
-      </div>
-
       {/* Capture Button */}
       <button
-        className={`${getButtonStyles(false).className} py-3 px-8 text-lg font-bold text-white bg-sky-500 hover:bg-sky-600`}
+        className={`${getButtonStyles(false).className} self-center py-3 px-8 text-lg font-bold text-white bg-sky-500 hover:bg-sky-600 w-[75vw] lg:w-[30vw] mb-32 md:mb-48 lg:mb-12`}
         style={getButtonStyles(false).style}
         onClick={capture}
       >
         Capture
       </button>
+      
     </div>
   );
 };

@@ -13,7 +13,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <div className="min-h-screen flex flex-col bg-lightGray">
       <TopNav />
       <main className="flex-1">{children}</main>
-      <footer className="fixed bottom-0 left-0 right-0 bg-cGray  p-4">
+      <footer className="fixed bottom-0 left-0 right-0 bg-cGray p-4 lg:hidden">
         <Footer />
       </footer>
     </div>
