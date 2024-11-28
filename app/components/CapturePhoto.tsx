@@ -193,10 +193,10 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-extrabold text-center mt-10 text-sky-400">
+      <h1 className="text-3xl md:text-5xl font-extrabold text-center mt-10 text-sky-400">
         SDG {sdg}
       </h1>
-      <p className="text-gray-700 text-lg mb-4">Photo Challenge</p>
+      <p className="text-gray-700 text-lg md:text-3xl md:mt-8 mb-4 md:mb-8">Photo Challenge</p>
 
       {/* Error Message */}
        {error && (
@@ -206,7 +206,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
         )}
       {!isCaptured && (
           <div
-            className="rounded-full w-60 h-60 flex items-center justify-center mb-6 mx-auto"
+            className="rounded-full w-60 h-60 md:w-[500px] md:h-[500px] lg:w-96 lg:h-96 flex items-center justify-center mb-6 mx-auto"
             style={{
               backgroundColor: "white",
               boxShadow: "inset 0px 4px 12px rgba(0, 0, 0, 0.3)",
@@ -278,7 +278,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
       ) : (
         
         <button
-        className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-full`}
+        className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-[200px] md:w-[35vw] lg:w-64`}
         style={{
           boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
         }}
@@ -286,7 +286,18 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
         >
           Capture
         </button>
+
+
       )}
+        <button
+          className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-[200px] md:w-[35vw] lg:w-64 mt-4`}
+          style={{
+            boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
+          }}
+          onClick={capturePhoto}
+          >
+            Back
+        </button>
     </div>
   );
 };
