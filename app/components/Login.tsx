@@ -25,13 +25,12 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [signUpPassword, setSignUpPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  // const [error, setError] = useState<string | null>(null);
   const [institutions, setInstitution] = useState<Array<any> | null>(null);
 
 
   const Login = async () => {
+    console.log(srCode, password, firstName, lastName, confirmPassword)
     if (srCode && password) {
       const schoolElement = document.getElementById("schoolLogin") as HTMLSelectElement | null;
       if (schoolElement) {
@@ -44,26 +43,31 @@ const Login: React.FC = () => {
         console.log("no school element");
       }
     } else {
-      alert("Please fill in both fields.");
+      alert("Please fill in all fields.");
     }
   };
 
 
   const Signup = async () => {
+    console.log(srCode, password, firstName, lastName, confirmPassword)
     const schoolElement = document.getElementById("schoolSignup") as HTMLSelectElement | null;
-    if (schoolElement) {
-      const school = schoolElement.value;
-      if (signUpPassword !== confirmPassword) {
-        // setError("Passwords do not match.");
-        alert("Passwords do not match.");
-        return;
+    if (srCode, password, firstName, lastName, confirmPassword) {
+      if (schoolElement) {
+        const school = schoolElement.value;
+        if (password !== confirmPassword) {
+          // setError("Passwords do not match.");
+          alert("Passwords do not match.");
+          return;
+        }
+        let data = { srCode, firstName, lastName, school, password: password };
+        let res = await signup(data);
+        // setError(res ?? null);
+        alert(res ?? null);
+      } else {
+        console.log("no school element");
       }
-      let data = { srCode, firstName, lastName, school, password: signUpPassword };
-      let res = await signup(data);
-      // setError(res ?? null);
-      alert(res ?? null);
     } else {
-      console.log("no school element");
+      alert("All fields are required")
     }
   };
 
@@ -85,6 +89,11 @@ const Login: React.FC = () => {
 
 
   const handleSignUpClick = () => {
+    setSrCode("")
+    setPassword("")
+    setFirstName("")
+    setLastName("")
+    setConfirmPassword("")
     if (signUpSectionRef.current) {
       if (isMobile) {
         signUpSectionRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -95,6 +104,11 @@ const Login: React.FC = () => {
   };
 
   const handleSignInClick = () => {
+    setSrCode("")
+    setPassword("")
+    setFirstName("")
+    setLastName("")
+    setConfirmPassword("")
     if (containerRef.current) {
       if (isMobile) {
         containerRef.current.scrollTop = 0;
@@ -138,7 +152,6 @@ const Login: React.FC = () => {
                   border: 'none',
                 }}
                 >
-                <option value="">--</option>
                 {institutions ? institutions.map((institution, index) => (
                   <option key={index} value={institution.institution}>{institution.institution}</option>
                 )) : null}
@@ -223,7 +236,6 @@ const Login: React.FC = () => {
                   border: 'none',
                 }}
               >
-                <option value="">--</option>
                 {institutions ? institutions.map((institution, index) => (
                   <option key={index} value={institution.institution}>{institution.institution}</option>
                 )) : null}
@@ -233,8 +245,8 @@ const Login: React.FC = () => {
             <InputBox
               id="sign-up-password"
               type="password"
-              value={signUpPassword}
-              setValue={setSignUpPassword}
+              value={password}
+              setValue={setPassword}
               placeholder="Password"
               style={{ width: '110%' }}
             />
