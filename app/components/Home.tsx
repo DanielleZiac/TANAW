@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import FloatingDropdown from '../components/layouts/FloatingDropDown'; 
+import Footer from '../components/Footer';
 
 const Home: React.FC = () => {
   const sdgImages = Array.from({ length: 17 }, (_, i) => ({
@@ -24,6 +25,9 @@ const Home: React.FC = () => {
           className="w-full h-auto object-contain"
         />
       </div>
+
+      {/* Footer */}
+      <Footer />
 
       {/* Container for SDG Images */}
       <div className="w-full py-8 z-10">

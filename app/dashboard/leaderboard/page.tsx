@@ -24,9 +24,7 @@ async function LeaderboardPage() {
 
   return (
     <MainLayout>
-      <div className="container mx-auto p-5">
         <Leaderboard data={schools}/>
-      </div>
     </MainLayout>
   );
 };

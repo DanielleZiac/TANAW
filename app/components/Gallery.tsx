@@ -43,9 +43,9 @@ const Gallery: React.FC<DataProps> = ({data}) => {
   };
 
   return (
-    <div className="absolute  left-0 overflow-x-auto bg-transparent ">
+    <div className="absolute left-0 lg:ml-64 overflow-x-auto bg-transparent ">
   {/* SDG Circle Section */}
-  <div className="flex overflow-x-auto py-4 px-4 space-x-2 bg-transparent">
+  <div className="flex overflow-x-auto scrollbar-hide py-4 px-4 space-x-2 bg-transparent">
     {sdgImages.map((item, index) => (
       <div key={index} className="flex-shrink-0">
         <a href={item.link}>

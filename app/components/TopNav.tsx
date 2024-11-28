@@ -6,21 +6,25 @@ import { LuSticker } from "react-icons/lu";
 import { usePathname } from "next/navigation"; // usePathname is better suited for Next.js 13+
 import Link from "next/link";
 import { logout } from "../auth/actions";
+import Feedback from "../components/Feedback";
 
 const TopNav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = usePathname(); // Get current route
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false); // Manage Feedback modal state
+  const pathname = usePathname();
 
-  // Apply different colors based on the current path
+  // Dynamic background color based on the current route
   const navColor = pathname === "/home" ? "bg-bgStart" : "bg-lightGray";
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
+  const openFeedback = () => setIsFeedbackOpen(true); // Open Feedback modal
+  const closeFeedback = () => setIsFeedbackOpen(false); // Close Feedback modal
+  
   return (
     <div className="relative">
       {/* Top Navigation Bar for Mobile */}
       <nav
-        className={`fixed top-0 left-0 w-full py-6 px-4 flex items-center justify-between z-50 ${navColor} sm:hidden`}
+        className={`fixed top-0 left-0 w-full py-6 px-4 flex items-center justify-between z-50 ${navColor} md:hidden`}
       >
         {/* Hamburger Icon */}
         <button
@@ -34,7 +38,7 @@ const TopNav: React.FC = () => {
         <h1 className="text-4xl md:text-5xl font-bold text-black">Tanaw</h1>
 
         {/* Leaderboard Icon */}
-        <Link href="/stickers">
+        <Link href="/dashboard/stickers">
           <button
             aria-label="View Leaderboard"
             className="text-navGray hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-cBlue"
@@ -48,7 +52,7 @@ const TopNav: React.FC = () => {
       <div
         className={`fixed top-0 left-0 h-full bg-neutral-200 shadow-lg w-64 p-6 transform ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out z-40 sm:hidden`}
+        } transition-transform duration-300 ease-in-out z-40 lg:hidden`}
       >
         {/* Close Button */}
         <button
@@ -65,7 +69,7 @@ const TopNav: React.FC = () => {
             <Link href="component/LearnMore">Events</Link>
           </li>
           <li className="hover:text-cBlue cursor-pointer text-xl">
-            <Link href="/feedback">About</Link>
+            <Link href="/dashboard/aboutUs">About</Link>
           </li>
           <li className="hover:text-cBlue cursor-pointer text-xl">
             <Link href="/contact">Contact</Link>
@@ -73,8 +77,11 @@ const TopNav: React.FC = () => {
           <li className="hover:text-cBlue cursor-pointer text-xl">
             <Link href="/helpCenter">Help Center</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-xl">
-            <Link href="/feedback">Feedback</Link>
+          <li
+            className="hover:text-cBlue cursor-pointer text-lg"
+            onClick={openFeedback} // Trigger the Feedback modal
+          >
+            Feedback
           </li>
           <li className="hover:text-cBlue cursor-pointer text-xl">
             <Link href="/termsAndConditions">Terms and Conditions</Link>
@@ -93,19 +100,37 @@ const TopNav: React.FC = () => {
       {/* Background Overlay */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-black opacity-25 z-30"
+          className="fixed inset-0 bg-black opacity-30 z-30"
           onClick={toggleMenu}
         />
       )}
 
+      {/* Feedback Modal */}
+      <Feedback isOpen={isFeedbackOpen} onClose={closeFeedback} />
+     
       {/* Top Navigation Bar for Desktop */}
-      <div className="relative bg-orange-200 hidden sm:block">
-        <nav className="fixed top-0 left-0 w-full px-4 py-2 flex items-center justify-end z-40 bg-[#e0e5e9] border-b-2 border-gray-400">
+      <div className="relative bg-orange-200 hidden md:block">
+        <nav className="fixed top-0 left-0 w-full px-4 py-2 flex items-center justify-between lg:justify-end z-40 bg-[#e0e5e9] border-b-2 border-gray-400">
+          
+          {/* Hamburger Icon */}
+          <button
+            onClick={toggleMenu}
+            className="lg:hidden md:flex flex-col items-center text-navGray hover:text-gray-200"
+          >
+          <FaBars size={30} />
+          </button>
+          
           {/* Navigation Links */}
           <ul className="flex items-center space-x-32 text-black-700 text-base font-semibold pr-8">
-            <li className="hover:text-blue-900 cursor-pointer">Events</li>
-            <li className="hover:text-blue-900 cursor-pointer">About</li>
-            <li className="hover:text-blue-900 cursor-pointer">Contact</li>
+            <li className="text-black hover:text-blue-900 cursor-pointer">
+              <Link href="/dashboard/events">Events</Link>
+            </li>
+            <li className="text-black hover:text-blue-900 cursor-pointer">
+              <Link href="/dashboard/aboutUs">About</Link>
+            </li>
+            <li className="text-black hover:text-blue-900 cursor-pointer">
+              <Link href="/dashboard/contact">Contact</Link>  
+            </li>
             {/* Logout Button */}
             <li>
               <button

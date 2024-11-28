@@ -80,7 +80,6 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
   }
 
 
-
   // Function to handle post click
   const handlePostClick = async(post: Photos, user_id: string) => {
     const likeNums = await getNumberOfLikes(post.user_sdg_id);
@@ -116,30 +115,53 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
   const renderPosts = (postArray: Photos[], customClasses = '') => {
     return postArray.map((post, index) => (
       <div key={index} className={`relative flex flex-col items-center ${customClasses}`}>
-        <button
-          onClick={() => handlePostClick(post, user_id)}
-          className="w-16 h-16 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
-        >
-          <img src={post.url} alt={post.url} className="object-cover w-full h-full" />
-        </button>
-        <button
-          // onClick={() => handlePostClick(post, user_id)}
-          className="w-16 h-16 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
-        >
-          <img src={post.avatar_url} alt={post.url} className="object-cover w-full h-full" />
-        </button>
-        <div className="absolute -top-2 -right-2 sm:h-6 sm:w-24 bg-bubbleGray text-black text-[9px] sm:text-xs md:text-sm rounded-full px-1 py-0.5 shadow-lg">
-
-
-        {post.caption} {/* gawing caption hehe*/}
-
+        <div className="group w-16 h-16 sm:w-32 sm:h-32 rounded-full overflow-hidden relative">
+        
+          {/* Flip Card */}
+          <button
+            onClick={() => handlePostClick(post, user_id)}
+            className="w-16 h-16 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
+          >
+          
+            {/* Front of the circle - Post */}
+            <img src={post.url} alt={post.url} className="object-cover w-full h-full" />
+            
+            {/* Back of the circle - Avatar */}
+            <div className="flip-card-back w-full h-full bg-gray-200 flex items-center justify-center">
+              <img
+                src={post.avatar_url}
+                alt={post.url}
+                className="object-cover w-full h-full rounded-full"
+              />
+            </div>  
+          </button>
         </div>
-        <div>{post.likes}</div>
+
+        <div className="absolute -top-2 -right-2 sm:h-6 sm:w-24 bg-bubbleGray text-black text-[9px] sm:text-xs md:text-sm rounded-full px-1 py-0.5 shadow-lg">
+          {post.caption}
+        </div>
+          {/* <div>{post.likes}</div> */}
       </div>
     ));
   }
 
-  const sdgTitle = SDG_TITLES[Number(sdg) - 1];
+  const sdgTitle = SDG_TITLES[parseInt(sdg) - 1];
+  const photoChallenges = [
+    "Photo Challenge 1",
+    "Photo Challenge 2",
+    "Photo Challenge 3",
+    "Photo Challenge 4",
+    "Photo Challenge 5",
+  ]; // Array of challenges
+  
+  const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
+  
+  // Handler to go to the next challenge
+  const handleNextChallenge = () => {
+    setCurrentChallengeIndex((prevIndex) =>
+      (prevIndex + 1) % photoChallenges.length
+    ); // Cycle back to the first challenge
+  };
 
   return (
     <div className="content-container p-6 flex flex-col items-center overflow-auto sm:-mt-12 ">
@@ -211,49 +233,53 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
         </div>
       )}
 
-      <div className="max-w-5xl w-full mx-auto sm:mt-10 mb-10 flex items-center bg-white rounded-full shadow-lg px-5 py-4">
+
+      {/* Photo Challenge Display */}
+      <div 
+        className="fixed bottom-20 max-w-5xl w-full mx-auto mb-8 sm: mb-10 flex items-center justify-center bg-white rounded-full shadow-lg px-5 py-3 z-50"
+        style={{ maxWidth: "90%" }}
+      >
+        
         {/* Left Circular Button */}
         <Link href={`/dashboard/sdg/upload/${sdg}`}>
-          <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
+          <button className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-6 h-6 text-blue-500"
+              className="w-6 h-6 sm:w-5 sm:h-5 text-blue-500"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
           </button>
         </Link>
 
-        {/* Input Field */}
-        <input
-          type="text"
-          placeholder="Choose a Photo Challenge"
-          className="flex-grow bg-gray-100 rounded-full py-2 px-4 focus:outline-none text-lg"
-        />
+        {/* Text Display */}
+        <div className="flex-grow bg-gray-100 text-black rounded-full py-2 px-4 text-lg sm:text-base text-left">
+          {photoChallenges[currentChallengeIndex]}
+        </div>
 
         {/* Right Circular Button */}
-        <Link href="/photochallenges">
-          <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md ml-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="w-6 h-6 text-blue-500"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
-            </svg>
-          </button>
-        </Link>
+        <button onClick={handleNextChallenge}
+          className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md ml-4"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-6 h-6 sm:w-5 sm:h-5 text-blue-500"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7"/>
+          </svg>
+        </button>
+          
       </div>
-
     </div>
-  )
-}
+  );
+};
 
 export default SdgContent;
