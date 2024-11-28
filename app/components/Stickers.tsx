@@ -5,11 +5,11 @@ import { getButtonStyles } from "../styles/buttonStyles"; // Ensure the path to 
 
 const Profile: React.FC = () => {
   return (
-    <div className="min-h-screen bg-transparent px-4 py-6 w-screen">
+    <div className="lg:ml-64 min-h-screen bg-transparent px-4 py-6">
      
 
       {/* Main Content */}
-      <div className="mt-6 space-y-8">
+      <div className="mt-8 space-y-8">
         {/* Edit Avatar Section */}
         <section>
           <h2 className="text-sm font-semibold text-gray-600 text-center border-t border-b border-gray-300 py-2">

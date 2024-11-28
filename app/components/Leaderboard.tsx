@@ -33,19 +33,19 @@ const Leaderboard: React.FC<DataProps> = ({data}) => {
   console.log(data)
 
   return (
-    <div className="min-h-screen mt-10 flex flex-col items-center bg-transparent py-6 px-4">
+    <div className="min-h-screen lg:ml-96 mt-10 pt-20 flex flex-col w-screen lg:w-[70vw] items-center bg-transparent py-6 px-4">
       {/* Header */}
       <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">
         COLLEGE LEADERBOARD
       </h1>
 
       {/* Top 3 Section */}
-      <div className="flex justify-center  gap-4 mb-8 w-full max-w-4xl">
+      <div className="flex justify-center gap-4 mb-8 w-full max-w-4xl">
         {data ? data.slice(0, 3).map((entry, index) => (
           <div
             key={index}
-            className={`${getButtonStyles(false).className} flex flex-col items-center   bg-white shadow-lg rounded-lg p-4 relative flex-shrink-0 w-28 sm:w-32`}
-        style={getButtonStyles(false).style}
+            className={`${getButtonStyles(false).className} flex flex-col items-center bg-white shadow-lg rounded-lg sm:p-4 relative sm:w-40`}
+            style={getButtonStyles(false).style}
           >
             <img
               src={entry.institution_logo}

@@ -35,7 +35,7 @@ const mockMessages: Message[] = [
 
 const Inbox: React.FC = () => {
   return (
-    <div className="p-5 mt-20 bg-transparent rounded-lg w-full ">
+    <div className="p-5 lg:ml-64 mt-20 bg-transparent rounded-lg w-full lg:w-[50vw]">
       <h2 className="text-xl text-black font-bold mb-4">Inbox</h2>
       <ul>
         {mockMessages.map((message) => (
