@@ -1,5 +1,6 @@
 import React from "react";
 import TextBoxPanel from "../styles/textBox"; 
+import ButtonBox from "../styles/buttonBox";
 interface ProfilePopupProps {
   closePopup: () => void; 
 }
@@ -20,14 +21,14 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
               <p className="font-bold lg:text-2xl text-gray-800">Jon Endrick Babao</p>
               <p className="font-semibold lg:text-2xl text-gray-800">22-01675</p>
               
-                <div className="flex flex-row items-center gap-8 mt-4 hidden sm:block">
-                  <div className="flex flex-col lg:text-lg">
-                    <p className="font-bold text-gray-600">Batangas State University</p>
-                    <p className="font-bold text-gray-600">CICS</p>
-                  </div>
+              <div className="flex flex-row items-center gap-8 mt-4 hidden sm:block">
+                <div className="flex flex-col lg:text-lg">
+                  <p className="font-bold text-gray-600">Batangas State University</p>
+                  <p className="font-bold text-gray-600">CICS</p>
                 </div>
-            
+              </div>
             </div>
+
             <button
               onClick={closePopup}
               className="self-start rounded -mt-2"
@@ -35,14 +36,22 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
               X
             </button>
           </div>
-        </div>
+          
         <div className="flex flex-row items-center gap-8 mt-4 sm:hidden">
           <div className="flex flex-col lg:text-lg">
             <p className="font-bold text-gray-600">Batangas State University</p>
             <p className="font-bold text-gray-600">CICS</p>
           </div>
         </div>
-            
+          <div className="flex flex-row w-full mt-8 gap-8">
+            <ButtonBox style={{width: '50%'}}>
+              Profile Settings
+            </ButtonBox>
+            <ButtonBox style={{width: '50%'}}>
+              Delete Account
+            </ButtonBox>
+          </div>
+        </div>
       </TextBoxPanel>
     </div>
     
