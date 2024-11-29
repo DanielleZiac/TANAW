@@ -5,9 +5,7 @@ import MainLayout from '../../components/layouts/MainLayout';
 const InstitutionPage: React.FC = () => {
   return (
     <MainLayout>
-      <div className="container mx-auto p-5">
-        <Institution />
-      </div>
+      <Institution />
     </MainLayout>
   );
 };

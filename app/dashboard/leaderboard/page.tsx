@@ -1,4 +1,3 @@
-import React from 'react';
 import Leaderboard from '../../components/Leaderboard';
 import MainLayout from '../../components/layouts/MainLayout';
 

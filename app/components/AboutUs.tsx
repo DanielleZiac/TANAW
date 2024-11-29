@@ -103,7 +103,7 @@ const AboutUsComponent: React.FC = () => {
         </div>
 
         <div className="flex flex-col lg:w-1/2 px-16 md:px-32 lg:p-0 gap-4">
-          <p className="text-base lg:text-lg font-bold">Who We Are</p>
+          <p className="text-base md:text-lg font-bold">Who We Are</p>
           <p className="font-bold text-2xl md:text-5xl break-words">
             A Group of Aspiring Developers
           </p>
@@ -167,7 +167,7 @@ const AboutUsComponent: React.FC = () => {
               global reality. Whether you’re an activist, a creator, or someone
               just starting your journey, there’s a place for you here.
             </p>
-            <ButtonBox style={{ width: "20%" }}>Sign Up</ButtonBox>
+            <ButtonBox style={{ width: "60%" }}>Sign Up</ButtonBox>
 
           </div>
         </div>
