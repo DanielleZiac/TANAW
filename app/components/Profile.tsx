@@ -2,7 +2,10 @@
 
 import React, {useEffect, useState} from "react";
 import TextBoxPanel from "../styles/textBox"; 
+
 import { authenticateUser, getUserById } from "../dashboard/actions";
+
+import ButtonBox from "../styles/buttonBox";
 
 
 interface ProfilePopupProps {
@@ -79,11 +82,20 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
               X
             </button>
           </div>
-        </div>
+          
         <div className="flex flex-row items-center gap-8 mt-4 sm:hidden">
           <div className="flex flex-col lg:text-lg">
             <p className="font-bold text-gray-600">Batangas State University</p>
             <p className="font-bold text-gray-600">CICS</p>
+          </div>
+        </div>
+          <div className="flex flex-row w-full mt-8 gap-8">
+            <ButtonBox style={{width: '50%'}}>
+              Profile Settings
+            </ButtonBox>
+            <ButtonBox style={{width: '50%'}}>
+              Delete Account
+            </ButtonBox>
           </div>
         </div>
       </TextBoxPanel>
