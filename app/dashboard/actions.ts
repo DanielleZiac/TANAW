@@ -6,15 +6,14 @@ import { headers } from 'next/headers';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 
-// move this function sa other file??
 export async function authenticateUser() {
 	// check if user is signed in
 	const supabase = await createClient()
 
 	const { data, error } = await supabase.auth.getUser()
 	if (error || !data?.user) {
-		return { redirect: '/auth/login' };
-		//redirect('/auth/login')
+		// return { redirect: '/auth/login' };
+		redirect('/auth/login')
 	}
 
 	console.log(data.user.id)

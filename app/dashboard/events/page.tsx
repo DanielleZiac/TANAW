@@ -1,7 +1,13 @@
 import MainLayout from '../../components/layouts/MainLayout'; 
 import Events from '../../components/Events'; 
 
-export default function HomePage() {
+import { authenticateUser } from "../actions";
+
+
+export default async function HomePage() {
+  
+  const data = await authenticateUser()
+  
   return (
     <MainLayout>
       <Events />

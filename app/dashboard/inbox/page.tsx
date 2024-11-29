@@ -2,7 +2,13 @@ import React from 'react';
 import Inbox from '../../components/Inbox';
 import MainLayout from '../../components/layouts/MainLayout';
 
-const InboxPage: React.FC = () => {
+import { authenticateUser } from "../actions";
+
+// const InboxPage: React.FC = () => {
+export default async function InboxPage() {
+  
+  const data = await authenticateUser()
+  
   return (
     <MainLayout>
       <div className="container mx-auto p-5">
@@ -12,4 +18,4 @@ const InboxPage: React.FC = () => {
   );
 };
 
-export default InboxPage;
+// export default InboxPage;

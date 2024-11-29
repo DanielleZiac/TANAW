@@ -72,34 +72,14 @@ export async function login(data: { srCode: string; password: string; school: st
 		}
 	}
 
-	redirect("/dashboard/home")
-
-	// const user_avatars = await getUserAvatar(supabase, user_data);
-	// console.log(user_avatars);
-	// if (user_avatars) {
-	// 	console.log("go to profile")
-	// 	redirect('/dashboard/profile')
-	// } else {
-	// 	console.log("create avatar first")
-	// 	redirect('/dashboard/createAvatar1')
-	// }
-
-
-	// const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", user_data.user.id).single();
-	// console.log(users_data)
-
-	// console.log("data_x", data_x)
-
-
-	// const { data, error } = await supabase.auth.getUser()
-	// if (error || !data?.user) {
-	// 	redirect('/auth/login')
-	// }
-
-	// const user_data = getUserById(supabase, data);
-	// console.log(users_data);
-	// revalidatePath('/', 'layout')
-	// redirect('/dashboard/profile')
+	const user_avatars = await getUserAvatar(supabase, user_data);
+	console.log(user_avatars);
+	if (user_avatars) {
+		redirect("/dashboard/home")
+	} else {
+		console.log("create avatar first")
+		redirect('/dashboard/createAvatar1')
+	}
 }
 
 export async function getUserAvatar(supabase: SupabaseClient<any, "public", any>,  data: { user: { id: string; }; }) {

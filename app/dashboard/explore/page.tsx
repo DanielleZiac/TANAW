@@ -2,7 +2,14 @@ import React from 'react';
 import Explore from '../../components/Explore';
 import MainLayout from '../../components/layouts/MainLayout';
 
-const ExploreComponent: React.FC = () => {
+import { authenticateUser } from "../actions";
+
+
+// const ExploreComponent: React.FC = () => {
+export default async function ExploreComponent() {
+  
+  const data = await authenticateUser()
+  
   return (
     <MainLayout>
       <Explore />
@@ -10,4 +17,4 @@ const ExploreComponent: React.FC = () => {
   );
 };
 
-export default ExploreComponent;
+// export default ExploreComponent;

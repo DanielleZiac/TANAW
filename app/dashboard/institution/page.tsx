@@ -2,7 +2,12 @@ import React from 'react';
 import Institution from '../../components/Institution';
 import MainLayout from '../../components/layouts/MainLayout';
 
-const InstitutionPage: React.FC = () => {
+import { authenticateUser } from "../actions";
+
+// const InstitutionPage: React.FC = () => {
+export default async function InstitutionPage() {
+  const data = await authenticateUser()
+  
   return (
     <MainLayout>
       <Institution />
@@ -10,4 +15,4 @@ const InstitutionPage: React.FC = () => {
   );
 };
 
-export default InstitutionPage;
+// export default InstitutionPage;
