@@ -71,29 +71,8 @@ export async function login(data: { srCode: string; password: string; school: st
 			console.log("user_data", user_data_insert)
 		}
 	}
-
-	const user_avatars = await getUserAvatar(supabase, user_data);
-	console.log(user_avatars);
-	if (user_avatars) {
-		redirect("/dashboard/home")
-	} else {
-		console.log("create avatar first")
-		redirect('/dashboard/createAvatar1')
-	}
 }
 
-export async function getUserAvatar(supabase: SupabaseClient<any, "public", any>,  data: { user: { id: string; }; }) {
-	console.log(data.user.id);
-	const { data: user_avatars, error: user_avatars_error} = await supabase.from('avatars').select("user_id").eq("user_id", data.user.id);
-	// console.log("user_avatars", user_avatars, user_avatars.length)
-
-	if (!user_avatars || user_avatars.length < 1) {
-		return false
-	} else {
-		console.log(user_avatars)
-		return true
-	}
-}
 
 export async function signup(data: { srCode: string, firstName: string, lastName: string, school: string, password: string }) {
 	console.log(data);

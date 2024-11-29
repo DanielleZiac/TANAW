@@ -1,7 +1,8 @@
 import Leaderboard from '../../components/Leaderboard';
 import MainLayout from '../../components/layouts/MainLayout';
+import { redirect } from 'next/navigation'
 
-import { authenticateUser, getLeaderboardsSchools } from "../actions";
+import { authenticateUser, getLeaderboardsSchools, checkUserAvatar } from "../actions";
 
 interface School {
   campus: string,
@@ -14,6 +15,12 @@ interface School {
 async function LeaderboardPage() {
 
   const user_id = await authenticateUser()
+  const hasAvatar = await checkUserAvatar()
+  if (!hasAvatar) {
+    redirect('/dashboard/createAvatar1')
+    return 
+  }
+
   const schools: Array<{campus: string,
     count: number,
     institution: string,

@@ -1,7 +1,8 @@
 import HallOfFame from '../../components/HallOfFame'; // Adjust the path if needed
 import MainLayout from '../../components/layouts/MainLayout'; // Adjust to your project structure
+import { redirect } from 'next/navigation'
 
-import { authenticateUser, getHighestPostCount } from "../actions";
+import { authenticateUser, getHighestPostCount, checkUserAvatar } from "../actions";
 
 
 interface Data {
@@ -19,6 +20,12 @@ interface Data {
 export default async function HallOfFamePage() {
 
   const user_id = await authenticateUser()
+  const hasAvatar = await checkUserAvatar()
+  if (!hasAvatar) {
+    redirect('/dashboard/createAvatar1')
+    return 
+  }
+
   const data:Array<Data> | undefined = await getHighestPostCount();
   // const
 

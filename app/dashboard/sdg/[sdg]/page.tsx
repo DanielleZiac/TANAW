@@ -1,8 +1,9 @@
 // app/sdg/[id]/page.tsx
 import SdgContent from '../../../components/SdgContent';
 import MainLayout from '../../../components/layouts/MainLayout';
+import { redirect } from 'next/navigation'
 
-import { authenticateUser, getPhotoSdg, getLikedPostsSdgs } from "../../actions";
+import { authenticateUser, getPhotoSdg, getLikedPostsSdgs, checkUserAvatar } from "../../actions";
 
 interface Photo {
   avatar_url: string;
@@ -27,6 +28,12 @@ export default async function SdgPage({
   }) {
 
   const user_id: string = await authenticateUser()
+  const hasAvatar = await checkUserAvatar()
+  if (!hasAvatar) {
+    redirect('/dashboard/createAvatar1')
+    return 
+  }
+
   const sdg: string = (await params).sdg
   const photos: Array<Photo> | undefined = await getPhotoSdg(Number(sdg));
   const liked: Array<Liked> | undefined = await getLikedPostsSdgs(user_id, Number(sdg));

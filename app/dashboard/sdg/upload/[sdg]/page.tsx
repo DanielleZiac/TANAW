@@ -1,6 +1,8 @@
 // upload/page.tsx
 import UploadPhoto from "../../../../components/CapturePhoto"; // Import the newly renamed component
-import { authenticateUser } from "../../../actions";
+import { redirect } from 'next/navigation'
+
+import { authenticateUser, checkUserAvatar } from "../../../actions";
 
 export default async function UploadPage({
   params} : {
@@ -8,6 +10,11 @@ export default async function UploadPage({
   }) {
 
   const data = await authenticateUser()
+  const hasAvatar = await checkUserAvatar()
+  if (!hasAvatar) {
+    redirect('/dashboard/createAvatar1')
+    return 
+  }
 
   const sdg = (await params).sdg
 

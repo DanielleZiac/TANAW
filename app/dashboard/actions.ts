@@ -15,10 +15,7 @@ export async function authenticateUser() {
 		// return { redirect: '/auth/login' };
 		redirect('/auth/login')
 	}
-
-	console.log(data.user.id)
-	const user_data = await getUserById(supabase, data);
-	return user_data
+	return data.user.id
 }
 
 
@@ -31,24 +28,19 @@ export async function getUserById(supabase: SupabaseClient<any, "public", any>, 
 	}
 }
 
-
-export async function getUserAvatar(data: String) {
-	console.log("dataaaaa", data)
-
+export async function checkUserAvatar(user_id: String) {
 	const supabase = await createClient()
 
-	const { data: user_avatars, error: user_avatar_error} = await supabase.from('avatars').select(`avatar_id, avatar_url, avatar_label, is_selected`).eq("user_id", data);
+	const { data: user_avatars, error: user_avatars_error} = await supabase.from('avatars').select("user_id").eq("user_id", user_id).single();
 
-	console.log("user_avatars", user_avatars)
-	if(!user_avatars || user_avatars.length < 1) {
-		redirect("/dashboard/createAvatar1")
-		console.log("no avatar");
-	} else {
-		// console.log(user_avatars)
-		console.log("has avatar");
-		return user_avatars
-	}
+	if (!user_avatars || user_avatars.length < 1) {
+		console.log("create avatar first")
+		return false
+		// redirect('/dashboard/createAvatar1')
+	} 
+	return true
 }
+
 
 
 // sdgs muna pa to
@@ -415,13 +407,17 @@ export async function displayPhoto(searchParams: FormData | null): Promise<Array
 
 
 
-export async function uploadAvatar(user_id: String, file: File, avatar_lbl: String) {
+export async function uploadAvatar(user_id: String, file: File, department: String) {
+	console.log(department)
+
 	console.log("Heakdhaohd")
 	console.log(user_id, file)
 
 	const supabase = await createClient()
 
-	const path = user_id + "/" + user_id
+	let uuid = crypto.randomUUID();
+
+	const path = user_id + "-" + uuid
 
 	const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file)
 
@@ -429,39 +425,16 @@ export async function uploadAvatar(user_id: String, file: File, avatar_lbl: Stri
 		console.log(uploadError)
 	}
 
-	const { data: data_public_url } = await supabase.storage.from(`avatars/${user_id}`).getPublicUrl(user_id);
+	const { data: data_public_url } = await supabase.storage.from(`avatars`).getPublicUrl(path);
 
-	interface AvatarData {
-		user_id: String;
-		avatar_url: string;
-		avatar_label?: String; // Optional property
-		is_selected?: boolean; // Optional property
-	  }
+	const { data: data_update_avatar, error: error_update_avatar} = await supabase
+		.from("users")
+		.upsert({ avatar_url: data_public_url, department: department })
+		.select()
 
-	// do formdata
-	const avatar_data: AvatarData = {
-		user_id: user_id, 
-		avatar_url: data_public_url.publicUrl
-	}
-	console.log(avatar_data)
-
-	if (avatar_lbl.trim() != "") {
-		avatar_data.avatar_label = avatar_lbl
-	}
-
-
-	const { data: user_avatars, error: user_avatar_error} = await supabase.from('avatars').select("avatar_id").eq("user_id", user_id);
-
-	if (user_avatars) {
-		if(user_avatars.length < 1) {
-			avatar_data.is_selected = true
-		}
-	}
-
-	const { data: upload_avatar_upload, error: error_avatar_upload} = await supabase.from('avatars').insert(avatar_data);
-
-	if (error_avatar_upload) {
-		console.log(error_avatar_upload)
+	if (error_update_avatar) {
+		console.log("error error_update_avatar", error_update_avatar)
+		return
 	}
 }
 
