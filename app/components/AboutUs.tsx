@@ -167,7 +167,7 @@ const AboutUsComponent: React.FC = () => {
               global reality. Whether you’re an activist, a creator, or someone
               just starting your journey, there’s a place for you here.
             </p>
-            <ButtonBox style={{ width: "20%" }}>Sign Up</ButtonBox>
+            <ButtonBox style={{ width: "60%" }}>Sign Up</ButtonBox>
 
           </div>
         </div>
