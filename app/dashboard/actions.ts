@@ -92,7 +92,8 @@ export async function uploadPhoto(formData: FormData) {
 		sdg_number: sdg,
 		type: "photo", // default
 		caption: caption,
-		url: data_public_url.publicUrl
+		url: data_public_url.publicUrl,
+		filename: fileName
 	})
 
 	if (error_user_sdg) {
@@ -118,10 +119,6 @@ export async function getLeaderboardsSchools() {
 
 	return data
 }
-
-
-
-// get photo_event per sdg /// di ko pa magawa eventtt
 
 
 // top liked sa school? sdg?
@@ -319,11 +316,6 @@ export async function getPhotoSdg(sdg: number) {
 }
 
 
-// filter
-// add leaderboards posts per college sa sdgs and event
-// top liked per event // filter eventid get max like 3 lang
-// school per sdg
-// event per sdg
 export async function displayPhoto(searchParams: FormData | null): Promise<Array<any>> {
 	console.log("displaying photo")
 	// console.log(searchParams)
@@ -423,37 +415,14 @@ export async function displayPhoto(searchParams: FormData | null): Promise<Array
 }
 
 
-// display photo per user -- temp
-// export async function displayPhotoByUserID(user_id: string) {
-// 	const supabase = await createClient()
-
-// 	console.log(sdg_query0, sdg_query1, sdg_query2)
-// 	console.log(dept_query0, dept_query1, dept_query2)
-
-// 	const { data: user_sdg_data, error: user_sdg_error } = await supabase
-// 		.from('user_sdgs')
-// 		.select(`
-// 			*,
-// 			users!inner(
-// 				school, 
-// 				department
-// 			)
-// 		`)
-// 		.filter(sdg_query0, sdg_query1, sdg_query2)
-// 		.filter(type_query0, type_query1, type_query2)
-// 		.filter(institution_query0, institution_query1, institution_query2)
-// 		.filter(dept_query0, dept_query1, dept_query2)
-// }
-
 
 export async function uploadAvatar(user_id: String, file: File, avatar_lbl: String) {
 	console.log("Heakdhaohd")
 	console.log(user_id, file)
 
 	const supabase = await createClient()
-	const date = String(Date.now())
 
-	const path = user_id + "/" + date
+	const path = user_id + "/" + user_id
 
 	const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file)
 
@@ -461,7 +430,7 @@ export async function uploadAvatar(user_id: String, file: File, avatar_lbl: Stri
 		console.log(uploadError)
 	}
 
-	const { data: data_public_url } = await supabase.storage.from(`avatars/${user_id}`).getPublicUrl(date);
+	const { data: data_public_url } = await supabase.storage.from(`avatars/${user_id}`).getPublicUrl(user_id);
 
 	interface AvatarData {
 		user_id: String;
@@ -562,3 +531,111 @@ export async function updateAvatarLabel(avatar_id: String, new_lbl: String) {
 		console.log("avatarLblError", avatarLblError)
 	}
 }
+
+
+export async function deleteUserById(user_id: String) {
+	// console.log(user_id)
+	const supabase = await createClient()
+
+	const { data: data_sdgs, error: error_sdgs } = await supabase
+		.from("user_sdgs")
+		.select(`sdg_number, filename`)
+		.eq("user_id", user_id)
+
+	var filenames = []
+	data_sdgs.forEach((sdg) => {
+		// console.log(sdg)
+		filenames.push(`${sdg["sdg_number"]}/${sdg["filename"]}`)
+	})
+
+
+	// delete db
+	const { data: data_db, error: error_db } = await supabase
+		.from('users')
+		.delete()
+		.eq('user_id', user_id)
+	if (error_db) {
+		console.log("error delete user by id:", error_db)
+		return
+	}
+
+
+	// delete storage
+	const { data: data_avatars_storage, error: error_avatars_storage } = await supabase
+		.storage
+		.from('avatars')
+		.remove([`${user_id}/${user_id}`])
+	if (error_avatars_storage) {
+		console.log(`error delete data_avatars_storage: ${error_avatars_storage}`)
+		return
+	}
+
+
+	if (filenames.length > 0) {
+		const { data: data_user_sdgs, error: error_user_sdgs } = await supabase
+			.storage
+			.from('user_sdgs')
+			.remove(filenames)
+
+		if (error_user_sdgs) {
+			console.log(`error delete error_user_sdgs: ${error_user_sdgs}`)
+			return
+		}
+	}
+
+
+	const { error } = await supabase.auth.signOut({ scope: 'local' });
+	if (error) {
+		console.log("error: ", error)
+		return
+	}
+
+	return { redirect: '/auth/login' };			// redirect not working??
+
+
+	// delete auth dont know howww -- do manual nalang?
+	// const { data: data_auth, error: error_auth } = await supabase.auth.admin.deleteUser(user_id)
+
+	// if (error_auth) {
+	// 	console.log(`error delete user by id auth: ${error_auth}`)
+	// 	return
+	// }
+}
+
+
+export async function deleteSdgPost(user_sdg_id: String) {
+	const supabase = await createClient()
+
+	const { data: data_sdgs, error: error_sdgs } = await supabase
+		.from("user_sdgs")
+		.select(`sdg_number, filename`)
+		.eq("user_sdg_id", user_sdg_id).single()
+	if(error_sdgs) {
+		console.log("error error_sdgs:", error_sdgs)
+		return
+	}
+
+
+	// delete db
+	const { data: data_db, error: error_db } = await supabase
+		.from('user_sdgs')
+		.delete()
+		.eq('user_sdg_id', user_sdg_id)
+	if (error_db) {
+		console.log("error deleteSdgPost:", error_db)
+		return
+	}
+
+
+	// delete storage
+	const { data: data_user_sdg_storage, error: error_user_sdg_storage } = await supabase
+		.storage
+		.from('user_sdgs')
+		.remove([`${data_sdgs["sdg_number"]}/${data_sdgs["filename"]}`])
+	if (error_user_sdg_storage) {
+		console.log(`error delete data_avatars_storage: ${error_user_sdg_storage}`)
+		return
+	}
+}
+
+
