@@ -2,6 +2,7 @@
 
 import React from "react";
 import { getButtonStyles } from "../styles/buttonStyles";
+import FloatingDropdown from '../components/layouts/FloatingDropDown';
 
 interface LeaderboardEntry {
   campus: string;
@@ -18,7 +19,7 @@ interface DataProps {
 const Leaderboard: React.FC<DataProps> = ({ data }) => {
   return (
     <div className="min-h-screen lg:ml-96 mt-10 pt-20 flex flex-col w-screen lg:w-[70vw] items-center bg-transparent py-6 px-4">
-      {/* Header */}
+      <FloatingDropdown />
       <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">
         COLLEGE LEADERBOARD
       </h1>

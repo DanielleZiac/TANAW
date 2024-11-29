@@ -10,6 +10,7 @@ import SDGlink5 from '/public/images/SDG/SDGlink5.jpg';
 import SDGlink6 from '/public/images/SDG/SDGlink6.jpg';
 import Logo from '../explore/sdglink/SDG/explorebg.png';
 import TextBoxPanel from '../styles/textBox';
+import FloatingDropdown from '../components/layouts/FloatingDropDown';
 
 // Institution data
 const institutions = [
@@ -37,7 +38,8 @@ const Page: React.FC = () => {
 
   return (
     <div className="bg-[#dbdfe2] flex flex-col md:flex-row h-screen p-4 space-y-4 md:space-x-8 md:p-12 mt-20 lg:ml-64">
-      {/* Left Column */}
+      
+      <FloatingDropdown />
       <div className="flex flex-col justify-start md:w-2/3 sm:w-full items-center">
         <div className="w-full max-w-xs h-48 flex items-center justify-center mb-4">
           <img

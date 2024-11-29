@@ -19,28 +19,37 @@ const Home: React.FC = () => {
 
       {/* Background Image Section */}
       <div className="w-full mt-12">
-        <img
-          src="/images/background/homebgMobile.png"
-          alt="Background"
-          className="w-full h-auto object-contain"
-        />
-      </div>
+  {/* Mobile background (default) */}
+  <img
+    src="/images/background/homebgMobile.png"
+    alt="Mobile Background"
+    className="w-full h-auto object-contain lg:hidden" // Hide on desktop (lg)
+  />  
+
+  {/* Desktop background */}
+  <img
+    src="/images/background/desktophome.png"
+    alt="Desktop Background"
+    className="w-full h-auto object-contain lg:block pl-48 -mt-20 fixed hidden " // Only show on desktop (lg) and move left
+  />
+</div>
+
 
       {/* Footer */}
       <Footer />
 
       {/* Container for SDG Images */}
-      <div className="w-full py-8 z-10">
-        <div className="w-full flex flex-col items-center">
+      <div className="w-full py-8 z-10 lg:mt-[20vh]">
+        <div className="w-full flex flex-col items-center  lg:ml-[400px]">
           {sdgImages.map((item, index) => {
-            let alignmentClass = 'justify-start ';
+            let alignmentClass = 'justify-start xl:-mt-28';
             if (index % 6 === 1 || index % 6 === 4) {
-              alignmentClass = 'justify-center ';
+              alignmentClass = 'justify-center xl:-mt-28';
             } else if (index % 6 === 2 || index % 6 === 3) {
-              alignmentClass = 'justify-end ';
+              alignmentClass = 'justify-end xl:-mt-28';
             }
-            const extraPadding = 'px-6 sm:px-10 md:px-20';
-            const groupGapClass = index % 3 !== 2 ? 'mb-[-80px]' : '';
+            const extraPadding = 'px-6 sm:px-10 md:px-20 xl:px-72';
+      const groupGapClass = index % 3 !== 2 ? 'mb-[-80px]' : 'lg:mb-[70px]';
 
             return (
               <div
@@ -52,7 +61,7 @@ const Home: React.FC = () => {
                   <img
                     src={item.src}
                     alt={`SDG ${index + 1}`}
-                    className="w-[100px] h-[100px] sm:w-48 sm:h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-full object-cover cursor-pointer z-10"
+                    className="w-[100px] h-[100px]  md:w-60 md:h-60 lg:w-48 lg:h-48 lg:ml-72 lg:-mr-72  rounded-full object-cover cursor-pointer z-10"
                   />
                 </Link>
               </div>
