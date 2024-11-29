@@ -71,6 +71,8 @@ export async function login(data: { srCode: string; password: string; school: st
 			console.log("user_data", user_data_insert)
 		}
 	}
+
+	redirect("/dashboard/home")
 }
 
 

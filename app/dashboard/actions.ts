@@ -19,12 +19,17 @@ export async function authenticateUser() {
 }
 
 
-export async function getUserById(supabase: SupabaseClient<any, "public", any>, data: { user: any; }) {
+export async function getUserById(user_id: String) {
+
+	const supabase = await createClient()
 	
-	const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", data.user.id).single();
+	const { data: users_data, error: users_error} = await supabase
+		.from('users')
+		.select(`sr_code, first_name, last_name, institutions(institution), department, avatar_url`)
+		.eq("user_id", user_id).single();
 
 	if (users_data) {
-		return users_data.user_id
+		return users_data
 	}
 }
 
@@ -40,6 +45,7 @@ export async function checkUserAvatar(user_id: String) {
 	} 
 	return true
 }
+
 
 
 
@@ -406,18 +412,52 @@ export async function displayPhoto(searchParams: FormData | null): Promise<Array
 }
 
 
+export async function deleteAllFilesInFolder(storage_, folder) {
+	const supabase = await createClient()
+
+    const { data: files, error: listError } = await supabase
+        .storage
+        .from(storage_)
+        .list(`${folder}/`, { limit: 1000 }); // List files in 'folder/', adjust limit if needed
+
+    if (listError) {
+        console.error('Error listing files:', listError);
+        return;
+    }
+
+    if (!files || files.length === 0) {
+        console.log('No files found in folder');
+        return;
+    }
+
+    // Extract file paths
+    const filePaths = files.map(file => `${folder}/${file.name}`);
+
+    console.log(filePaths)
+
+    // Remove files from storage
+    const { data, error } = await supabase
+        .storage
+        .from(storage_)
+        .remove(filePaths);
+
+    if (error) {
+        console.error('Error deleting files:', error);
+    } else {
+        console.log(`Successfully deleted ${data.length} files.`);
+    }
+}
+
 
 export async function uploadAvatar(user_id: String, file: File, department: String) {
-	console.log(department)
-
-	console.log("Heakdhaohd")
-	console.log(user_id, file)
-
 	const supabase = await createClient()
 
 	let uuid = crypto.randomUUID();
 
-	const path = user_id + "-" + uuid
+	const path = user_id + "/" + uuid
+
+	// empty the bucket folder
+	deleteAllFilesInFolder("avatars", user_id)
 
 	const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file)
 
@@ -429,8 +469,8 @@ export async function uploadAvatar(user_id: String, file: File, department: Stri
 
 	const { data: data_update_avatar, error: error_update_avatar} = await supabase
 		.from("users")
-		.upsert({ avatar_url: data_public_url, department: department })
-		.select()
+		.update({ avatar_url: data_public_url.publicUrl, department: department,  })
+		.eq("user_id", user_id)
 
 	if (error_update_avatar) {
 		console.log("error error_update_avatar", error_update_avatar)
@@ -439,56 +479,18 @@ export async function uploadAvatar(user_id: String, file: File, department: Stri
 }
 
 
-export async function getCurrentAvatarUrl(user_id: String) {
+export async function getUserAvatarUrl(user_id: String) {
 	const supabase = await createClient()
-	const { data: cur_user_avatar, error: cur_user_avatar_error} = await supabase.from('avatars').select("avatar_url").eq("user_id", user_id).eq("is_selected", "TRUE").single();
+	const { data: cur_user_avatar, error: cur_user_avatar_error} = await supabase.from('users').select("avatar_url").eq("user_id", user_id).single();
 
 	if (cur_user_avatar_error) {
 		console.log("cur_user_avatar_error", cur_user_avatar_error)
 		return cur_user_avatar_error
 	}
+	console.log(cur_user_avatar)
 	return cur_user_avatar.avatar_url
 }
 
-
-export async function updateAvatarSelected(avatar_id: String, user_id: String) {
-	const supabase = await createClient()
-	
-	const curUserAvatarUrl = await getCurrentAvatarUrl(user_id);
-
-	console.log(curUserAvatarUrl)
-
-	const { error: prevAvatarError } = await supabase
-		.from('avatars')
-		.update({ is_selected: false })
-		.eq('avatar_url', curUserAvatarUrl)
-
-	if (prevAvatarError) {
-		console.log("prevAvatarError", prevAvatarError)
-		return;
-	}
-
-	const { error: newAvatarError } = await supabase
-		.from('avatars')
-		.update({ is_selected: true })
-		.eq('avatar_id', avatar_id)
-
-	if (newAvatarError) {
-		console.log("newAvatarError", newAvatarError)
-		return;
-	}
-}
-
-
-export async function deleteAvatarSelected(avatar_id: String) {
-	const supabase = await createClient()
-
-	const { data, error } = await supabase
-		.from('countries')
-		.delete()
-		.eq('avatar_id', avatar_id)
-		.select()
-}
 
 
 export async function updateAvatarLabel(avatar_id: String, new_lbl: String) {
