@@ -5,17 +5,21 @@ import { useRouter } from "next/navigation";
 import { getButtonStyles } from "../styles/buttonStyles"; // Importing getButtonStyles
 import AvatarBox from "../styles/avatarBox"; // Assuming AvatarBox is a reusable component for the avatar display
 
-const CreateAvatar1: React.FC = () => {
+interface DataProps {
+  data: string;
+}
+
+const CreateAvatar1: React.FC<DataProps> = ({data}) => {
+  console.log(data);
   const router = useRouter();
   const [gender, setGender] = useState("boy");
-  const [shirtStyle, setShirtStyle] = useState("round-neck");
-  const [eyewear, setEyewear] = useState("none");
+  const [shirtStyle, setShirtStyle] = useState("shirt");
+  const [eyewear, setEyewear] = useState<string | null>(null);
   const [college, setCollege] = useState("cics");
 
   const handleConfirmAvatar = () => {
-    const query = `gender=${gender}&shirtStyle=${shirtStyle}${
-      eyewear !== "none" ? `&eyewear=${eyewear}` : ""
-    }&college=${college}`;
+    const query = `gender=${gender}&shirtStyle=${shirtStyle}` + (eyewear ? `&eyewear=${eyewear}` : "") + `&college=${college}`;
+    // console.log(query)
     router.push(`/dashboard/createAvatar2?${query}`);
   };
 
@@ -166,10 +170,154 @@ const CreateAvatar1: React.FC = () => {
           style={getButtonStyles(false).style}
           onClick={handleConfirmAvatar}
         >
-          Confirm Avatar
-        </button>
+          <div className="text-gray-400 text-2xl">{gender} {shirtStyle} {eyewear} {college}</div>
+
+          <img 
+            src={`/images/avatar/bg/bg_${college}.png`}
+            alt="Gender"
+            className= "absolute inset-0 w-full h-full object-cover"
+          />
+          <img 
+            src={`/images/avatar/sex/${gender}.png`}
+            alt="Shirt Style"
+            className= "absolute inset-0 w-full h-full object-contain"
+          />
+          <img 
+            src={`/images/avatar/shirt_style/${shirtStyle}.png`}
+            alt="Eyewear"
+            className= "absolute inset-0 w-full h-full object-contain"
+          />
+
+          {eyewear 
+            ? 
+              <img 
+                src={`/images/avatar/eye/${eyewear}.png`}
+                alt="Gender"
+                className= "absolute inset-0 w-full h-full object-contain"
+              />
+            : 
+              null
+          }
+
+        </div>
       </div>
-     
+
+      <div className="space-y-14 w-full">
+        {/* Gender Options */}
+        <div>
+          <p className="text-gray-800 text-4xl mb-6 font-extrabold">Gender</p>
+          <div className="flex space-x-8">
+            <button
+              className={`${getButtonStyles(gender === "boy").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(gender === "boy").style}
+              onClick={() => setGender("boy")}
+            >
+              Boy
+            </button>
+            <button
+              className={`${getButtonStyles(gender === "girl").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(gender === "girl").style}
+              onClick={() => setGender("girl")}
+            >
+              Girl
+            </button>
+          </div>
+        </div>
+
+        {/* Shirt Style Options */}
+        <div>
+          <p className="text-gray-800 text-4xl mb-6 font-extrabold">Shirt Style</p>
+          <div className="flex space-x-8">
+            <button
+              className={`${getButtonStyles(shirtStyle === "shirt").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(shirtStyle === "shirt").style}
+              onClick={() => setShirtStyle("shirt")}
+            >
+              Shirt
+            </button>
+            <button
+              className={`${getButtonStyles(shirtStyle === "polo").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(shirtStyle === "polo").style}
+              onClick={() => setShirtStyle("polo")}
+            >
+              Polo
+            </button>
+          </div>
+        </div>
+
+        {/* Eyewear Options */}
+        <div>
+          <p className="text-gray-800 text-4xl mb-6 font-extrabold">Eyewear</p>
+          <div className="flex space-x-8">
+            <button
+              className={`${getButtonStyles(eyewear === "none").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(eyewear === "none").style}
+              onClick={() => setEyewear(null)}
+            >
+              None
+            </button>
+            <button
+              className={`${getButtonStyles(eyewear === "glasses").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(eyewear === "glasses").style}
+              onClick={() => setEyewear("glasses")}
+            >
+              With Glasses
+            </button>
+          </div>
+        </div>
+
+        {/* College Options */}
+        <div>
+          <p className="text-gray-800 text-4xl mb-6 font-extrabold">College</p>
+          <div className="grid grid-cols-2 gap-10">
+            <button
+              className={`${getButtonStyles(college === "cics").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(college === "cics").style}
+              onClick={() => setCollege("cics")}
+            >
+              CICS
+            </button>
+            <button
+              className={`${getButtonStyles(college === "coe").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(college === "coe").style}
+              onClick={() => setCollege("coe")}
+            >
+              COE
+            </button>
+            <button
+              className={`${getButtonStyles(college === "cafad").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(college === "cafad").style}
+              onClick={() => setCollege("cafad")}
+            >
+              CAFAD
+            </button>
+            <button
+              className={`${getButtonStyles(college === "cit").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(college === "cit").style}
+              onClick={() => setCollege("cit")}
+            >
+              CIT
+            </button>
+
+            <button
+              className={`${getButtonStyles(college === "cit").className} py-6 px-10 text-3xl`}
+              style={getButtonStyles(college === "cit").style}
+              onClick={() => router.push("/dashboard/homeTemp")}
+            >
+              Back
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Confirm Avatar Button */}
+      <button
+        className={`${getButtonStyles(false).className} mt-14 py-8 px-12 text-3xl text-sky-950`}
+        style={getButtonStyles(false).style}
+        onClick={handleConfirmAvatar}
+      >
+        Confirm Avatar
+      </button>
     </div>
   );
 };

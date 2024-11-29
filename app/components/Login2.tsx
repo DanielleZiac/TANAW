@@ -1,6 +1,6 @@
 "use client";
 
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import InputBox from '../styles/inputBox';
@@ -13,23 +13,28 @@ const Login: React.FC = () => {
   const [srCode, setSrCode] = useState('');
   const [password, setPassword] = useState('');
 
-  const [error, setError] = useState(null);
-  const [institutions, setInstitution] = useState([]);
-
+  const [error, setError] = useState<string | null>(null);
+  const [institutions, setInstitution] = useState<Array<any> | null>(null);
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
 
     if (srCode && password) {
-      let school = document.getElementById("school").value;
 
-      let data = {
-        srCode,
-        password,
-        school
+      const schoolElement = document.getElementById("school") as HTMLSelectElement | null;
+
+      if (schoolElement) {
+        const school = schoolElement.value;
+        let data = {
+          srCode,
+          password,
+          school
+        }
+        let res = await login(data)
+        setError(res);
+        // router.push('/home');
+      } else {
+        console.log("no school element");
       }
-      let res = await login(data)
-      setError(res);
-      // router.push('/home');
     } else {
       alert('Please fill in both fields.');
     }
@@ -69,9 +74,9 @@ const Login: React.FC = () => {
               }}
               >
               <option value="">--</option>
-              {institutions.map((institution, index) => (
+              {institutions ? institutions.map((institution, index) => (
                 <option key={index} value={institution.institution}>{institution.institution}</option>
-              ))}
+              )) : null}
             </select>
           </div>
           <InputBox

@@ -1,0 +1,73 @@
+"use client"
+
+import { logout } from "../../auth/actions"
+import { authenticateUser, getUserAvatar, updateAvatarSelected } from "../actions"
+import { useEffect, useState } from "react";
+
+
+const HomePage: React.FC = (params) => {
+
+  const [avatars, setAvatars] = useState<any | null>(null)
+  const [userId, setUserId] = useState<String | null>(null)
+
+  useEffect(() => {
+    const auth = (async() => {
+      console.log("aa");
+      const user_id = await authenticateUser()
+      console.log(user_id)
+      let user_avatars = await getUserAvatar(user_id);
+      setAvatars(user_avatars);
+      setUserId(user_id)
+    })
+
+    auth()
+  }, []);
+
+  console.log(avatars)
+
+  const changeCurAvatar = (avatar_id: string) => {
+    console.log("clicked")
+    console.log(avatar_id)
+
+    if (userId !== null) {
+      updateAvatarSelected(avatar_id, userId)
+    }
+  }
+
+  return (
+    <div>
+      <button onClick={logout}>Logout</button>
+      <h1>Photo</h1>
+      {avatars? avatars.map((avatar: {avatar_url: string, avatar_id: string, avatar_label: string}, index: number) => (
+        <div key={index}>
+          <img src={avatar.avatar_url}></img>
+          <button onClick={() => changeCurAvatar(avatar.avatar_id)} style={{backgroundColor: "red", color: "white"}}>{avatar.avatar_label}</button>
+        </div>
+      )) : null}
+      {/*<form>
+        <div>
+          <input type="file" id="file" name="file"></input>
+          <select id="user_id" name="user_id">
+            <option value={data.user_id}>{data.user_id}</option>
+          </select>
+        </div>
+        <div>
+         </div>
+        <div>
+          <select id="sdgs" name="sdgs">
+            <option value="sdg1">sdg1</option>
+            <option value="sdg2">sdg2</option>
+            <option value="sdg3">sdg3</option>
+            <option value="sdg4">sdg4</option>
+            <option value="sdg5">sdg5</option>
+            <option value="sdg6">sdg6</option>
+          </select>
+        </div>
+        <button formAction={uploadPhoto}>Add Photo</button>
+      </form>*/}
+    </div>
+  )
+}
+
+
+export default HomePage;

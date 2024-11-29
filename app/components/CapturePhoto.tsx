@@ -197,6 +197,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
         SDG {sdg}
       </h1>
       <p className="text-gray-700 text-lg md:text-3xl md:mt-8 mb-4 md:mb-8">Photo Challenge</p>
+      
 
       {/* Error Message */}
        {error && (
