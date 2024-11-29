@@ -37,15 +37,15 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#dbdfe2] flex flex-col md:flex-row h-screen space-x-8 overflow-hidden p-12 lg:ml-64 mt-4">
+    <div className="bg-transparent flex flex-col lg:flex-row h-full w-full md:w-screen md:items-center lg:items-start lg:w-[80vw] lg:h-full lg:overflow-hidden lg:space-x-8  p-12 lg:ml-64 mt-4">
       {/* Left Column */}
-      <div className="flex flex-col justify-start md:w-2/3 sm:w-full">
+      <div className="flex flex-col justify-start lg:w-2/3 sm:w-full">
 
-        <div className="w-[500px] h-[350px] flex items-center justify-center ml-24 mt-8"> 
+        <div className="lg:w-[500px] lg:h-[350px] flex items-center justify-center lg:ml-24 mt-8"> 
         <img
             src={selectedInstitution.image.src} 
             alt="Logo"
-            className="object-contain w-full h-full" 
+            className="object-contain md:w-4/5 md:h-4/5 lg:w-full lg:h-full" 
         />
         </div>
         <br/>
@@ -55,14 +55,14 @@ const Page: React.FC = () => {
             TOP 3 LIKED POSTS OF <br/>{selectedInstitution.title.toUpperCase()}
           </h2>
           <hr className="border-black mb-4 w-3/5" />
+
           <div
-            className="grid grid-cols-3 gap-4 px-8 -ml-8"
-            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))' }}
+            className="flex flex-col lg:flex-row gap-4 px-4 md:px-4 lg:-ml-8"
           >
             {top3Posts[selectedInstitution.id as keyof typeof top3Posts]?.map((image, index) => (
               <div
                 key={index}
-                className="relative bg-gray-300 h-32 rounded-lg overflow-hidden"
+                className="relative bg-gray-300 h-32 w-full rounded-lg overflow-hidden"
                 style={{
                   backgroundImage: `url(${image.src})`,
                   backgroundSize: 'cover',
@@ -75,17 +75,19 @@ const Page: React.FC = () => {
               </div>
             ))}
           </div>
+
+
         </section>
       </div>
 
       {/* Right Column */}
-      <div className="flex flex-col pt-8 md:w-1/2 sm:w-full">
+      <div className="flex flex-col pt-8 md:w-full lg:w-1/2 lg:h-[87vh] overflow-hidden">
         <section className="flex-none">
-          <h1 className="text-3xl font-bold mb-2 pl-4">Institutions</h1>
-          <hr className="border-black mb-4 w-2/3 ml-4" />
+          <h1 className="text-3xl font-bold mb-2 lg:pl-4">Institutions</h1>
+          <hr className="border-black mb-4 w-2/3 lg:ml-4" />
         </section>
 
-        <div className="flex-grow overflow-y-auto space-y-4 px-4 scrollbar-hide">
+        <div className="flex-grow overflow-y-auto space-y-4 px-4 scrollbar-hide pb-4">
           {institutions.map((institution) => (
             <div key={institution.id} className="w-full">
               <TextBoxPanel>
