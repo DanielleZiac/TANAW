@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import BSU from '/public/images/institution/bsulogo.png';
 import ADMU from '/public/images/institution/admulogo.png';
@@ -11,6 +11,8 @@ import SDGlink6 from '/public/images/SDG/SDGlink6.jpg';
 import Logo from '../explore/sdglink/SDG/explorebg.png';
 import TextBoxPanel from '../styles/textBox';
 import FloatingDropdown from '../components/layouts/FloatingDropDown';
+
+import { getTopLiked } from "../dashboard/actions"
 
 
 // Institution data
@@ -30,10 +32,44 @@ const top3Posts = {
   3: [SDGlink6, SDGlink4, SDGlink5],
 };
 
-const Page: React.FC = () => {
-  const [selectedInstitution, setSelectedInstitution] = useState(institutions[0]);
+// interface InstitutionPhotos {
+//   institution_id: String;
+//   created_date: string;
+//   caption: string;
+//   sdg_number: String;
+//   url: string;
+//   user_id: string;
+//   user_sdg_id: string;
+// }
+
+
+interface Institution {
+  institution_id: String,
+  institution: String,
+  campus: String,
+  institution_logo: String
+}
+
+
+const Page: React.FC<Institution> = ({data}) => {
+  // console.log(data)
+  const [selectedInstitution, setSelectedInstitution] = useState(data[0]);
+  const [topPosts, setTopPosts] = useState(null);
+
+  useEffect(() => {
+    async function getTopPosts(institution_id) {
+      const topLiked = await getTopLiked(institution_id)
+
+      console.log(topLiked)
+      setTopPosts(topLiked)
+    }
+
+    getTopPosts(selectedInstitution.institution_id)
+  }, [selectedInstitution])
+
 
   const handleInstitutionClick = (institution: typeof institutions[number]) => {
+    console.log(institution)
     setSelectedInstitution(institution);
   };
 
@@ -44,7 +80,7 @@ const Page: React.FC = () => {
 
         <div className="lg:w-[500px] lg:h-[350px] flex items-center justify-center lg:ml-24 mt-8"> 
         <img
-            src={selectedInstitution.image.src} 
+            src={selectedInstitution.institution_logo} 
             alt="Logo"
             className="object-contain md:w-4/5 md:h-4/5 lg:w-full lg:h-full" 
         />
@@ -53,19 +89,19 @@ const Page: React.FC = () => {
 
         <section className="mt-4">
           <h2 className="text-2xl font-semibold mb-2">
-            TOP 3 LIKED POSTS OF <br/>{selectedInstitution.title.toUpperCase()}
+            TOP 3 LIKED POSTS OF <br/>{selectedInstitution.institution}-{selectedInstitution.campus}
           </h2>
           <hr className="border-black mb-4 w-3/5" />
 
           <div
             className="flex flex-col lg:flex-row gap-4 px-4 md:px-4 lg:-ml-8"
           >
-            {top3Posts[selectedInstitution.id as keyof typeof top3Posts]?.map((image, index) => (
+            {topPosts ? topPosts.slice(0,3).map((image, index) => (
               <div
                 key={index}
                 className="relative bg-gray-300 h-32 w-full rounded-lg overflow-hidden"
                 style={{
-                  backgroundImage: `url(${image.src})`,
+                  backgroundImage: `url(${image.url})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
@@ -74,10 +110,8 @@ const Page: React.FC = () => {
                   <p className="text-gray-200 font-semibold text-xl">Post {index + 1}</p>
                 </div>
               </div>
-            ))}
+            )) : null}
           </div>
-
-
         </section>
       </div>
 
@@ -89,22 +123,23 @@ const Page: React.FC = () => {
         </section>
 
         <div className="flex-grow overflow-y-auto space-y-4 px-4 scrollbar-hide pb-4">
-          {institutions.map((institution) => (
-            <div key={institution.id} className="w-full">
+          {data.map((institution, index) => (
+            <div key={index} className="w-full">
               <TextBoxPanel>
                 <button
                   onClick={() => handleInstitutionClick(institution)}
                   className="flex flex-row items-center gap-4 w-full text-left"
                 >
                   <img
-                    src={institution.image.src}
-                    alt={`${institution.title} logo`}
+                    src={institution.institution_logo}
+                    alt={`${institution.institution} logo`}
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <div className="flex flex-col">
-                    <p className="font-semibold text-lg text-gray-800">{institution.title}</p>
+                    <p className="font-semibold text-lg text-gray-800">{institution.institution}-{institution.campus}</p>
                     <p className="text-sm text-gray-600">
-                      This institution focuses on {institution.title.toLowerCase()}.
+                      ??????
+                      {/*This institution focuses on {institution.title.toLowerCase()}.*/}
                     </p>
                   </div>
                 </button>

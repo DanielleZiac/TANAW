@@ -6,16 +6,6 @@ import Image from 'next/image'; // For optimized image handling
 import { useRouter } from 'next/router'; // For navigation
 
 
-interface InstitutionPhotos {
-  institution_id: String;
-  created_date: string;
-  caption: string;
-  sdg_number: String;
-  url: string;
-  user_id: string;
-  user_sdg_id: string;
-}
-
 interface DataProps {
   data: [
     user_id: string, 
@@ -25,15 +15,13 @@ interface DataProps {
       likes: number, 
       url: string, 
       user_sdg_id: string
-    }> | undefined,
-    institution_photos: Array<InstitutionPhotos> | undefined
+    }> | undefined
   ];
 }
 
 const Gallery: React.FC<DataProps> = ({data}) => {
   const user_id = data[0];
   const photoData = data[1];
-  const institutionPhotos = data[2]
 
   const sdgImages = Array.from({ length: 17 }, (_, i) => ({
     src: `/images/SDG/SDG${i + 1}.jpg`, // Assume you have these images in public/images/
@@ -87,19 +75,7 @@ const Gallery: React.FC<DataProps> = ({data}) => {
 
       {/* Image Grid Section */}
       <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0.5 bg-transparent overflow-y-auto max-h-[calc(80vh-200px)]">
-        {activeTab == "uploads" && photoData ? 
-          (activeTab === 'uploads' ? photoData : photoData).map((img, index) => (
-            <div key={index} className="relative w-full h-32"> {/* Fixed height */}
-              <Image
-                src={img.url}
-                alt={`Gallery Image ${index + 1}`}
-                width={400}
-                height={400}
-                className="w-full h-full object-cover"  // Object cover to maintain aspect ratio
-              />
-            </div>
-          )) : 
-          (activeTab === 'events' ? institutionPhotos : institutionPhotos).map((img, index) => (
+        {(activeTab === 'uploads' ? photoData : photoData).map((img, index) => (
             <div key={index} className="relative w-full h-32"> {/* Fixed height */}
               <Image
                 src={img.url}

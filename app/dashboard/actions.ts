@@ -137,6 +137,21 @@ export async function getInstitutionPhoto(user_id: string) {
 	return data
 }
 
+export async function getInstitutions() {
+	const supabase = await createClient()
+
+	const { data: data_institutions, error: error_institutions } = await supabase
+		.from("institutions")
+		.select(`institution_id, institution, campus, institution_logo`)
+
+	if (error_institutions) {
+		console.log("error error_institutions: ", error_institutions)
+		return
+	}
+
+	return data_institutions
+}
+
 
 
 // SDGS
@@ -374,10 +389,21 @@ export async function getNumberOfLikes(user_sdg_id: string) {
 
 
 // HALL OF FAME
-export async function getTopLiked() {
+export async function getTopLiked(institution_id?: String) {
 	const supabase = await createClient()
+	let qry0 = ""
+	let qry1 = ""
+	let qry2 = ""
 
-	const { data, error } = await supabase.from('top_liked_sdg').select();
+	if (institution_id) {
+		qry0 = "institution_id"
+		qry1 = "in"
+		qry2 = '("' + institution_id + '")'
+	}
+
+	console.log(qry0, qry1, qry2)
+
+	const { data, error } = await supabase.from('top_liked_sdg').select().filter(qry0, qry1, qry2);
 
 	if (error) {
 		console.log("Error", error)
