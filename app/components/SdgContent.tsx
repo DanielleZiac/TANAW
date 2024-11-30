@@ -37,14 +37,13 @@ interface DataProps {
 
 const SdgContent: React.FC<DataProps> = ({data}) => {
 
+  // useEffect(() => {
+  //   const filter = async() => {
+  //     filterSdgs(null, data[1]);
+  //   } 
 
-  useEffect(() => {
-    const filter = async() => {
-      filterSdgs(null, data[1]);
-    } 
-
-    filter();
-  }, [])
+  //   filter();
+  // }, [])
 
   // console.log(data);
   const user_id = data[0];

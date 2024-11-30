@@ -8,11 +8,13 @@ import { authenticateUser, checkUserAvatar } from "../actions";
 // const InstitutionPage: React.FC = () => {
 export default async function InstitutionPage() {
   const user_id = await authenticateUser()
-  const hasAvatar = await checkUserAvatar(user_id)
-  if (!hasAvatar) {
-    redirect('/dashboard/createAvatar1')
-    return 
-  }
+  await checkUserAvatar(user_id)
+
+  // const hasAvatar = await checkUserAvatar(user_id)
+  // if (!hasAvatar) {
+  //   redirect('/dashboard/createAvatar1')
+  //   return 
+  // }
   
   return (
     <MainLayout>

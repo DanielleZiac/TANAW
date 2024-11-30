@@ -45,11 +45,12 @@ export async function deleteUserById(user_id: String) {
 		.select(`sdg_number, filename`)
 		.eq("user_id", user_id)
 
-	var filenames = []
-	data_sdgs.forEach((sdg) => {
-		// console.log(sdg)
-		filenames.push(`${sdg["sdg_number"]}/${sdg["filename"]}`)
-	})
+	const {data: data_avatar, error: error_avatar } = await supabase
+		.from("users")
+		.select("avatar_url")
+		.eq("user_id", user_id)
+		.single()
+
 
 
 	// delete db
@@ -64,14 +65,21 @@ export async function deleteUserById(user_id: String) {
 
 
 	// delete storage
+	const fileName = data_avatar.avatar_url.split("/")[-1]
 	const { data: data_avatars_storage, error: error_avatars_storage } = await supabase
 		.storage
 		.from('avatars')
-		.remove([`${user_id}/${user_id}`])
+		.remove([`${user_id}/${fileName}`])
 	if (error_avatars_storage) {
 		console.log(`error delete data_avatars_storage: ${error_avatars_storage}`)
 		return
 	}
+
+
+	var filenames = []
+	data_sdgs.forEach((sdg) => {
+		filenames.push(`${sdg["sdg_number"]}/${sdg["filename"]}`)
+	})
 
 
 	if (filenames.length > 0) {
@@ -93,7 +101,7 @@ export async function deleteUserById(user_id: String) {
 		return
 	}
 
-	return { redirect: '/auth/login' };			// redirect not working??
+	redirect("/auth/login")
 
 
 	// delete auth dont know howww -- do manual nalang?
@@ -265,14 +273,14 @@ export async function uploadAvatar(user_id: String, file: File, department_id: S
 export async function checkUserAvatar(user_id: String) {
 	const supabase = await createClient()
 
-	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select("user_id").eq("user_id", user_id).single();
-
-	if (!user_avatars || user_avatars.length < 1) {
+	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select("avatar_url").eq("user_id", user_id).single();
+	console.log(user_avatars)
+	if (!user_avatars.avatar_url || user_avatars.avatar_url.length < 1) {
 		console.log("create avatar first")
-		return false
-		// redirect('/dashboard/createAvatar1')
+		redirect('/dashboard/createAvatar1')
+		// return false
 	} 
-	return true
+	// return true
 }
 
 
