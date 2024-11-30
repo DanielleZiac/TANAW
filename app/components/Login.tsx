@@ -49,27 +49,34 @@ const Login: React.FC = () => {
 
 
   const Signup = async () => {
-    console.log(srCode, password, firstName, lastName, confirmPassword)
+    console.log(srCode, password, firstName, lastName, confirmPassword);
     const schoolElement = document.getElementById("schoolSignup") as HTMLSelectElement | null;
-    if (srCode, password, firstName, lastName, confirmPassword) {
+  
+    // Ensure all fields are filled
+    if (srCode && password && firstName && lastName && confirmPassword) {
       if (schoolElement) {
         const school = schoolElement.value;
+  
+        // Check if passwords match
         if (password !== confirmPassword) {
-          // setError("Passwords do not match.");
           alert("Passwords do not match.");
           return;
         }
-        let data = { srCode, firstName, lastName, school, password: password };
+  
+        // Prepare data and call signup API
+        let data = { srCode, firstName, lastName, school, password };
         let res = await signup(data);
-        // setError(res ?? null);
+  
+        // Handle response
         alert(res ?? null);
       } else {
-        console.log("no school element");
+        console.log("No school element");
       }
     } else {
-      alert("All fields are required")
+      alert("All fields are required");
     }
   };
+  
 
 
   useEffect(() => {
