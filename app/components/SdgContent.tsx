@@ -45,6 +45,8 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
   const [likedPosts, setLikedPosts] = useState<Array<Liked> | undefined>(curLiked);
   const [likes, setLikes] = useState<number | null>(0);
 
+  
+
   // Dropdown state
   const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("Filter Options");
