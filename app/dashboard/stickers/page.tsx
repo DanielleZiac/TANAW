@@ -7,12 +7,14 @@ import { redirect } from 'next/navigation'
 import { authenticateUser, checkUserAvatar } from "../actions";
 
 const StickersPage = async () => {
-  const data = await authenticateUser()
-  const hasAvatar = await checkUserAvatar()
-  if (!hasAvatar) {
-    redirect('/dashboard/createAvatar1')
-    return 
-  }
+  const user_id = await authenticateUser()
+  await checkUserAvatar(user_id)
+
+  // const hasAvatar = await checkUserAvatar(user_id)
+  // if (!hasAvatar) {
+  //   redirect('/dashboard/createAvatar1')
+  //   return 
+  // }
 
 
   return (

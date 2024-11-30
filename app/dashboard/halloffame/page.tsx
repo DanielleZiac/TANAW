@@ -2,34 +2,30 @@ import HallOfFame from '../../components/HallOfFame'; // Adjust the path if need
 import MainLayout from '../../components/layouts/MainLayout'; // Adjust to your project structure
 import { redirect } from 'next/navigation'
 
-import { authenticateUser, getHighestPostCount, checkUserAvatar } from "../actions";
+import { authenticateUser, getTopLiked, checkUserAvatar } from "../actions";
 
 
 interface Data {
-  count: number;
-  first_name: string;
-  institution_id: string;
-  institutions: {
-    campus: string;
-    institution: string;
-  };
-  last_name: string;
-  user_id: string;
+  caption: String,
+  created_date: String,
+  sdg_number: String,
+  total_count: number,
+  url: String,
+  user_id: String,
+  user_sdg_id: String
 }
 
 export default async function HallOfFamePage() {
 
   const user_id = await authenticateUser()
-  const hasAvatar = await checkUserAvatar()
-  if (!hasAvatar) {
-    redirect('/dashboard/createAvatar1')
-    return 
-  }
+  await checkUserAvatar(user_id)
+  // const hasAvatar = await checkUserAvatar(user_id)
+  // if (!hasAvatar) {
+  //   redirect('/dashboard/createAvatar1')
+  //   return 
+  // }
 
-  const data:Array<Data> | undefined = await getHighestPostCount();
-  // const
-
-  // console.log("asd", data)
+  const data: Array<Data> | undefined = await getTopLiked();
 
   return (
     <MainLayout>

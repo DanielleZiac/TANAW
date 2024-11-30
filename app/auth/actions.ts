@@ -120,6 +120,7 @@ export async function signup(data: { srCode: string, firstName: string, lastName
 	return "Check your email";
 }
 
+
 export async function logout() {
 	console.log("logout")
 
@@ -136,9 +137,6 @@ export async function logout() {
 	redirect("/")
 }
 
-export async function createAvatar() {
-	// sa create avatar?
-}
 
 export async function resetPassword(formData: FormData) {
 	// authenticated users lang -- may error pa pag di authenticated nag aaccess
@@ -159,6 +157,7 @@ export async function resetPassword(formData: FormData) {
 	revalidatePath("/", "layout");
 	redirect("/auth/resetPassword?message=Check your email")
 }
+
 
 export async function updatePassword(formData: FormData) {
 	const email = formData.get("newPassword") as string

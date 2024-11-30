@@ -9,7 +9,8 @@ interface LeaderboardEntry {
   count: number;
   institution: string;
   institution_id: string;
-  institution_logo: string;
+  department: string;
+  department_logo: string;
 }
 
 interface DataProps {
@@ -33,12 +34,12 @@ const Leaderboard: React.FC<DataProps> = ({ data }) => {
             style={getButtonStyles(false).style}
           >
             <img
-              src={entry.institution_logo}
-              alt={`${entry.institution} logo`}
+              src={entry.department_logo}
+              alt={`${entry.department_logo} logo`}
               className="w-16 sm:w-20 h-16 sm:h-20 rounded-full border-4 border-cBlue mb-2"
             />
             <span className="text-sm sm:text-lg font-semibold text-gray-700 text-center">
-              {entry.institution} - {entry.campus}
+              {entry.department}
             </span>
             <span className="text-sm sm:text-lg font-semibold text-cBlue text-center">
               {entry.count}
@@ -70,12 +71,12 @@ const Leaderboard: React.FC<DataProps> = ({ data }) => {
                   {index + 1}
                 </span>
                 <img
-                  src={entry.institution_logo}
-                  alt={`${entry.institution} logo`}
+                  src={entry.department_logo}
+                  alt={`${entry.department_logo} logo`}
                   className="w-6 sm:w-8 h-6 sm:h-8 rounded-full ml-2"
                 />
                 <span className="ml-4 text-sm sm:text-base text-gray-700">
-                  {entry.institution} - {entry.campus}
+                  {entry.department}
                 </span>
                 <span className="ml-auto text-cBlue font-bold text-sm sm:text-base">
                   {entry.count}

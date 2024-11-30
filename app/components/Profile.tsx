@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 import TextBoxPanel from "../styles/textBox"; 
 
-import { authenticateUser, getUserById } from "../dashboard/actions";
+import { authenticateUser, getUserById, deleteUserById } from "../dashboard/actions";
 
 import ButtonBox from "../styles/buttonBox";
 
@@ -24,18 +24,26 @@ interface UserData {
 const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
 
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [userId, setUserId] = useState<String | null>(null);
 
   useEffect(() => {
     const getUserData = async () => {
       const user_id = await authenticateUser();
       const user_data = await getUserById(user_id)
       setUserData(user_data)
+      setUserId(user_id)
     }
 
     getUserData();
   }, [])
 
   console.log(userData)
+
+  const deleteUser = () => {
+    console.log(userId)
+
+    deleteUserById(userId);
+  }
 
   return (
     <div className="px-10 md:px-0">
@@ -59,7 +67,7 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
               && userData?.last_name 
               && userData?.sr_code 
               && userData?.institutions.institution 
-              && userData?.department ? 
+              && userData?.departments.department ? 
                 <div className="flex flex-col gap-2 justify-center">
                 <p className="font-bold lg:text-2xl text-gray-800">{userData.first_name} {userData.last_name}</p>
                 <p className="font-semibold lg:text-2xl text-gray-800">{userData.sr_code}</p>
@@ -67,13 +75,13 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
                   <div className="flex flex-row items-center gap-8 mt-4 hidden sm:block">
                     <div className="flex flex-col lg:text-lg">
                       <p className="font-bold text-gray-600">{userData.institutions.institution}</p>
-                      <p className="font-bold text-gray-600">{userData.department}</p>
+                      <p className="font-bold text-gray-600">{userData.departments.department}</p>
                     </div>
                   </div>
               
               </div>
              : 
-              <p>Loading avatar...</p>
+              <p>Loading user data...</p>
             }
             <button
               onClick={closePopup}
@@ -93,7 +101,7 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
             <ButtonBox style={{width: '50%'}}>
               Profile Settings
             </ButtonBox>
-            <ButtonBox style={{width: '50%'}}>
+            <ButtonBox onClick={deleteUser} style={{width: '50%'}}>
               Delete Account
             </ButtonBox>
           </div>
