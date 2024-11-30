@@ -5,7 +5,7 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import Link from 'next/link';
 import { SDG_TITLES } from '../data/sdgTitles';
-import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes } from "../dashboard/actions";
+import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes, filterSdgs } from "../dashboard/actions";
 
 
 
@@ -36,6 +36,16 @@ interface DataProps {
 
 
 const SdgContent: React.FC<DataProps> = ({data}) => {
+
+
+  useEffect(() => {
+    const filter = async() => {
+      filterSdgs(null, data[1]);
+    } 
+
+    filter();
+  }, [])
+
   // console.log(data);
   const user_id = data[0];
   const sdg = data[1];
