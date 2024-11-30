@@ -18,7 +18,7 @@ export default async function GalleryPage() {
 
   const user_id = await authenticateUser()
 
-  const hasAvatar = await checkUserAvatar()
+  const hasAvatar = await checkUserAvatar(user_id)
   if (!hasAvatar) {
     redirect('/dashboard/createAvatar1')
     return 

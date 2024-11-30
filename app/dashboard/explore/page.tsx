@@ -9,9 +9,9 @@ import { authenticateUser, checkUserAvatar } from "../actions";
 // const ExploreComponent: React.FC = () => {
 export default async function ExploreComponent() {
   
-  const data = await authenticateUser()
+  const user_id = await authenticateUser()
 
-  const hasAvatar = await checkUserAvatar()
+  const hasAvatar = await checkUserAvatar(user_id)
   if (!hasAvatar) {
     redirect('/dashboard/createAvatar1')
     return 

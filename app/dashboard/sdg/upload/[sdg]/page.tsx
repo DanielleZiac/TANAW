@@ -10,7 +10,7 @@ export default async function UploadPage({
   }) {
 
   const data = await authenticateUser()
-  const hasAvatar = await checkUserAvatar()
+  const hasAvatar = await checkUserAvatar(data)
   if (!hasAvatar) {
     redirect('/dashboard/createAvatar1')
     return 

@@ -7,14 +7,14 @@ import { authenticateUser, checkUserAvatar } from "../actions";
 
 
 export default async function HomePage() {
-	const data = await authenticateUser()
-	const hasAvatar = await checkUserAvatar()
+	const user_id = await authenticateUser()
+	const hasAvatar = await checkUserAvatar(user_id)
 	if (!hasAvatar) {
 		redirect('/dashboard/createAvatar1')
 		return 
 	}
 
-	console.log("data", data)
+	console.log("data", user_id)
 
 		return (
 			<MainLayout>

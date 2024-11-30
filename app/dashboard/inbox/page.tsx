@@ -8,8 +8,8 @@ import { authenticateUser, checkUserAvatar } from "../actions";
 // const InboxPage: React.FC = () => {
 export default async function InboxPage() {
   
-  const data = await authenticateUser()
-  const hasAvatar = await checkUserAvatar()
+  const user_id = await authenticateUser()
+  const hasAvatar = await checkUserAvatar(user_id)
   if (!hasAvatar) {
     redirect('/dashboard/createAvatar1')
     return 

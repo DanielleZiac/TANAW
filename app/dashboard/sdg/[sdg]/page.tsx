@@ -28,7 +28,7 @@ export default async function SdgPage({
   }) {
 
   const user_id: string = await authenticateUser()
-  const hasAvatar = await checkUserAvatar()
+  const hasAvatar = await checkUserAvatar(user_id)
   if (!hasAvatar) {
     redirect('/dashboard/createAvatar1')
     return 

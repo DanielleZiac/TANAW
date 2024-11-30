@@ -4,6 +4,8 @@ import mergeImages from "merge-images";
 import { useRouter, redirect } from "next/navigation";
 import React, { useEffect, useRef, useState  } from "react";
 import { baseButtonClass, getButtonStyles } from '../styles/buttonStyles'; // Import your shared button styles
+import { getDepartmentByAcronym } from "../dashboard/actions"
+
 
 import { runFacemesh } from "./faceLandmarkDetection"
 
@@ -98,8 +100,10 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
     ].map((id) => document.getElementById(id) as HTMLImageElement);
 
     const base64 = await mergeImages(elements.map((el) => el?.src).filter(Boolean));
+    const department_id = await getDepartmentByAcronym(avatar.college);
+    console.log(department_id.department_id)
     sessionStorage.setItem(user_id, base64);
-    sessionStorage.setItem("college", avatar.college)
+    sessionStorage.setItem("department_id", department_id.department_id)
 
     router.push("/dashboard/createAvatar3");
   };

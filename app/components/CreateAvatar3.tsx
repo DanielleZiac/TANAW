@@ -21,7 +21,7 @@ const CreateAvatar3: React.FC<DataProps> = ({data}) => {
 
   useEffect(() => {
     var dataImage = sessionStorage.getItem(user_id);
-    var dataCollege = sessionStorage.getItem("college");
+    var dataCollege = sessionStorage.getItem("department_id");
     if (dataImage == null || dataCollege == null) {
       console.log("null")
       redirect("/dashboard/createAvatar1")
@@ -56,7 +56,7 @@ const CreateAvatar3: React.FC<DataProps> = ({data}) => {
             const file = new File([u8arr], "avatar.png", {type:mime})
             uploadAvatar(user_id, file, college)
             sessionStorage.removeItem(user_id)
-            sessionStorage.removeItem("college")
+            sessionStorage.removeItem("department_id")
 
             redirect("/dashboard/createAvatar1")
   
@@ -76,7 +76,7 @@ const CreateAvatar3: React.FC<DataProps> = ({data}) => {
 
   const retake = () => {
     sessionStorage.removeItem(user_id);
-    sessionStorage.removeItem("college");
+    sessionStorage.removeItem("department_id");
     router.back()
   }
 

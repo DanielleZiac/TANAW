@@ -59,7 +59,7 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
               && userData?.last_name 
               && userData?.sr_code 
               && userData?.institutions.institution 
-              && userData?.department ? 
+              && userData?.departments.department ? 
                 <div className="flex flex-col gap-2 justify-center">
                 <p className="font-bold lg:text-2xl text-gray-800">{userData.first_name} {userData.last_name}</p>
                 <p className="font-semibold lg:text-2xl text-gray-800">{userData.sr_code}</p>
@@ -67,13 +67,13 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
                   <div className="flex flex-row items-center gap-8 mt-4 hidden sm:block">
                     <div className="flex flex-col lg:text-lg">
                       <p className="font-bold text-gray-600">{userData.institutions.institution}</p>
-                      <p className="font-bold text-gray-600">{userData.department}</p>
+                      <p className="font-bold text-gray-600">{userData.departments.department}</p>
                     </div>
                   </div>
               
               </div>
              : 
-              <p>Loading avatar...</p>
+              <p>Loading user data...</p>
             }
             <button
               onClick={closePopup}

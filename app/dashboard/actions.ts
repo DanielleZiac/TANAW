@@ -19,13 +19,15 @@ export async function authenticateUser() {
 }
 
 
+
+// USERS
 export async function getUserById(user_id: String) {
 
 	const supabase = await createClient()
 	
 	const { data: users_data, error: users_error} = await supabase
 		.from('users')
-		.select(`sr_code, first_name, last_name, institutions(institution), department, avatar_url`)
+		.select(`sr_code, first_name, last_name, institutions(institution), departments(department), avatar_url`)
 		.eq("user_id", user_id).single();
 
 	if (users_data) {
@@ -33,23 +35,114 @@ export async function getUserById(user_id: String) {
 	}
 }
 
-export async function checkUserAvatar(user_id: String) {
+export async function deleteUserById(user_id: String) {
+	// console.log(user_id)
 	const supabase = await createClient()
 
-	const { data: user_avatars, error: user_avatars_error} = await supabase.from('avatars').select("user_id").eq("user_id", user_id).single();
+	const { data: data_sdgs, error: error_sdgs } = await supabase
+		.from("user_sdgs")
+		.select(`sdg_number, filename`)
+		.eq("user_id", user_id)
 
-	if (!user_avatars || user_avatars.length < 1) {
-		console.log("create avatar first")
-		return false
-		// redirect('/dashboard/createAvatar1')
-	} 
-	return true
+	var filenames = []
+	data_sdgs.forEach((sdg) => {
+		// console.log(sdg)
+		filenames.push(`${sdg["sdg_number"]}/${sdg["filename"]}`)
+	})
+
+
+	// delete db
+	const { data: data_db, error: error_db } = await supabase
+		.from('users')
+		.delete()
+		.eq('user_id', user_id)
+	if (error_db) {
+		console.log("error delete user by id:", error_db)
+		return
+	}
+
+
+	// delete storage
+	const { data: data_avatars_storage, error: error_avatars_storage } = await supabase
+		.storage
+		.from('avatars')
+		.remove([`${user_id}/${user_id}`])
+	if (error_avatars_storage) {
+		console.log(`error delete data_avatars_storage: ${error_avatars_storage}`)
+		return
+	}
+
+
+	if (filenames.length > 0) {
+		const { data: data_user_sdgs, error: error_user_sdgs } = await supabase
+			.storage
+			.from('user_sdgs')
+			.remove(filenames)
+
+		if (error_user_sdgs) {
+			console.log(`error delete error_user_sdgs: ${error_user_sdgs}`)
+			return
+		}
+	}
+
+
+	const { error } = await supabase.auth.signOut({ scope: 'local' });
+	if (error) {
+		console.log("error: ", error)
+		return
+	}
+
+	return { redirect: '/auth/login' };			// redirect not working??
+
+
+	// delete auth dont know howww -- do manual nalang?
+	// const { data: data_auth, error: error_auth } = await supabase.auth.admin.deleteUser(user_id)
+
+	// if (error_auth) {
+	// 	console.log(`error delete user by id auth: ${error_auth}`)
+	// 	return
+	// }
 }
 
 
 
 
-// sdgs muna pa to
+// SDGS
+export async function deleteSdgPost(user_sdg_id: String) {
+	const supabase = await createClient()
+
+	const { data: data_sdgs, error: error_sdgs } = await supabase
+		.from("user_sdgs")
+		.select(`sdg_number, filename`)
+		.eq("user_sdg_id", user_sdg_id).single()
+	if(error_sdgs) {
+		console.log("error error_sdgs:", error_sdgs)
+		return
+	}
+
+
+	// delete db
+	const { data: data_db, error: error_db } = await supabase
+		.from('user_sdgs')
+		.delete()
+		.eq('user_sdg_id', user_sdg_id)
+	if (error_db) {
+		console.log("error deleteSdgPost:", error_db)
+		return
+	}
+
+
+	// delete storage
+	const { data: data_user_sdg_storage, error: error_user_sdg_storage } = await supabase
+		.storage
+		.from('user_sdgs')
+		.remove([`${data_sdgs["sdg_number"]}/${data_sdgs["filename"]}`])
+	if (error_user_sdg_storage) {
+		console.log(`error delete data_avatars_storage: ${error_user_sdg_storage}`)
+		return
+	}
+}
+
 export async function uploadPhoto(formData: FormData) {
 	// console.log(formData.get("file"))
 	// console.log(formData.get("sdgs"))
@@ -102,55 +195,113 @@ export async function uploadPhoto(formData: FormData) {
 	// return user_data
 }
 
-
-export async function getLeaderboardsSchools() {
-
-	const supabase = await createClient()
-
-	const { data, error } = await supabase.from('leaderboards_schools').select();
-
-	if (error) {
-		console.log("Error", error)
-		return
-	}
-
-	return data
-}
-
-
-// top liked sa school? sdg?
-export async function getTopLiked() {
-	const supabase = await createClient()
-
-	const { data, error } = await supabase.from('top_liked_sdg').select();
-
-	if (error) {
-		console.log("Error", error)
-		return
-	}
-
-	console.log(data)
-}
-
-
-// latest post per day sdg_users
-export async function getLatestPostPerDaySdgs() {
+export async function getPhotoByUserId(user_id: string) {
 	const supabase = await createClient()
 
 	const { data, error } = await supabase
-		.from("latest_post_sdg")
-		.select()
-	
+		.from("user_sdgs")
+		.select(`user_sdg_id, url, caption, likes, created_at`)
+		.order('created_at', { ascending: false })
+		.eq('user_id', user_id)
+
 	if (error) {
-		console.log("Error getLatestPostPerDaySdgs", error)
+		console.log("Error getPhotoSdgByUserId", error)
 		return
 	}
-
 	console.log(data)
+	return data;
+}
+
+export async function getPhotoSdg(sdg: number) {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("get_photo_and_avatar")
+		.select()
+		.eq('sdg_number', `sdg${sdg}`)
+
+	if (error) {
+		console.log("Error getPhotoSdg", error)
+		return
+	}
+	// console.log("dataaaa", data);
+	return data;
 }
 
 
-// liked posts
+
+
+// AVATARS
+export async function uploadAvatar(user_id: String, file: File, department_id: String) {
+	const supabase = await createClient()
+
+	let uuid = crypto.randomUUID();
+
+	const path = user_id + "/" + uuid
+
+	// empty the bucket folder
+	deleteAllFilesInFolder("avatars", user_id)
+
+	const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file)
+
+	if (uploadError) {
+		console.log(uploadError)
+	}
+
+	const { data: data_public_url } = await supabase.storage.from(`avatars`).getPublicUrl(path);
+
+	const { data: data_update_avatar, error: error_update_avatar} = await supabase
+		.from("users")
+		.update({ avatar_url: data_public_url.publicUrl, department_id: department_id  })
+		.eq("user_id", user_id)
+
+	if (error_update_avatar) {
+		console.log("error error_update_avatar", error_update_avatar)
+		return
+	}
+}
+
+export async function checkUserAvatar(user_id: String) {
+	const supabase = await createClient()
+
+	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select("user_id").eq("user_id", user_id).single();
+
+	if (!user_avatars || user_avatars.length < 1) {
+		console.log("create avatar first")
+		return false
+		// redirect('/dashboard/createAvatar1')
+	} 
+	return true
+}
+
+
+
+
+// LIKES
+export async function removeLike(user_sdg_id: string, user_id: string) {
+	const supabase = await createClient()
+
+	const res = await supabase
+		.from('liked_sdg_posts')
+		.delete()
+		.eq("user_sdg_id", user_sdg_id)
+		.eq("user_id", user_id)
+}
+
+export async function addLike(user_sdg_id: string, user_id: string) {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("liked_sdg_posts")
+		.insert({user_sdg_id, user_id})
+
+	if (error) {
+		console.log("Error addLike", error)
+		return
+	}
+	console.log("data")
+}
+
 export async function getLikedPostsSdgs(user_id: string, sdg: number) {
 	const supabase = await createClient()
 
@@ -168,7 +319,6 @@ export async function getLikedPostsSdgs(user_id: string, sdg: number) {
 	// console.log(data)
 	return data;
 }
-
 
 export async function getNumberOfLikes(user_sdg_id: string) {
 	console.log(user_sdg_id);
@@ -189,47 +339,113 @@ export async function getNumberOfLikes(user_sdg_id: string) {
 }
 
 
-export async function getHighestPostCount() {
+
+
+
+// HALL OF FAME
+export async function getTopLiked() {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase.from('top_liked_sdg').select();
+
+	if (error) {
+		console.log("Error", error)
+		return
+	}
+
+	console.log(data)
+	return data
+}
+
+
+
+
+
+
+// OTHERS
+export async function deleteAllFilesInFolder(storage_, folder) {
+	const supabase = await createClient()
+
+    const { data: files, error: listError } = await supabase
+        .storage
+        .from(storage_)
+        .list(`${folder}/`, { limit: 1000 }); // List files in 'folder/', adjust limit if needed
+
+    if (listError) {
+        console.error('Error listing files:', listError);
+        return;
+    }
+
+    if (!files || files.length === 0) {
+        console.log('No files found in folder');
+        return;
+    }
+
+    // Extract file paths
+    const filePaths = files.map(file => `${folder}/${file.name}`);
+
+    console.log(filePaths)
+
+    // Remove files from storage
+    const { data, error } = await supabase
+        .storage
+        .from(storage_)
+        .remove(filePaths);
+
+    if (error) {
+        console.error('Error deleting files:', error);
+    } else {
+        console.log(`Successfully deleted ${data.length} files.`);
+    }
+}
+
+
+
+
+
+// LEADERBOARD
+export async function getLeaderboardsSchools(institution_id: String) {
+	const supabase = await createClient()
+	const { data, error } = await supabase.from('leaderboards_schools').select().eq("institution_id", institution_id);
+
+	if (error) {
+		console.log("Error", error)
+		return
+	}
+	return data
+}
+
+
+
+
+export async function getDepartmentByAcronym(acronym: String) {
 	const supabase = await createClient();
 
-	const { data, error } = await supabase
-		.from("get_top_post_count")
-		.select(`*, institutions(institution, campus)`)
+	const { data: data_department } = await supabase.from("departments").select("department_id").eq("acronym", acronym).single();
 
-	if (error) {
-		console.log("Error getHighestPostCount", error)
-		return
-	}
+	console.log(data_department);
 
-	// console.log("datassss", data)
-	return data;
-}
-
-// unlike -1
-export async function removeLike(user_sdg_id: string, user_id: string) {
-	const supabase = await createClient()
-
-	const res = await supabase
-		.from('liked_sdg_posts')
-		.delete()
-		.eq("user_sdg_id", user_sdg_id)
-		.eq("user_id", user_id)
+	return data_department;
 }
 
 
-// add likes +1
-export async function addLike(user_sdg_id: string, user_id: string) {
+
+
+// unused functionss
+// latest post per day sdg_users
+export async function getLatestPostPerDaySdgs() {
 	const supabase = await createClient()
 
 	const { data, error } = await supabase
-		.from("liked_sdg_posts")
-		.insert({user_sdg_id, user_id})
-
+		.from("latest_post_sdg")
+		.select()
+	
 	if (error) {
-		console.log("Error addLike", error)
+		console.log("Error getLatestPostPerDaySdgs", error)
 		return
 	}
-	console.log("data")
+
+	console.log(data)
 }
 
 
@@ -277,40 +493,6 @@ export async function getPhotoSdgByUserId(user_id: string, sdg: number) {
 	console.log(data)
 }
 
-
-export async function getPhotoByUserId(user_id: string) {
-	const supabase = await createClient()
-
-	const { data, error } = await supabase
-		.from("user_sdgs")
-		.select(`user_sdg_id, url, caption, likes, created_at`)
-		.order('created_at', { ascending: false })
-		.eq('user_id', user_id)
-
-	if (error) {
-		console.log("Error getPhotoSdgByUserId", error)
-		return
-	}
-	console.log(data)
-	return data;
-}
-
-
-export async function getPhotoSdg(sdg: number) {
-	const supabase = await createClient()
-
-	const { data, error } = await supabase
-		.from("get_photo_and_avatar")
-		.select()
-		.eq('sdg_number', `sdg${sdg}`)
-
-	if (error) {
-		console.log("Error getPhotoSdg", error)
-		return
-	}
-	// console.log("dataaaa", data);
-	return data;
-}
 
 
 export async function displayPhoto(searchParams: FormData | null): Promise<Array<any>> {
@@ -412,72 +594,6 @@ export async function displayPhoto(searchParams: FormData | null): Promise<Array
 }
 
 
-export async function deleteAllFilesInFolder(storage_, folder) {
-	const supabase = await createClient()
-
-    const { data: files, error: listError } = await supabase
-        .storage
-        .from(storage_)
-        .list(`${folder}/`, { limit: 1000 }); // List files in 'folder/', adjust limit if needed
-
-    if (listError) {
-        console.error('Error listing files:', listError);
-        return;
-    }
-
-    if (!files || files.length === 0) {
-        console.log('No files found in folder');
-        return;
-    }
-
-    // Extract file paths
-    const filePaths = files.map(file => `${folder}/${file.name}`);
-
-    console.log(filePaths)
-
-    // Remove files from storage
-    const { data, error } = await supabase
-        .storage
-        .from(storage_)
-        .remove(filePaths);
-
-    if (error) {
-        console.error('Error deleting files:', error);
-    } else {
-        console.log(`Successfully deleted ${data.length} files.`);
-    }
-}
-
-
-export async function uploadAvatar(user_id: String, file: File, department: String) {
-	const supabase = await createClient()
-
-	let uuid = crypto.randomUUID();
-
-	const path = user_id + "/" + uuid
-
-	// empty the bucket folder
-	deleteAllFilesInFolder("avatars", user_id)
-
-	const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file)
-
-	if (uploadError) {
-		console.log(uploadError)
-	}
-
-	const { data: data_public_url } = await supabase.storage.from(`avatars`).getPublicUrl(path);
-
-	const { data: data_update_avatar, error: error_update_avatar} = await supabase
-		.from("users")
-		.update({ avatar_url: data_public_url.publicUrl, department: department,  })
-		.eq("user_id", user_id)
-
-	if (error_update_avatar) {
-		console.log("error error_update_avatar", error_update_avatar)
-		return
-	}
-}
-
 
 export async function getUserAvatarUrl(user_id: String) {
 	const supabase = await createClient()
@@ -507,109 +623,19 @@ export async function updateAvatarLabel(avatar_id: String, new_lbl: String) {
 }
 
 
-export async function deleteUserById(user_id: String) {
-	// console.log(user_id)
-	const supabase = await createClient()
+export async function getHighestPostCount() {
+	const supabase = await createClient();
 
-	const { data: data_sdgs, error: error_sdgs } = await supabase
-		.from("user_sdgs")
-		.select(`sdg_number, filename`)
-		.eq("user_id", user_id)
+	const { data, error } = await supabase
+		.from("get_top_post_count")
+		.select(`*, institutions(institution, campus)`)
 
-	var filenames = []
-	data_sdgs.forEach((sdg) => {
-		// console.log(sdg)
-		filenames.push(`${sdg["sdg_number"]}/${sdg["filename"]}`)
-	})
-
-
-	// delete db
-	const { data: data_db, error: error_db } = await supabase
-		.from('users')
-		.delete()
-		.eq('user_id', user_id)
-	if (error_db) {
-		console.log("error delete user by id:", error_db)
-		return
-	}
-
-
-	// delete storage
-	const { data: data_avatars_storage, error: error_avatars_storage } = await supabase
-		.storage
-		.from('avatars')
-		.remove([`${user_id}/${user_id}`])
-	if (error_avatars_storage) {
-		console.log(`error delete data_avatars_storage: ${error_avatars_storage}`)
-		return
-	}
-
-
-	if (filenames.length > 0) {
-		const { data: data_user_sdgs, error: error_user_sdgs } = await supabase
-			.storage
-			.from('user_sdgs')
-			.remove(filenames)
-
-		if (error_user_sdgs) {
-			console.log(`error delete error_user_sdgs: ${error_user_sdgs}`)
-			return
-		}
-	}
-
-
-	const { error } = await supabase.auth.signOut({ scope: 'local' });
 	if (error) {
-		console.log("error: ", error)
+		console.log("Error getHighestPostCount", error)
 		return
 	}
 
-	return { redirect: '/auth/login' };			// redirect not working??
-
-
-	// delete auth dont know howww -- do manual nalang?
-	// const { data: data_auth, error: error_auth } = await supabase.auth.admin.deleteUser(user_id)
-
-	// if (error_auth) {
-	// 	console.log(`error delete user by id auth: ${error_auth}`)
-	// 	return
-	// }
+	// console.log("datassss", data)
+	return data;
 }
-
-
-export async function deleteSdgPost(user_sdg_id: String) {
-	const supabase = await createClient()
-
-	const { data: data_sdgs, error: error_sdgs } = await supabase
-		.from("user_sdgs")
-		.select(`sdg_number, filename`)
-		.eq("user_sdg_id", user_sdg_id).single()
-	if(error_sdgs) {
-		console.log("error error_sdgs:", error_sdgs)
-		return
-	}
-
-
-	// delete db
-	const { data: data_db, error: error_db } = await supabase
-		.from('user_sdgs')
-		.delete()
-		.eq('user_sdg_id', user_sdg_id)
-	if (error_db) {
-		console.log("error deleteSdgPost:", error_db)
-		return
-	}
-
-
-	// delete storage
-	const { data: data_user_sdg_storage, error: error_user_sdg_storage } = await supabase
-		.storage
-		.from('user_sdgs')
-		.remove([`${data_sdgs["sdg_number"]}/${data_sdgs["filename"]}`])
-	if (error_user_sdg_storage) {
-		console.log(`error delete data_avatars_storage: ${error_user_sdg_storage}`)
-		return
-	}
-}
-
 
