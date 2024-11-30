@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { FaExclamationTriangle } from "react-icons/fa";
-import { AiOutlineClose } from "react-icons/ai";
-import Link from "next/link";
-import { SDG_TITLES } from "../data/sdgTitles";
-import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes } from "../dashboard/actions";
+import { FaExclamationTriangle } from 'react-icons/fa';
+import { AiOutlineClose } from 'react-icons/ai';
+import Link from 'next/link';
+import { SDG_TITLES } from '../data/sdgTitles';
+import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes, filterSdgs } from "../dashboard/actions";
+
+
 
 interface Photos {
   avatar_url: string;

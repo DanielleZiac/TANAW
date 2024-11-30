@@ -192,7 +192,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
           </div>
 
           <button
-            className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-[250px]`}
+            className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-72`}
             style={{
               boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
             }}
@@ -212,7 +212,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
           />
 
           <button
-            className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-[250px]`}
+            className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-72`}
             style={{
               boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
             }}
@@ -224,7 +224,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
         </>
       ) : (
         <button
-          className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-[250px] md:w-[35vw] lg:w-64`}
+          className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-72 md:w-[35vw] lg:w-64`}
           style={{
             boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
           }}
@@ -236,7 +236,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
 
       {/* Back Button for Large Screens */}
       <button
-  className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-[260px] md:w-[35vw] lg:w-64 mt-4 lg:block hidden`}
+  className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-72 md:w-[35vw] lg:w-64 mt-4 lg:block hidden`}
   style={{
     boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
   }}

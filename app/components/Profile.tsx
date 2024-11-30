@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 import TextBoxPanel from "../styles/textBox"; 
 
-import { authenticateUser, getUserById } from "../dashboard/actions";
+import { authenticateUser, getUserById, deleteUserById } from "../dashboard/actions";
 
 import ButtonBox from "../styles/buttonBox";
 
@@ -24,18 +24,26 @@ interface UserData {
 const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
 
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [userId, setUserId] = useState<String | null>(null);
 
   useEffect(() => {
     const getUserData = async () => {
       const user_id = await authenticateUser();
       const user_data = await getUserById(user_id)
       setUserData(user_data)
+      setUserId(user_id)
     }
 
     getUserData();
   }, [])
 
   console.log(userData)
+
+  const deleteUser = () => {
+    console.log(userId)
+
+    deleteUserById(userId);
+  }
 
   return (
     <div className="px-10 md:px-0">
@@ -93,7 +101,7 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
             <ButtonBox style={{width: '50%'}}>
               Profile Settings
             </ButtonBox>
-            <ButtonBox style={{width: '50%'}}>
+            <ButtonBox onClick={deleteUser} style={{width: '50%'}}>
               Delete Account
             </ButtonBox>
           </div>

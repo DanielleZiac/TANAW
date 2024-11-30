@@ -39,36 +39,40 @@ const Home: React.FC = () => {
       <Footer />
 
       {/* Container for SDG Images */}
-      <div className="w-full py-8 z-10 lg:mt-[20vh]">
-        <div className="w-full flex flex-col items-center  lg:ml-[400px]">
-          {sdgImages.map((item, index) => {
-            let alignmentClass = 'justify-start xl:-mt-28';
-            if (index % 6 === 1 || index % 6 === 4) {
-              alignmentClass = 'justify-center xl:-mt-28';
-            } else if (index % 6 === 2 || index % 6 === 3) {
-              alignmentClass = 'justify-end xl:-mt-28';
-            }
-            const extraPadding = 'px-6 sm:px-10 md:px-20 xl:px-72';
-      const groupGapClass = index % 3 !== 2 ? 'mb-[-80px]' : 'lg:mb-[70px]';
+      
+        <div className="w-full py-8 z-10 lg:mt-[20vh] items-center">
+          <div className="w-full flex flex-col items-center lg:ml-[400px] mb-40 lg:mb-0">
+            {sdgImages.map((item, index) => {
+              let alignmentClass = 'justify-start xl:-mt-28';
+              if (index % 6 === 1 || index % 6 === 4) {
+                alignmentClass = 'justify-center xl:-mt-28';
+              } else if (index % 6 === 2 || index % 6 === 3) {
+                alignmentClass = 'justify-end xl:-mt-28';
+              }
+              const extraPadding = 'px-6 sm:px-10 md:px-20 xl:px-72';
+              const groupGapClass = index % 3 !== 2 ? 'mb-[-80px]' : 'lg:mb-[70px]';
 
-            return (
-              <div
-                key={index}
-                className={`w-full flex ${alignmentClass} ${extraPadding} ${groupGapClass} p-4 sm:p-8`}
-              >
-                <Link href={item.link} className="block z-10">
-                  {/* Wrapper with block ensures full image is clickable */}
-                  <img
-                    src={item.src}
-                    alt={`SDG ${index + 1}`}
-                    className="w-[100px] h-[100px]  md:w-60 md:h-60 lg:w-48 lg:h-48 lg:ml-72 lg:-mr-72  rounded-full object-cover cursor-pointer z-10"
-                  />
-                </Link>
-              </div>
-            );
-          })}
+              return (
+                <div
+                  key={index}
+                  className={`w-full flex ${alignmentClass} ${extraPadding} ${groupGapClass} p-4 sm:p-8 lg:-ml-32 lg:mr-32`}
+                >
+                  <Link href={item.link} className="block z-10">
+                    {/* Wrapper with block ensures full image is clickable */}
+                    <img
+                      src={item.src}
+                      alt={`SDG ${index + 1}`}
+                      className="w-[100px] h-[100px]  md:w-60 md:h-60 lg:w-48 lg:h-48 lg:ml-72 lg:-mr-72  rounded-full object-cover cursor-pointer z-10"
+                    />
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      
+      
+
     </div>
   );
 };
