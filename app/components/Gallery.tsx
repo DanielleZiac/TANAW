@@ -44,24 +44,24 @@ const Gallery: React.FC<DataProps> = ({data}) => {
 
   return (
     <div className="absolute left-0 lg:ml-64 overflow-x-auto bg-transparent ">
-  {/* SDG Circle Section */}
-  <div className="flex overflow-x-auto scrollbar-hide py-4 px-4 space-x-2 bg-transparent">
-    {sdgImages.map((item, index) => (
-      <div key={index} className="flex-shrink-0">
-        <a href={item.link}>
-          <Image
-            src={item.src}
-            alt={item.alt}
-            width={130}
-            height={130}
-            className="rounded-full cursor-pointer"
-          />
-        </a>
+      {/* SDG Circle Section */}
+      <div className="flex overflow-x-auto scrollbar-hide py-4 px-4 space-x-2 bg-transparent">
+        {sdgImages.map((item, index) => (
+          <div key={index} className="flex-shrink-0">
+            <a href={item.link}>
+              <Image
+                src={item.src}
+                alt={item.alt}
+                width={130}
+                height={130}
+                className="rounded-full cursor-pointer"
+              />
+            </a>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
 
-  <div className="flex justify-around bg-transparent py-2 sticky top-[90px] z-10">
+      <div className="flex justify-around bg-transparent py-2 sticky top-[90px] z-10">
         <button 
           onClick={() => handleTabChange('uploads')} 
           className={`text-md text-black font-bold ${activeTab === 'uploads' ? 'border-b-2 border-black' : ''}`}

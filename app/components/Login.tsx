@@ -148,22 +148,23 @@ const Login: React.FC = () => {
               placeholder="SR-Code"
               style={{ width: '110%'}}
             />
-            <div className="mb-2 w-3/4">
-              <select 
-                id="schoolLogin"
-                name="school" 
-                required
-                className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-                style={{
-                  boxShadow: 'inset 5px 5px 10px rgba(0, 0, 0, 0.2)',
-                  border: 'none',
-                }}
-                >
-                {institutions ? institutions.map((institution, index) => (
-                  <option key={index} value={institution.institution}>{institution.institution}</option>
-                )) : null}
-              </select>
-            </div>
+
+            <select
+              id="schoolLogin"
+              name="school"
+              required
+              className="appearance-none rounded-lg py-4 px-4 w-full focus:outline-none text-lg text-gray-500 bg-lightGray placeholder-gray-500 mb-4"
+              style={{
+                boxShadow: 'inset 0px 8px 20px rgba(0, 0, 0, 0.4)',
+                border: 'none',
+                width: '120%'
+              }}
+            >
+              {institutions ? institutions.map((institution, index) => (
+                <option key={index} value={institution.institution}>{institution.institution}</option>
+              )) : null}
+
+            </select>
             <InputBox
               id="password"
               type="password"
@@ -203,9 +204,9 @@ const Login: React.FC = () => {
    
       {/* Part 3 - Sign-Up Section */}
       <div ref={signUpSectionRef} className="flex-shrink-0 w-full md:w-2/5 h-full flex items-start justify-end p-8 bg-[#dbdfe3]">
-        <div className="w-full max-w-sm xl:p-8 sm:mr-36  rounded-lg mt-10 mr-12 xl:mr-24">
-          <p className="text-right font-extrabold text-blue-800 text-4xl mb-4">Hello, Friend!</p>
-          <p className=" text-center xl:text-right text-blue-900 text-sm">Enter your personal details and start your journey with us</p>
+        <div className="w-full max-w-sm lg:max-w-none xl:p-8 sm:mr-36 rounded-lg mt-10 lg:mt-4 mr-12 xl:mr-24">
+          <p className="text-right font-extrabold text-blue-800 text-4xl mb-2 lg:-mr-16">Hello, Friend!</p>
+          <p className=" text-center xl:text-right text-blue-900 text-sm mb-2 lg:-mr-16">Enter your personal details and start your journey with us</p>
           <form>
             <InputBox
               id="sign-up-sr-code"
@@ -213,7 +214,7 @@ const Login: React.FC = () => {
               value={srCode}
               setValue={setSrCode}
               placeholder="SR-Code"
-              style={{ width: '110%' }}
+              style={{ width: '110%', height: '50%' }}
             />
             <InputBox
               id="first-name"
@@ -221,7 +222,7 @@ const Login: React.FC = () => {
               value={firstName}
               setValue={setFirstName}
               placeholder="First Name"
-              style={{ width: '110%' }}
+              style={{ width: '110%', height: '50%' }}
             />
             <InputBox
               id="last-name"
@@ -229,33 +230,33 @@ const Login: React.FC = () => {
               value={lastName}
               setValue={setLastName}
               placeholder="Last Name"
-              style={{ width: '110%' }}
+              style={{ width: '110%', height: '50%' }}
             />
 
-            <div className="mb-2 w-3/4">
-              <select
-                id="schoolSignup"
-                name="school"
-                required
-                className="appearance-none rounded-lg py-3 px-4 text-gray-700 leading-tight bg-gray-100 w-full focus:outline-none shadow-inner"
-                style={{
-                  boxShadow: 'inset 5px 5px 10px rgba(0, 0, 0, 0.2)',
-                  border: 'none',
-                }}
-              >
-                {institutions ? institutions.map((institution, index) => (
-                  <option key={index} value={institution.institution}>{institution.institution}</option>
-                )) : null}
-              </select>
-            </div>
-
+            
+            <select
+              id="schoolSignup"
+              name="school"
+              required
+              className="appearance-none rounded-lg py-3 px-4 w-full focus:outline-none text-lg text-gray-500 bg-lightGray placeholder-gray-500 mb-4"
+              style={{
+                boxShadow: 'inset 0px 8px 20px rgba(0, 0, 0, 0.4)',
+                border: 'none',
+                width: '120%'
+              }}
+            >
+              {institutions ? institutions.map((institution, index) => (
+                <option key={index} value={institution.institution}>{institution.institution}</option>
+              )) : null}
+            </select>
+          
             <InputBox
               id="sign-up-password"
               type="password"
               value={password}
               setValue={setPassword}
               placeholder="Password"
-              style={{ width: '110%' }}
+              style={{ width: '110%', height: '50%' }}
             />
             <InputBox
               id="sign-up-confirmpassword"
@@ -263,11 +264,11 @@ const Login: React.FC = () => {
               value={confirmPassword}
               setValue={setConfirmPassword}
               placeholder="Confirm Password"
-              style={{ width: '110%' }}
+              style={{ width: '110%', height: '50%' }}
             />
 
             {/* Terms and Conditions within TextBoxPanel */}
-            <TextBoxPanel style={{ height: '20px', width: '120%' , marginBottom: '10px' }}>
+            <TextBoxPanel style={{ height: '10px', width: '120%' , marginBottom: '10px' }}>
               <label className="flex items-center justify-center text-xs -mt-2">
                 <input type="checkbox" className="mr-2" />
                 Terms and Conditions

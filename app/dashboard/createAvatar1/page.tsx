@@ -9,8 +9,6 @@ export default async function CreateAvatarPage() {
 
   const data = await authenticateUser()
 
-  console.log("asd", data)
-
   return (
     <MainLayout>
       <CreateAvatar1 data={data}/>

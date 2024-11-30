@@ -1,8 +1,19 @@
 import React from 'react';
 import Institution from '../../components/Institution';
 import MainLayout from '../../components/layouts/MainLayout';
+import { redirect } from 'next/navigation'
 
-const InstitutionPage: React.FC = () => {
+import { authenticateUser, checkUserAvatar } from "../actions";
+
+// const InstitutionPage: React.FC = () => {
+export default async function InstitutionPage() {
+  const user_id = await authenticateUser()
+  const hasAvatar = await checkUserAvatar(user_id)
+  if (!hasAvatar) {
+    redirect('/dashboard/createAvatar1')
+    return 
+  }
+  
   return (
     <MainLayout>
       <Institution />
@@ -10,4 +21,4 @@ const InstitutionPage: React.FC = () => {
   );
 };
 
-export default InstitutionPage;
+// export default InstitutionPage;

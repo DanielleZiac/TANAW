@@ -1,8 +1,9 @@
 // pages/gallery.tsx or any other page you want to render the gallery
 import Gallery from '../../components/Gallery';
 import MainLayout from '../../components/layouts/MainLayout'; 
+import { redirect } from 'next/navigation'
 
-import { authenticateUser, getPhotoByUserId } from "../actions";
+import { authenticateUser, getPhotoByUserId, checkUserAvatar } from "../actions";
 
 
 interface Photo {
@@ -16,6 +17,12 @@ interface Photo {
 export default async function GalleryPage() {
 
   const user_id = await authenticateUser()
+
+  const hasAvatar = await checkUserAvatar(user_id)
+  if (!hasAvatar) {
+    redirect('/dashboard/createAvatar1')
+    return 
+  }
 
 
   const photos: Array<Photo> | undefined = await getPhotoByUserId(user_id);

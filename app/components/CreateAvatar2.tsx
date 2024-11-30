@@ -4,6 +4,8 @@ import mergeImages from "merge-images";
 import { useRouter, redirect } from "next/navigation";
 import React, { useEffect, useRef, useState  } from "react";
 import { baseButtonClass, getButtonStyles } from '../styles/buttonStyles'; // Import your shared button styles
+import { getDepartmentByAcronym } from "../dashboard/actions"
+
 
 import { runFacemesh } from "./faceLandmarkDetection"
 
@@ -18,15 +20,6 @@ interface ParamsProps {
     data: string
     ];
 }
-
-// interface ChildrenProps {
-//   children: any
-// }
-
-
-// // Avatar Display Component (similar to the textbox, using pressed style)
-// const AvatarDisplayArea: React.FC<ChildrenProps> = ({ children }) => (
-
 
 
 // Avatar Display Component
@@ -63,20 +56,6 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
   // Initialize camera
   useEffect(() => {
     const setCamera = async () => {
-      // if (typeof window !== "undefined") {
-      //   await navigator.mediaDevices.getUserMedia({
-      //     video: true
-      //   }).then(cur_stream => {
-      //     if(camera.current) {
-      //       camera.current.srcObject = cur_stream;
-
-      //       runFacemesh(camera.current, setStatus, setLeftEye, setSmile);
-      //       setStream(cur_stream);
-      //     }
-      //   })
-      // } else {
-      //   // camera.src = URL.createObjectURL(stream);
-      //   console.log("error");
       try {
         const curStream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (camera.current) {
@@ -94,8 +73,6 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
       if (stream) {
         stream.getVideoTracks().forEach((track) => track.stop());
       }
-    // });
-  // })
     };
   }, []);
 
@@ -104,58 +81,6 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
   // Handle avatar capture
   const capture = async () => {
     if (!status) {
-// <<<<<<< HEAD
-    
-//       for (let i = 0; i < Object.keys(avatar).length; i++) {
-//         const key = Object.keys(avatar)[i] as keyof typeof avatar;
-//         qry += `${Object.keys(avatar)[i]}=${avatar[key]}&`
-//       }
-
-//       qry += `eye=${leftEye}`
-//       console.log("stream stop", qry)
-//       qry = qry.toString().replaceAll("&amp;", "&");
-
-//       const collegeElem = document.getElementById("college");
-//       const genderElem = document.getElementById("gender");
-//       const shirtStyleElem = document.getElementById("shirtStyle");
-//       const leftEyeElem = document.getElementById("leftEye");
-//       const smileElem = document.getElementById("smile");
-//       const eyewearElem = document.getElementById("eyewear") as HTMLImageElement | null;
-//       let b64;
-
-//       if (
-//         collegeElem instanceof HTMLImageElement &&
-//         genderElem instanceof HTMLImageElement &&
-//         shirtStyleElem instanceof HTMLImageElement &&
-//         leftEyeElem instanceof HTMLImageElement && 
-//         smileElem instanceof HTMLImageElement
-//       ) {
-//         if (eyewearElem) {
-//           b64 = await mergeImages([
-//             collegeElem.src,
-//             genderElem.src,
-//             shirtStyleElem.src,
-//             leftEyeElem.src,
-//             smileElem.src,
-//             eyewearElem.src
-//           ]);
-//         } else {
-//           b64 = await mergeImages([
-//             collegeElem.src,
-//             genderElem.src,
-//             shirtStyleElem.src,
-//             leftEyeElem.src,
-//             smileElem.src
-//           ]);
-//         }
-//         console.log(b64);
-//       } else {
-//         console.error("One or more elements are missing or not images.");
-//       }
-
-//       sessionStorage.setItem(user_id, b64);
-//       router.push(`/dashboard/createAvatar3`)
-// =======
       console.log("Face not detected, cannot capture.");
       return;
     }
@@ -164,11 +89,6 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
     if (stream) {
       stream.getVideoTracks()[0].stop();
     }
-
-    // let qry = Object.entries(avatar)
-    //   .map(([key, value]) => `${key}=${value}`)
-    //   .join("&");
-    // qry += `&eye=${leftEye}`;
 
     const elements = [
       "college",
@@ -180,7 +100,10 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
     ].map((id) => document.getElementById(id) as HTMLImageElement);
 
     const base64 = await mergeImages(elements.map((el) => el?.src).filter(Boolean));
+    const department_id = await getDepartmentByAcronym(avatar.college);
+    console.log(department_id.department_id)
     sessionStorage.setItem(user_id, base64);
+    sessionStorage.setItem("department_id", department_id.department_id)
 
     router.push("/dashboard/createAvatar3");
   };
@@ -216,57 +139,7 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
             </div>
           </AvatarDisplayArea>
         </div>
-
-
-
       </div>
-
-      {/* Second Avatar Display Area */}
-{/*      <div className="text-center mb-8 w-full">
-        <p className="text-gray-800 text-5xl font-bold mb-10">Your Avatar Preview</p>
-        <AvatarDisplayArea>
-          <p ref={eye} style={{color: "black"}}>no face detected</p>
-          <img 
-            id="college"
-            src={`/images/avatar/bg/bg_${avatar.college}.png`}
-            style={{position: "absolute"}}
-          />
-          <img 
-            id="gender"
-            src={`/images/avatar/sex/${avatar.gender}.png`}
-            style={{position: "absolute"}}
-          />
-          <img 
-            id="shirtStyle"
-            src={`/images/avatar/shirt_style/${avatar.shirtStyle}.png`}
-            style={{position: "absolute"}}
-          />
-
-          {avatar.eyewear 
-            ? 
-              <img 
-                id="eyewear"
-                src={`/images/avatar/eye/${avatar.eyewear}.png`}
-                style={{position: "absolute"}}
-              />
-            :
-              null 
-          }
-
-          <img 
-            id="leftEye"
-            src={`/images/avatar/eye/${leftEye}.png`}
-            style={{position: "absolute"}}
-          />
-
-          <img 
-            id="smile"
-            src={`/images/avatar/mouth/${smile}.png`}
-            style={{position: "absolute"}}
-          />
-
-        </AvatarDisplayArea>
-      </div>*/}
 
 
       {/* Capture Button */}

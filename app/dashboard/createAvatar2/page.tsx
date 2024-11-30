@@ -15,6 +15,7 @@ export default async function Page({
 
   const data = await authenticateUser()
 
+
   console.log("data", data)
   console.log("params", params);
 

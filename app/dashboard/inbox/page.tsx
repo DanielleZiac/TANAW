@@ -1,8 +1,20 @@
 import React from 'react';
 import Inbox from '../../components/Inbox';
 import MainLayout from '../../components/layouts/MainLayout';
+import { redirect } from 'next/navigation'
 
-const InboxPage: React.FC = () => {
+import { authenticateUser, checkUserAvatar } from "../actions";
+
+// const InboxPage: React.FC = () => {
+export default async function InboxPage() {
+  
+  const user_id = await authenticateUser()
+  const hasAvatar = await checkUserAvatar(user_id)
+  if (!hasAvatar) {
+    redirect('/dashboard/createAvatar1')
+    return 
+  }
+  
   return (
     <MainLayout>
       <div className="container mx-auto p-5">
@@ -12,4 +24,4 @@ const InboxPage: React.FC = () => {
   );
 };
 
-export default InboxPage;
+// export default InboxPage;

@@ -14,7 +14,7 @@ const CreateAvatar1: React.FC<DataProps> = ({ data }) => {
   const [gender, setGender] = useState("boy");
   const [shirtStyle, setShirtStyle] = useState("shirt");
   const [eyewear, setEyewear] = useState<string | null>(null);
-  const [college, setCollege] = useState("cics");
+  const [college, setCollege] = useState("bsu");
 
   const handleConfirmAvatar = () => {
     const query = `gender=${gender}&shirtStyle=${shirtStyle}` + 
@@ -51,13 +51,23 @@ const CreateAvatar1: React.FC<DataProps> = ({ data }) => {
             className="absolute inset-0 w-full h-full object-contain"
           />
           {/* Eyewear */}
-          {eyewear !== "none" && (
+          {eyewear ? 
             <img
               src={`/images/avatar/eye/${eyewear}.png`}
               alt={eyewear}
               className="absolute inset-0 w-full h-full object-contain"
             />
-          )}
+          : null}
+          <img
+            src={`/images/avatar/eye/eyes_opened.png`}
+            alt={`${college} background`}
+            className="absolute inset-0 rounded-full w-full h-full object-cover"
+          />
+          <img
+            src={`/images/avatar/mouth/mouth_opened.png`}
+            alt={`${college} background`}
+            className="absolute inset-0 rounded-full w-full h-full object-cover"
+          />
         </div>
       </div>
 
@@ -114,7 +124,7 @@ const CreateAvatar1: React.FC<DataProps> = ({ data }) => {
               <button
                 className={`${getButtonStyles(eyewear === "none").className} py-2 px-6 text-lg flex justify-center w-[28vw] sm:w-full items-center lg:h-12`}
                 style={getButtonStyles(eyewear === "none").style}
-                onClick={() => setEyewear("none")}
+                onClick={() => setEyewear(null)}
               >
                 None
               </button>
@@ -158,7 +168,7 @@ const CreateAvatar1: React.FC<DataProps> = ({ data }) => {
                 style={getButtonStyles(college === "cet").style}
                 onClick={() => setCollege("cet")}
               >
-                CET
+                CIT
               </button>
             </div>
           </div>

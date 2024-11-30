@@ -1,8 +1,19 @@
 // app/pages/home.tsx
 import MainLayout from '../../components/layouts/MainLayout'; // Adjust the path as necessary
 import AboutUs from '../../components/AboutUs'; // Adjust the path as necessary
+import { redirect } from 'next/navigation'
 
-export default function HomePage() {
+import { authenticateUser, checkUserAvatar } from "../actions";
+
+export default async function HomePage() {
+
+  const user_id = await authenticateUser()
+  const hasAvatar = await checkUserAvatar(user_id)
+  if (!hasAvatar) {
+    redirect('/dashboard/createAvatar1')
+    return 
+  }
+
   return (
     <MainLayout>
       <AboutUs />

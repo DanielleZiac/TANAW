@@ -14,16 +14,20 @@ interface DataProps {
 const CreateAvatar3: React.FC<DataProps> = ({data}) => {
   const router = useRouter();
   const [b64, setB64] = useState<string | null>(null);
+  const [college, setCollege] = useState<string | null>(null);
+
   console.log(data)
   var user_id = data
 
   useEffect(() => {
     var dataImage = sessionStorage.getItem(user_id);
-    if (dataImage == null) {
+    var dataCollege = sessionStorage.getItem("department_id");
+    if (dataImage == null || dataCollege == null) {
       console.log("null")
       redirect("/dashboard/createAvatar1")
     } else {
       setB64(dataImage)
+      setCollege(dataCollege)
     }
   }, []);
 
@@ -50,8 +54,10 @@ const CreateAvatar3: React.FC<DataProps> = ({data}) => {
             }
 
             const file = new File([u8arr], "avatar.png", {type:mime})
-            uploadAvatar(user_id, file, avatar_lbl)
-            sessionStorage.removeItem(user_id);
+            uploadAvatar(user_id, file, college)
+            sessionStorage.removeItem(user_id)
+            sessionStorage.removeItem("department_id")
+
             redirect("/dashboard/createAvatar1")
   
           } else {
@@ -70,6 +76,7 @@ const CreateAvatar3: React.FC<DataProps> = ({data}) => {
 
   const retake = () => {
     sessionStorage.removeItem(user_id);
+    sessionStorage.removeItem("department_id");
     router.back()
   }
 

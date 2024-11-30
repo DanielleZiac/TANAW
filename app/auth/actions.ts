@@ -73,47 +73,8 @@ export async function login(data: { srCode: string; password: string; school: st
 	}
 
 	redirect("/dashboard/home")
-
-	// const user_avatars = await getUserAvatar(supabase, user_data);
-	// console.log(user_avatars);
-	// if (user_avatars) {
-	// 	console.log("go to profile")
-	// 	redirect('/dashboard/profile')
-	// } else {
-	// 	console.log("create avatar first")
-	// 	redirect('/dashboard/createAvatar1')
-	// }
-
-
-	// const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", user_data.user.id).single();
-	// console.log(users_data)
-
-	// console.log("data_x", data_x)
-
-
-	// const { data, error } = await supabase.auth.getUser()
-	// if (error || !data?.user) {
-	// 	redirect('/auth/login')
-	// }
-
-	// const user_data = getUserById(supabase, data);
-	// console.log(users_data);
-	// revalidatePath('/', 'layout')
-	// redirect('/dashboard/profile')
 }
 
-export async function getUserAvatar(supabase: SupabaseClient<any, "public", any>,  data: { user: { id: string; }; }) {
-	console.log(data.user.id);
-	const { data: user_avatars, error: user_avatars_error} = await supabase.from('avatars').select("user_id").eq("user_id", data.user.id);
-	// console.log("user_avatars", user_avatars, user_avatars.length)
-
-	if (!user_avatars || user_avatars.length < 1) {
-		return false
-	} else {
-		console.log(user_avatars)
-		return true
-	}
-}
 
 export async function signup(data: { srCode: string, firstName: string, lastName: string, school: string, password: string }) {
 	console.log(data);
@@ -159,6 +120,7 @@ export async function signup(data: { srCode: string, firstName: string, lastName
 	return "Check your email";
 }
 
+
 export async function logout() {
 	console.log("logout")
 
@@ -175,9 +137,6 @@ export async function logout() {
 	redirect("/")
 }
 
-export async function createAvatar() {
-	// sa create avatar?
-}
 
 export async function resetPassword(formData: FormData) {
 	// authenticated users lang -- may error pa pag di authenticated nag aaccess
@@ -198,6 +157,7 @@ export async function resetPassword(formData: FormData) {
 	revalidatePath("/", "layout");
 	redirect("/auth/resetPassword?message=Check your email")
 }
+
 
 export async function updatePassword(formData: FormData) {
 	const email = formData.get("newPassword") as string
