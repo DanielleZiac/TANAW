@@ -115,6 +115,29 @@ export async function deleteUserById(user_id: String) {
 
 
 
+// INSTITUTION
+export async function getInstitutionPhoto(user_id: string) {
+	const supabase = await createClient()
+
+	const { data: data_institution } = await supabase.from("users").select("institution_id").eq("user_id", user_id).single()
+
+	const institution_id = data_institution.institution_id
+
+	const { data, error } = await supabase
+		.from(`get_school_photo`)
+		.select()
+		.order('created_date', { ascending: false })
+		.eq(`institution_id`, institution_id)
+
+	if (error) {
+		console.log("Error getInstitutionPhoto", error)
+		return
+	}
+	// console.log(data)
+	return data
+}
+
+
 
 // SDGS
 export async function deleteSdgPost(user_sdg_id: String) {
@@ -217,7 +240,7 @@ export async function getPhotoByUserId(user_id: string) {
 		console.log("Error getPhotoSdgByUserId", error)
 		return
 	}
-	console.log(data)
+	// console.log(data)
 	return data;
 }
 
@@ -582,33 +605,6 @@ export async function getLatestPostPerDaySdgs() {
 // latest post per day sdg_users
 
 
-
-// get school photo per sdg
-export async function getSchoolPhotoPerSdg(school: string, sdg:  number) {
-	const supabase = await createClient()
-
-	const { data, error } = await supabase
-		.from("user_sdgs")
-		.select(`
-			user_sdg_id, 
-			users!user_sdgs_user_id_fkey!inner(school), 
-			url, 
-			caption, 
-			likes, 
-			created_at
-		`)
-		.order('created_at', { ascending: false })
-		.eq("users.school", school)
-		.eq("sdg_number", `sdg${sdg}`)
-
-	if (error) {
-		console.log("Error getSchoolPhotoPerSdg", error)
-		return
-	}
-	console.log(data)
-}
-
-
 // get own photo per sdg
 export async function getPhotoSdgByUserId(user_id: string, sdg: number) {
 	const supabase = await createClient()
@@ -639,7 +635,6 @@ export async function getUserAvatarUrl(user_id: String) {
 	console.log(cur_user_avatar)
 	return cur_user_avatar.avatar_url
 }
-
 
 
 export async function updateAvatarLabel(avatar_id: String, new_lbl: String) {
