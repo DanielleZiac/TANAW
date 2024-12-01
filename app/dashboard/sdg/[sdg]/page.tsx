@@ -28,11 +28,13 @@ export default async function SdgPage({
   }) {
 
   const user_id: string = await authenticateUser()
-  const hasAvatar = await checkUserAvatar(user_id)
-  if (!hasAvatar) {
-    redirect('/dashboard/createAvatar1')
-    return 
-  }
+  await checkUserAvatar(user_id)
+
+  // const hasAvatar = await checkUserAvatar(user_id)
+  // if (!hasAvatar) {
+  //   redirect('/dashboard/createAvatar1')
+  //   return 
+  // }
 
   const sdg: string = (await params).sdg
   const photos: Array<Photo> | undefined = await getPhotoSdg(Number(sdg));

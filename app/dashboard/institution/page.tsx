@@ -3,20 +3,27 @@ import Institution from '../../components/Institution';
 import MainLayout from '../../components/layouts/MainLayout';
 import { redirect } from 'next/navigation'
 
-import { authenticateUser, checkUserAvatar } from "../actions";
+import { authenticateUser, checkUserAvatar, getInstitutions } from "../actions";
+
+
+interface Institution {
+  institution_id: String,
+  institution: String,
+  campus: String,
+  institution_logo: String
+}
 
 // const InstitutionPage: React.FC = () => {
 export default async function InstitutionPage() {
   const user_id = await authenticateUser()
-  const hasAvatar = await checkUserAvatar(user_id)
-  if (!hasAvatar) {
-    redirect('/dashboard/createAvatar1')
-    return 
-  }
+  await checkUserAvatar(user_id)
+
+  const institutions: Array<Institution> | undefined = await getInstitutions(user_id)
+  // console.log("asd", institution_photos)
   
   return (
     <MainLayout>
-      <Institution />
+      <Institution data={institutions}/>
     </MainLayout>
   );
 };

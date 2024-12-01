@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import backgroundImage from '../../public/images/auth.png';
-import backgroundImageMobile from '../../public/images/sun.jpeg';
+import backgroundImageMobile from '../../public/images/background/logo.png';
 import ButtonBox from '../styles/buttonBox';
 import InputBox from '../styles/inputBox';
 import TextBoxPanel from '../styles/textBox';
@@ -49,27 +49,34 @@ const Login: React.FC = () => {
 
 
   const Signup = async () => {
-    console.log(srCode, password, firstName, lastName, confirmPassword)
+    console.log(srCode, password, firstName, lastName, confirmPassword);
     const schoolElement = document.getElementById("schoolSignup") as HTMLSelectElement | null;
-    if (srCode, password, firstName, lastName, confirmPassword) {
+  
+    // Ensure all fields are filled
+    if (srCode && password && firstName && lastName && confirmPassword) {
       if (schoolElement) {
         const school = schoolElement.value;
+  
+        // Check if passwords match
         if (password !== confirmPassword) {
-          // setError("Passwords do not match.");
           alert("Passwords do not match.");
           return;
         }
-        let data = { srCode, firstName, lastName, school, password: password };
+  
+        // Prepare data and call signup API
+        let data = { srCode, firstName, lastName, school, password };
         let res = await signup(data);
-        // setError(res ?? null);
+  
+        // Handle response
         alert(res ?? null);
       } else {
-        console.log("no school element");
+        console.log("No school element");
       }
     } else {
-      alert("All fields are required")
+      alert("All fields are required");
     }
   };
+  
 
 
   useEffect(() => {
@@ -128,10 +135,10 @@ const Login: React.FC = () => {
     >
 
       {/* Part 1 - Login Section */}
-      <div className="flex-shrink-0 w-full  md:w-2/5 h-full flex items-start justify-start p-8 bg-[#dbdfe3]">
+      <div className="flex-shrink-0 w-full md:w-2/5 h-full flex items-start justify-start p-8 bg-lightGray lg:bg-[#dbdfe3] lg:pl-20 mt-10 lg:mt-12">
         <div className="w-full max-w-sm xl:p-8 sm:mr-36 rounded-lg ml-1 mt-10 mr-12 xl:mr-24">
           <p className="text-left font-extrabold text-blue-800 text-4xl mb-4">Welcome Back!</p>
-          <p className="text-left text-blue-900 text-sm mb-8">To keep connected with us please login with your personal info</p>
+          <p className="text-left text-blue-900 text-lg mb-8">To keep connected with us please login with your personal info</p>
           <form>
             <InputBox
               id="sr-code"
@@ -169,9 +176,9 @@ const Login: React.FC = () => {
             <ButtonBox onClick={Login} style={{ width: '120%' }}>Log In</ButtonBox>
           </form>
 
-          <p className="text-gray-600 text-lg md:text-xl mt-2">
+          <p className="text-gray-600 text-sm md:text-xl mt-2">
             <Link href="/auth/resetPassword">
-              <span className="text-blue-500 cursor-pointer">Forgot Password</span>
+              <span className="text-blue-700 text-sm cursor-pointer">Forgot Password</span>
             </Link>
           </p>
 
@@ -183,23 +190,25 @@ const Login: React.FC = () => {
 
 
       {/* Part 2 - Center Section (with Background Image) */}
-      <div
-        className="flex-shrink-0 w-full md:w-3/5 h-full flex items-center justify-center p-8 bg-[#dbdfe3]"
-        style={{
-        backgroundImage: `url(${isMobile ? backgroundImageMobile.src : backgroundImage.src})`, // Use backgroundImageMobile for mobile devices
-        backgroundSize: '100%',
-        backgroundPosition: 'bottom',
-        backgroundRepeat: 'no-repeat',
-        }}
-        >
-      </div>
+        <div
+          className="flex-shrink-0 w-full md:w-3/5 h-[60vh] lg:h-full flex items-center justify-center p-8 bg-lightGray lg:bg-[#dbdfe3] -mt-64 lg:mt-0 mb-[140px] lg:mb-0"
+          
+          style={{
+          backgroundImage: `url(${isMobile ? backgroundImageMobile.src : backgroundImage.src})`, // Use backgroundImageMobile for mobile devices
+          backgroundSize: 'cover',
+          backgroundPosition: 'bottom',
+          backgroundRepeat: 'no-repeat',
+          
+          }}
+          >
+        </div>
 
    
       {/* Part 3 - Sign-Up Section */}
-      <div ref={signUpSectionRef} className="flex-shrink-0 w-full md:w-2/5 h-full flex items-start justify-end p-8 bg-[#dbdfe3]">
-        <div className="w-full max-w-sm lg:max-w-none xl:p-8 sm:mr-36 rounded-lg mt-10 lg:mt-4 mr-12 xl:mr-24">
-          <p className="text-right font-extrabold text-blue-800 text-4xl mb-2 lg:-mr-16">Hello, Friend!</p>
-          <p className=" text-center xl:text-right text-blue-900 text-sm mb-2 lg:-mr-16">Enter your personal details and start your journey with us</p>
+      <div ref={signUpSectionRef} className="flex-shrink-0 w-full md:w-2/5 lg:h-full flex items-start justify-end p-0 px-8 lg:p-8 bg-lightGray lg:bg-[#dbdfe3] lg:pr-14 -mt-40 lg:mt-0">
+        <div className="w-full max-w-sm lg:max-w-none xl:p-8 sm:mr-36 rounded-lg mr-12 xl:mr-24">
+          <p className="text-left lg:text-right font-extrabold text-blue-800 text-4xl mb-2 lg:-mr-16 pt-4">Hello, Friend!</p>
+          <p className="text-left lg:text-center xl:text-right text-blue-900 text-sm mb-2 lg:-mr-16">Enter your personal details and start your journey with us</p>
           <form>
             <InputBox
               id="sign-up-sr-code"
@@ -239,7 +248,7 @@ const Login: React.FC = () => {
               }}
             >
               {institutions ? institutions.map((institution, index) => (
-                <option key={index} value={institution.institution}>{institution.institution}</option>
+                <option key={index} value={institution.institution.toUpperCase()}>{institution.institution.toUpperCase()}</option>
               )) : null}
             </select>
           
@@ -261,7 +270,7 @@ const Login: React.FC = () => {
             />
 
             {/* Terms and Conditions within TextBoxPanel */}
-            <TextBoxPanel style={{ height: '10px', width: '120%' , marginBottom: '10px' }}>
+            <TextBoxPanel style={{ height: '10px', width: '120%' , padding: '20px', marginBottom: '10px' }}>
               <label className="flex items-center justify-center text-xs -mt-2">
                 <input type="checkbox" className="mr-2" />
                 Terms and Conditions
@@ -271,7 +280,7 @@ const Login: React.FC = () => {
             <ButtonBox onClick={Signup} style={{ width: '120%', height: '50%', marginTop: '12px'}}>Proceed to Avatar</ButtonBox>
           </form>
           
-          <p className="text-sm text-blue-800 mb-4 mt-4">
+          <p className="lg:text-right lg:-mr-14 text-sm text-blue-800 mb-4 mt-4">
             Already have an account? <span onClick={handleSignInClick} className="text-blue-800 cursor-pointer"><u>Sign in</u></span>
           </p>
         </div>

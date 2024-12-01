@@ -19,6 +19,10 @@ const TopNav: React.FC = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const openFeedback = () => setIsFeedbackOpen(true); // Open Feedback modal
   const closeFeedback = () => setIsFeedbackOpen(false); // Close Feedback modal
+
+  const invisibleRoutes = ["/auth/login"];
+
+
   
   return (
     <div className="relative">
@@ -44,7 +48,9 @@ const TopNav: React.FC = () => {
         <Link href="/dashboard/stickers">
           <button
             aria-label="View Leaderboard"
-            className="text-navGray hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-cBlue"
+            className={`text-navGray hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-cBlue ${
+              invisibleRoutes.includes(pathname) ? "invisible" : ""
+            }`}
           >
             <LuSticker size={30} />
           </button>

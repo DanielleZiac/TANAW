@@ -124,7 +124,7 @@ const CreateAvatar1: React.FC<DataProps> = ({ data }) => {
               <button
                 className={`${getButtonStyles(eyewear === "none").className} py-2 px-6 text-lg flex justify-center w-[28vw] sm:w-full items-center lg:h-12`}
                 style={getButtonStyles(eyewear === "none").style}
-                onClick={() => setEyewear(null)}
+                onClick={() => setEyewear("none")}
               >
                 None
               </button>

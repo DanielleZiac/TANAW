@@ -20,6 +20,7 @@ export async function authenticateUser() {
 
 
 
+
 // USERS
 export async function getUserById(user_id: String) {
 
@@ -44,11 +45,12 @@ export async function deleteUserById(user_id: String) {
 		.select(`sdg_number, filename`)
 		.eq("user_id", user_id)
 
-	var filenames = []
-	data_sdgs.forEach((sdg) => {
-		// console.log(sdg)
-		filenames.push(`${sdg["sdg_number"]}/${sdg["filename"]}`)
-	})
+	const {data: data_avatar, error: error_avatar } = await supabase
+		.from("users")
+		.select("avatar_url")
+		.eq("user_id", user_id)
+		.single()
+
 
 
 	// delete db
@@ -63,14 +65,21 @@ export async function deleteUserById(user_id: String) {
 
 
 	// delete storage
+	const fileName = data_avatar.avatar_url.split("/")[-1]
 	const { data: data_avatars_storage, error: error_avatars_storage } = await supabase
 		.storage
 		.from('avatars')
-		.remove([`${user_id}/${user_id}`])
+		.remove([`${user_id}/${fileName}`])
 	if (error_avatars_storage) {
 		console.log(`error delete data_avatars_storage: ${error_avatars_storage}`)
 		return
 	}
+
+
+	var filenames = []
+	data_sdgs.forEach((sdg) => {
+		filenames.push(`${sdg["sdg_number"]}/${sdg["filename"]}`)
+	})
 
 
 	if (filenames.length > 0) {
@@ -92,7 +101,7 @@ export async function deleteUserById(user_id: String) {
 		return
 	}
 
-	return { redirect: '/auth/login' };			// redirect not working??
+	redirect("/auth/login")
 
 
 	// delete auth dont know howww -- do manual nalang?
@@ -104,6 +113,44 @@ export async function deleteUserById(user_id: String) {
 	// }
 }
 
+
+
+// INSTITUTION
+export async function getInstitutionPhoto(user_id: string) {
+	const supabase = await createClient()
+
+	const { data: data_institution } = await supabase.from("users").select("institution_id").eq("user_id", user_id).single()
+
+	const institution_id = data_institution.institution_id
+
+	const { data, error } = await supabase
+		.from(`get_school_photo`)
+		.select()
+		.order('created_date', { ascending: false })
+		.eq(`institution_id`, institution_id)
+
+	if (error) {
+		console.log("Error getInstitutionPhoto", error)
+		return
+	}
+	// console.log(data)
+	return data
+}
+
+export async function getInstitutions() {
+	const supabase = await createClient()
+
+	const { data: data_institutions, error: error_institutions } = await supabase
+		.from("institutions")
+		.select(`institution_id, institution, campus, institution_logo`)
+
+	if (error_institutions) {
+		console.log("error error_institutions: ", error_institutions)
+		return
+	}
+
+	return data_institutions
+}
 
 
 
@@ -208,7 +255,7 @@ export async function getPhotoByUserId(user_id: string) {
 		console.log("Error getPhotoSdgByUserId", error)
 		return
 	}
-	console.log(data)
+	// console.log(data)
 	return data;
 }
 
@@ -264,14 +311,14 @@ export async function uploadAvatar(user_id: String, file: File, department_id: S
 export async function checkUserAvatar(user_id: String) {
 	const supabase = await createClient()
 
-	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select("user_id").eq("user_id", user_id).single();
-
-	if (!user_avatars || user_avatars.length < 1) {
+	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select("avatar_url").eq("user_id", user_id).single();
+	console.log(user_avatars)
+	if (!user_avatars.avatar_url || user_avatars.avatar_url.length < 1) {
 		console.log("create avatar first")
-		return false
-		// redirect('/dashboard/createAvatar1')
+		redirect('/dashboard/createAvatar1')
+		// return false
 	} 
-	return true
+	// return true
 }
 
 
@@ -341,12 +388,22 @@ export async function getNumberOfLikes(user_sdg_id: string) {
 
 
 
-
 // HALL OF FAME
-export async function getTopLiked() {
+export async function getTopLiked(institution_id?: String) {
 	const supabase = await createClient()
+	let qry0 = ""
+	let qry1 = ""
+	let qry2 = ""
 
-	const { data, error } = await supabase.from('top_liked_sdg').select();
+	if (institution_id) {
+		qry0 = "institution_id"
+		qry1 = "in"
+		qry2 = '("' + institution_id + '")'
+	}
+
+	console.log(qry0, qry1, qry2)
+
+	const { data, error } = await supabase.from('top_liked_sdg').select().filter(qry0, qry1, qry2);
 
 	if (error) {
 		console.log("Error", error)
@@ -358,6 +415,19 @@ export async function getTopLiked() {
 }
 
 
+
+
+// LEADERBOARD
+export async function getLeaderboardsSchools(institution_id: String) {
+	const supabase = await createClient()
+	const { data, error } = await supabase.from('leaderboards_schools').select().eq("institution_id", institution_id);
+
+	if (error) {
+		console.log("Error", error)
+		return
+	}
+	return data
+}
 
 
 
@@ -400,24 +470,6 @@ export async function deleteAllFilesInFolder(storage_, folder) {
 }
 
 
-
-
-
-// LEADERBOARD
-export async function getLeaderboardsSchools(institution_id: String) {
-	const supabase = await createClient()
-	const { data, error } = await supabase.from('leaderboards_schools').select().eq("institution_id", institution_id);
-
-	if (error) {
-		console.log("Error", error)
-		return
-	}
-	return data
-}
-
-
-
-
 export async function getDepartmentByAcronym(acronym: String) {
 	const supabase = await createClient();
 
@@ -431,8 +483,132 @@ export async function getDepartmentByAcronym(acronym: String) {
 
 
 
-// unused functionss
-// latest post per day sdg_users
+// can add???
+export async function getDate(daysAdjust: Number) {
+	var date = new Date();
+	date.setDate(date.getDate()+daysAdjust);
+	return date
+}
+
+
+// filter sdgsss
+export async function filterSdgs(filter?: String, sdg: Number) {
+	// today, yesterday, lastweek, last month
+
+	let data;
+
+	const supabase = await createClient()
+
+	var cur_date = new Date();
+	cur_date.setDate(cur_date.getDate())
+	cur_date = cur_date.toISOString().split('T')[0]
+	console.log(cur_date)
+
+	if (filter == "yesterday") {
+		const yest = await getDate(-1)
+		console.log("yest", yest)
+		const yesterday = yest.toISOString().split('T')[0]
+		console.log(yesterday)
+		
+		const { data: data_filter_yesterday, error: error_filter_yesterday } = await supabase
+			.from("get_photo_and_avatar")
+			.select()
+			.eq('sdg_number', `sdg${sdg}`)
+			.eq("created_date", yesterday)
+
+		if (error_filter_yesterday) {
+			console.log("Error error_filter_yesterday getPhotoSdg", error_filter_yesterday)
+			return
+		}
+
+		data = data_filter_yesterday
+
+	} else if (filter == "last week") {
+		const lastweek = await getDate(-7)
+		console.log("lastweek", lastweek)
+		const lastweekDate = lastweek.toISOString().split('T')[0]
+		console.log(lastweekDate)
+
+
+		const { data: data_filter_last_week, error: error_filter_last_week } = await supabase
+		  .from("get_photo_and_avatar")
+		  .select()
+		  .eq('sdg_number', `sdg${sdg}`)
+		  .gte('created_date', lastweekDate) // Convert to 'YYYY-MM-DD' format
+		  .lte('created_date', cur_date);
+
+		if (error_filter_last_week) {
+			console.log("Error error_filter_last_week getPhotoSdg", error_filter_last_week)
+			return
+		}
+
+		data = data_filter_last_week
+
+	} else if (filter == "last month") {
+		// Get the first day of the current month and the first day of the previous month
+		const firstDayOfCurrentMonth = new Date();
+		firstDayOfCurrentMonth.setDate(1); // Set to the 1st day of the current month
+
+		const firstDayOfLastMonth = new Date(firstDayOfCurrentMonth);
+		firstDayOfLastMonth.setMonth(firstDayOfCurrentMonth.getMonth() - 1);
+
+		// Get the last day of the previous month
+		const lastDayOfLastMonth = new Date(firstDayOfCurrentMonth);
+		lastDayOfLastMonth.setDate(0); // Set to the last day of the previous month
+
+		const { data: data_filter_last_month, error: error_filter_last_month } = await supabase
+		  .from("get_photo_and_avatar")
+		  .select()
+		  .eq('sdg_number', `sdg${sdg}`)
+		  .gte('created_date', firstDayOfLastMonth.toISOString().split('T')[0]) // Convert to 'YYYY-MM-DD' format
+		  .lt('created_date', firstDayOfCurrentMonth.toISOString().split('T')[0]);
+
+		if (error_filter_last_month) {
+			console.log("Error error_filter_last_month getPhotoSdg", error_filter_last_month)
+			return
+		}
+
+		data = data_filter_last_month
+
+	} else if (filter == null) {
+		const { data: data_nofilter, error: error_nofilter } = await supabase
+			.from("get_photo_and_avatar")
+			.select()
+			.eq('sdg_number', `sdg${sdg}`)
+
+		if (error_nofilter) {
+			console.log("Error error_nofilter getPhotoSdg", error)
+			return
+		}
+
+
+		data = data_nofilter
+
+	} else if (filter == "today") {
+		const { data: data_today, error: error_today } = await supabase
+			.from("get_photo_and_avatar")
+			.select()
+			.eq('sdg_number', `sdg${sdg}`)
+			.eq("created_date", cur_date)
+
+		if (error_today) {
+			console.log("Error error_today getPhotoSdg", error_today)
+			return
+		}
+		data = data_today
+	}
+	else {
+		console.log("invalid filter")
+	}
+
+
+	// console.log("dataaaa", data);
+
+	return data;
+}
+
+
+// for calendar sana
 export async function getLatestPostPerDaySdgs() {
 	const supabase = await createClient()
 
@@ -449,30 +625,10 @@ export async function getLatestPostPerDaySdgs() {
 }
 
 
-// get school photo per sdg
-export async function getSchoolPhotoPerSdg(school: string, sdg:  number) {
-	const supabase = await createClient()
 
-	const { data, error } = await supabase
-		.from("user_sdgs")
-		.select(`
-			user_sdg_id, 
-			users!user_sdgs_user_id_fkey!inner(school), 
-			url, 
-			caption, 
-			likes, 
-			created_at
-		`)
-		.order('created_at', { ascending: false })
-		.eq("users.school", school)
-		.eq("sdg_number", `sdg${sdg}`)
 
-	if (error) {
-		console.log("Error getSchoolPhotoPerSdg", error)
-		return
-	}
-	console.log(data)
-}
+// unused functionss
+// latest post per day sdg_users
 
 
 // get own photo per sdg
@@ -494,107 +650,6 @@ export async function getPhotoSdgByUserId(user_id: string, sdg: number) {
 }
 
 
-
-export async function displayPhoto(searchParams: FormData | null): Promise<Array<any>> {
-	console.log("displaying photo")
-	// console.log(searchParams)
-	let sdgs
-	let types
-	let institutions: Array<any> = [];
-	let departments
-	let sdg_query0 = ""
-	let sdg_query1 = ""
-	let sdg_query2 = ""
-	let type_query0 = ""
-	let type_query1 = ""
-	let type_query2 = ""
-	let institution_query0 = ""
-	let institution_query1 = ""
-	let institution_query2 = ""
-	let dept_query0 = ""
-	let dept_query1 = ""
-	let dept_query2 = ""
-
-	if (searchParams) {
-		sdgs = searchParams.get("sdgs") as String
-		types = searchParams.get("types") as String
-		institutions = searchParams.getAll("institutions")
-		departments = searchParams.get("departments") as String
-	}
-
-	if (sdgs) {
-		sdg_query0 = "sdg_number"
-		sdg_query1 = "in"
-		// sdg_query2 = '("sdg5","sdg2")'
-		sdg_query2 = '("' + sdgs + '")'
-	} 
-
-	if (types) {
-		type_query0 = "type"
-		type_query1 = "in"
-		type_query2 = '("' + types + '")'
-	}
-
-	if (institutions.length != 0) {
-		institution_query0 = "users.school"
-		institution_query1 = "in"
-		institution_query2 = '("sdg5","sdg2")'
-		institution_query2 = '('
-
-		for (let i = 0; i < institutions.length; i++) {
-			console.log(institutions[i])
-			institution_query2 += '"' + institutions[i] + '"'
-			if (i != institutions.length - 1) {
-				institution_query2 += ","
-			}
-		}
-
-		institution_query2 += ')'
-	}
-
-	if (departments) {
-		dept_query0 = "users.department"
-		dept_query1 = "in"
-		dept_query2 = '("' + departments + '")'
-	}
-
-	const supabase = await createClient()
-
-	console.log(sdg_query0, sdg_query1, sdg_query2)
-	console.log(dept_query0, dept_query1, dept_query2)
-
-	const { data: user_sdg_data, error: user_sdg_error } = await supabase
-		.from('user_sdgs')
-		.select(`
-			*,
-			users!inner(
-				school, 
-				department
-			)
-		`)
-		.filter(sdg_query0, sdg_query1, sdg_query2)
-		.filter(type_query0, type_query1, type_query2)
-		.filter(institution_query0, institution_query1, institution_query2)
-		.filter(dept_query0, dept_query1, dept_query2)
-
-		// .eq("sdg_number", "sdg2")
-		// .eq("type", types)
-		// .eq("users.school", institutions)
-		// .eq("users.department", departments)
-		// .in("sdg_number", ["sdg2", "sdg5"])
-		// .in("type", ["photo"])
-		// .in("users.school", ["bsu"])
-		// .in("users.department", ["qwerty", "temp"])
-	console.log(user_sdg_data)
-	if (user_sdg_data) {
-		return user_sdg_data
-	} else {
-		return [];
-	}
-}
-
-
-
 export async function getUserAvatarUrl(user_id: String) {
 	const supabase = await createClient()
 	const { data: cur_user_avatar, error: cur_user_avatar_error} = await supabase.from('users').select("avatar_url").eq("user_id", user_id).single();
@@ -606,7 +661,6 @@ export async function getUserAvatarUrl(user_id: String) {
 	console.log(cur_user_avatar)
 	return cur_user_avatar.avatar_url
 }
-
 
 
 export async function updateAvatarLabel(avatar_id: String, new_lbl: String) {

@@ -35,85 +35,87 @@ interface DataProps {
   ];
 }
 
-
-const SdgContent: React.FC<DataProps> = ({data}) => {
-  // console.log(data);
+const SdgContent: React.FC<DataProps> = ({ data }) => {
   const user_id = data[0];
   const sdg = data[1];
   const photos = data[2];
   const curLiked = data[3];
 
-  // State to manage the clicked post
   const [selectedPost, setSelectedPost] = useState<Photos | null>(null);
   const [isLiked, setLiked] = useState<string | "none">("none");
   const [likedPosts, setLikedPosts] = useState<Array<Liked> | undefined>(curLiked);
   const [likes, setLikes] = useState<number | null>(0);
 
+  
+
+  // Dropdown state
+  const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("Filter Options");
+
+  const filters = ["Yesterday", "Last Week", "Last Month", "Today"];
+
+  const handleFilterSelect = (filter: string) => {
+    setSelectedFilter(filter);
+    setFilterDropdownVisible(false);
+    console.log("Filter Selected:", filter);
+  };
+
   const liked = async (user_sdg_id: string) => {
     const userSdgIdElem = document.getElementById(user_sdg_id) as HTMLInputElement | null;
 
     if (userSdgIdElem) {
-      const fill = userSdgIdElem.getAttribute('fill');
-
+      const fill = userSdgIdElem.getAttribute("fill");
       const numLikesElem = document.getElementById(user_sdg_id + "likes") as HTMLInputElement | null;
 
       if (numLikesElem) {
-        if (fill == "red") {
+        if (fill === "red") {
           removeLike(user_sdg_id, user_id);
           userSdgIdElem.setAttribute("fill", "none");
-          numLikesElem.textContent = String(Number(numLikesElem.textContent) - 1)
-          // document.getElementById(user_sdg_id + "likes").TextContent = 
-          
+          numLikesElem.textContent = String(Number(numLikesElem.textContent) - 1);
         } else {
           addLike(user_sdg_id, user_id);
           userSdgIdElem.setAttribute("fill", "red");
-          numLikesElem.textContent = String(Number(numLikesElem.textContent) + 1)
+          numLikesElem.textContent = String(Number(numLikesElem.textContent) + 1);
         }
 
         const liked = await getLikedPostsSdgs(user_id, sdg);
         setLikedPosts(liked);
       } else {
-        console.log("numLikesElem not fouund")
+        console.log("numLikesElem not found");
       }
     } else {
-      console.log("userSdgIdElem not fouund")
+      console.log("userSdgIdElem not found");
     }
-  }
+  };
 
-
-  // Function to handle post click
-  const handlePostClick = async(post: Photos, user_id: string) => {
+  const handlePostClick = async (post: Photos) => {
     const likeNums = await getNumberOfLikes(post.user_sdg_id);
 
     if (likedPosts) {
-      for(var i = 0; i < likedPosts.length; i++) {
-        if (post.user_sdg_id == likedPosts[i].user_sdg_id) {
+      for (let i = 0; i < likedPosts.length; i++) {
+        if (post.user_sdg_id === likedPosts[i].user_sdg_id) {
           setLiked("red");
           break;
         }
       }
 
-      // console.log(likeNums);
       if (likeNums !== undefined) {
         setLikes(likeNums);
-        setSelectedPost(post)
+        setSelectedPost(post);
       } else {
-        console.log("likeNums not found")
+        console.log("likeNums not found");
       }
     } else {
-      console.log("likedPosts not found")
+      console.log("likedPosts not found");
     }
   };
-
 
   const closeModal = () => {
     setSelectedPost(null);
     setLiked("none");
   };
 
-
-  // Function to render posts
-  const renderPosts = (postArray: Photos[], customClasses = '') => {
+  const renderPosts = (postArray: Photos[], customClasses = "") => {
     return postArray.map((post, index) => (
       <div key={index} className={`relative flex flex-col items-center ${customClasses}`}>
         <div className="group flip-card w-[60px] h-[60px] sm:w-[90px] sm:h-[90px] lg:w-[110px] lg:h-[110px] rounded-full overflow-hidden relative">
@@ -134,32 +136,53 @@ const SdgContent: React.FC<DataProps> = ({data}) => {
                 alt={post.url}
                 className="object-cover w-full h-full rounded-full"
               />
-            </div>  
+            </div>
           </button>
         </div>
 
         <div className="absolute -top-2 -right-2 sm:h-6 sm:w-24 bg-bubbleGray text-black text-[9px] sm:text-xs md:text-sm rounded-full px-1 py-0.5 shadow-lg">
           {post.caption}
         </div>
-          {/* <div>{post.likes}</div> */}
       </div>
     ));
-  }
+  };
 
   const sdgTitle = SDG_TITLES[parseInt(sdg) - 1];
   const photoChallenges = PHOTO_CHALLENGES[sdg] || [];
   
   const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
-  
-  // Handler to go to the next challenge
+
   const handleNextChallenge = () => {
-    setCurrentChallengeIndex((prevIndex) =>
-      (prevIndex + 1) % photoChallenges.length
-    ); // Cycle back to the first challenge
+    setCurrentChallengeIndex((prevIndex) => (prevIndex + 1) % photoChallenges.length);
   };
 
   return (
     <div className="p-4 pt-6 flex flex-col items-center text-center overflow-auto max-w-full max-h-full lg:ml-[260px]">
+      {/* Floating dropdown in the top-left corner */}
+      <div className="fixed top-20 right-5 z-50">
+        <button
+          onClick={() => setFilterDropdownVisible(!filterDropdownVisible)}
+          className="bg-gray-900 fixed top-20 right-5  text-white px-4 py-2 rounded-md hover:bg-gray-900 focus:outline-none"
+        >
+          {selectedFilter} ▼
+        </button>
+        {filterDropdownVisible && (
+          <div className="relative  mt-10  bg-gray-900 shadow-lg rounded-lg w-36">
+            <ul className="py-2">
+              {filters.map((filter, index) => (
+                <li key={index}>
+                  <button
+                    onClick={() => handleFilterSelect(filter)}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-white text-sm"
+                  >
+                    {filter}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
 
       {/* Center SDG Image and Title */}
     <div className="flex items-center justify-center p-1 pr-5 mt-10 mb-10 z-10 space-x-3 bg-white rounded-full shadow-lg">

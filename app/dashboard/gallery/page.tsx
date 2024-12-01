@@ -14,19 +14,13 @@ interface Photo {
   user_sdg_id: string
 }
 
+
 export default async function GalleryPage() {
 
   const user_id = await authenticateUser()
-
-  const hasAvatar = await checkUserAvatar(user_id)
-  if (!hasAvatar) {
-    redirect('/dashboard/createAvatar1')
-    return 
-  }
-
+  await checkUserAvatar(user_id)
 
   const photos: Array<Photo> | undefined = await getPhotoByUserId(user_id);
-  // console.log("asd", data)
 
 
   return (
