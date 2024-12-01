@@ -2,18 +2,22 @@
 import React from "react";
 import ButtonBox from "../styles/buttonBox";
 import TextBoxPanel from "../styles/textBox";
+import { RiLinkedinBoxFill } from "react-icons/ri";
 import icon from "/public/images/SDG/SDG1.jpg";
 import SDGlink7 from "/public/images/SDG/SDGlink17.jpg";
 import logo from "/public/images/background/logo.png";
 import SDGlink4 from "/public/images/SDG/SDGlink4.jpg";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa"
 
+interface IconProps {
+  imageSrc: string;
+}
 
-const Icon: React.FC = () => (
+const TeamMember: React.FC<IconProps> = ({ imageSrc }) => (
   <div
     className="rounded-full lg:p-5 p-8"
     style={{
-      backgroundImage: `url(${icon.src})`,
+      backgroundImage: `url(${imageSrc})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
     }}
@@ -22,7 +26,7 @@ const Icon: React.FC = () => (
 
 const AboutUsComponent: React.FC = () => {
   return (
-    <div className="flex flex-col items-center gap-32 lg:ml-64">
+    <div className="flex flex-col items-center gap-20 lg:ml-64">
       {/* First Row */}
       <div className="flex flex-col lg:flex-row gap-14 sm:gap-4">
         {/* Mobile logo */}
@@ -30,7 +34,7 @@ const AboutUsComponent: React.FC = () => {
           <img src={logo.src} style={{ width: '70%' }} alt="Logo" />
         </div>
 
-        <div className="flex flex-col px-10 md:px-24 -mt-12 lg:-mt-0 lg:pl-24 lg:py-32 lg:px-0 lg:w-1/2">
+        <div className="flex flex-col px-10 md:px-24 -mt-12 lg:-mt-0 lg:pl-24 lg:py-32 lg:px-0 lg:w-1/2 lg:mr-10">
           <p className="font-bold text-3xl md:text-8xl lg:text-5xl mb-4 lg:mt-8">About Us</p>
           <p className="break-words text-justify text-xs lg:text-base lg:mr-4">
             In 2024, we embarked on a mission to leverage the power of
@@ -54,7 +58,7 @@ const AboutUsComponent: React.FC = () => {
       </div>
 
       {/* Vision and Mission */}
-      <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 px-6 lg:px-16 md:ml-2 -mt-20 lg:-mt-30">
+      <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 px-6 lg:px-16 md:ml-2 -mt-10 lg:-mt-30">
         <TextBoxPanel>
           <div className="items-center">
             <p className="text-center text-blue-800 mb-2 lg:mb-6 font-bold text-2xl md:text-2xl lg:text-3xl">Vision</p>
@@ -97,40 +101,40 @@ const AboutUsComponent: React.FC = () => {
           />
         </div>
 
-        <div className="flex flex-col lg:w-1/2 px-16 md:px-32 lg:p-0 gap-4">
-          <p className="text-base md:text-lg font-bold">Who We Are</p>
+        <div className="flex flex-col lg:w-1/2 px-10 md:px-32 lg:p-0 gap-4">
+          <p className="text-base md:text-xl font-bold">Who We Are</p>
           <p className="font-bold text-2xl md:text-5xl break-words">
             A Group of Aspiring Developers
           </p>
-          <p className="break-words text-xs md:text-3xl lg:text-base">
+          <p className="break-words text-xs lg:text-xl">
             Behind our platform is a diverse team of visionaries, technologists,
             and advocates committed to sustainability.
           </p>
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 lg:gap-16 md:my-8 font-bold md:pr-8 text-base md:text-3xl lg:text-base">
+          <div className="flex flex-col mt-2 sm:mt-0 lg:flex-row gap-4 lg:gap-8 md:my-8 font-bold md:pr-8 text-base md:text-3xl lg:text-base">
             <div className="flex flex-col gap-4">
-              <TextBoxPanel>
+              <TextBoxPanel className="py-3 lg:py-4 lg:w-[300px]">
                 <div className="flex flex-row items-center gap-4">
-                  <Icon />
+                  <TeamMember imageSrc="/images/team/danielle.png"/>
                   <p>Danielle Ziac Abril</p>
                 </div>
               </TextBoxPanel>
-              <TextBoxPanel>
+              <TextBoxPanel className="py-3 lg:py-4 lg:w-[300px]">
                 <div className="flex flex-row items-center gap-4">
-                  <Icon />
+                  <TeamMember imageSrc="/images/danielle.png"/>
                   <p>Hersey Anne Odasco</p>
                 </div>
               </TextBoxPanel>
             </div>
             <div className="flex flex-col gap-4">
-              <TextBoxPanel>
+              <TextBoxPanel className="py-3 lg:py-4 lg:w-[300px]">
                 <div className="flex flex-row items-center gap-4">
-                  <Icon />
+                  <TeamMember imageSrc="/images/danielle.png"/>
                   <p>Paul Oliver Cruz</p>
                 </div>
               </TextBoxPanel>
-              <TextBoxPanel>
+              <TextBoxPanel className="py-3 lg:py-4 lg:w-[300px]">
                 <div className="flex flex-row items-center gap-4">
-                  <Icon />
+                  <TeamMember imageSrc="/images/danielle.png"/>
                   <p>Jon Endrick Babao</p>
                 </div>
               </TextBoxPanel>
@@ -155,7 +159,7 @@ const AboutUsComponent: React.FC = () => {
             style={{ pointerEvents: "none" }}
           />
           {/* Content */}
-          <div className="relative z-10 flex flex-col items-center p-20 gap-16">
+          <div className="relative z-10 flex flex-col items-center p-10 lg:p-20 gap-16">
             <p className="font-bold text-2xl md:text-5xl text-white">Join Us Now!</p>
             <p className=" text-base md:text-xl lg:px-64 text-center text-white">
               Become a part of our growing movement to make sustainability a
@@ -168,7 +172,7 @@ const AboutUsComponent: React.FC = () => {
         </div>
 
         {/* Footer */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-16 md:gap-32 lg:gap-64 md:pt-8 pb-32 lg:pb-0 lg:my-12">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-16 md:gap-32 lg:gap-50 md:pt-8 pb-32 lg:pb-0 lg:my-12">
             <div className="flex flex-col items-center md:flex-row md:justify-center gap-6">
                 <img className="lg:-mt-6" src={logo.src} style={{ width: 250 }} alt="Logo" />
                 <img
@@ -177,15 +181,15 @@ const AboutUsComponent: React.FC = () => {
                   className="w-80 h-22 -mt-5 md:w-[500px] md:h-[150px] md:ml-5"
                 />
             </div>
-            <div className="flex flex-col text-xs gap-2 sm:gap-8 ">
+            <div className="flex flex-col text-xs gap-2 sm:gap-2 ">
                 <p className="text-md sm:text-2xl font-bold text-center">Contact Us</p>
                 <div className="flex flex-row items-center gap-4">
                     <FaPhoneAlt />
-                    <p>09xx-xxx-xxxx</p>
+                    <p>0917-185-7787</p>
                 </div>
                 <div className="flex flex-row items-center gap-4">
-                    <FaPhoneAlt />
-                    <p>207-8767-457</p>
+                    <RiLinkedinBoxFill />
+                    <p>in/Tanaw</p>
                 </div>
                 <div className="flex flex-row items-center gap-4">
                     <FaEnvelope />
