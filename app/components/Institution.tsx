@@ -130,11 +130,11 @@ const Page: React.FC<Institution> = ({data}) => {
 
 
       {/* Post Description */}
-      <div className="flex justify-center items-center px-3 py-2 bg-white rounded-full shadow-inner mb-2">
-        <p className="text-sm sm:text-lg text-black font-semibold text-center">
-          {post.caption}
-        </p>
-      </div>
+      <div className="flex justify-center items-center w-full px-3 py-2 bg-white rounded-full shadow-inner mb-2 overflow-hidden text-ellipsis">
+              <p className="text-sm sm:text-lg text-black font-semibold text-center whitespace-nowrap">
+                {post.caption}
+              </p>
+              </div>
 
       {/* Likes and Date */}
       <div className="flex justify-between items-center px-3 py-2 w-full">
