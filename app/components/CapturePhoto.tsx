@@ -224,7 +224,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
         </>
       ) : (
         <button
-          className={` text-dBlue py-1 text-lg font-bold w-52 md:w-[35vw] lg:w-64 ${baseButtonClass}`}
+          className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-[50vw] md:w-[35vw] lg:w-64`}
           style={{
             boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
           }}
@@ -236,14 +236,14 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
 
       {/* Back Button for Large Screens */}
       <button
-  className={` text-dBlue py-1 text-lg font-bold w-72 md:w-[35vw] lg:w-64 mt-4 lg:block hidden ${baseButtonClass}`}
-  style={{
-    boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
-  }}
-  onClick={() => router.back()}
->
-  Back
-</button>
+        className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-[50vw] md:w-[35vw] lg:w-64 mt-4 block`}
+        style={{
+          boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
+          }}
+          onClick={() => router.back()}
+        >
+          Back
+      </button>
 
       {/* Back Arrow for Mobile */}
       <div className="lg:hidden absolute top-4 left-4">
