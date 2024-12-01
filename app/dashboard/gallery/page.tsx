@@ -19,9 +19,10 @@ export default async function GalleryPage() {
 
   const user_id = await authenticateUser()
   await checkUserAvatar(user_id)
+  console.log(user_id)
 
   const photos: Array<Photo> | undefined = await getPhotoByUserId(user_id);
-
+  console.log(photos)
 
   return (
     <MainLayout>

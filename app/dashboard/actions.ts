@@ -249,7 +249,7 @@ export async function getPhotoByUserId(user_id: string) {
 
 	const { data, error } = await supabase
 		.from("user_sdgs")
-		.select(`user_sdg_id, url, caption, likes, created_at`)
+		.select(`user_sdg_id, url, caption, created_at`)
 		.order('created_at', { ascending: false })
 		.eq('user_id', user_id)
 
