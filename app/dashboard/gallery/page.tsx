@@ -9,7 +9,6 @@ import { authenticateUser, getPhotoByUserId, checkUserAvatar } from "../actions"
 interface Photo {
   caption: string, 
   created_at: string, 
-  likes: number, 
   url: string, 
   user_sdg_id: string
 }
