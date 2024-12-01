@@ -286,7 +286,6 @@ const Profile: React.FC<UserSdgs> = ({ data }) => {
             className={`${getButtonStyles(true).className} w-full max-w-sm py-3 text-lg font-bold`}
             style={getButtonStyles(true).style}
             onClick={() => claim(user_sdgs)}
-            onClick={() => claim(user_sdgs)}
           >
             CLAIM
           </button>
