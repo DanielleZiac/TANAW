@@ -19,21 +19,22 @@ const CreateAvatar1: React.FC<DataProps> = ({ data }) => {
   console.log(data);
   const router = useRouter();
   const [gender, setGender] = useState("boy");
-  const [shirtStyle, setShirtStyle] = useState("shirt");
-  const [eyewear, setEyewear] = useState<string | null>(null);
+  const [shirtStyle, setShirtStyle] = useState("polo");
+  const [eyewear, setEyewear] = useState<string | null>("none");
   const [college, setCollege] = useState("bsu");
 
   const handleConfirmAvatar = () => {
-    const query = `gender=${gender}&shirtStyle=${shirtStyle}` + 
-                  (eyewear ? `&eyewear=${eyewear}` : "") + 
-                  `&college=${college}`;
+    if (college == "bsu") {
+      alert("pick college")
+      return
+    }
     const avatarDict = {
       "gender": gender,
       "shirtStyle": shirtStyle, 
-      "eyewear": eyewear, 
+      "eyewear": (eyewear === "none" ? null : eyewear), 
       "college": college };
     sessionStorage.setItem("avatar", JSON.stringify(avatarDict));
-    router.push(`/dashboard/createAvatar2?${query}`);
+    router.push(`/dashboard/createAvatar2`);
   };
 
   return (
@@ -64,7 +65,7 @@ const CreateAvatar1: React.FC<DataProps> = ({ data }) => {
             className="absolute inset-0 w-full h-full object-contain"
           />
           {/* Eyewear */}
-          {eyewear ? 
+          {eyewear != "none" ? 
             <img
               src={`/images/avatar/eye/${eyewear}.png`}
               alt={eyewear}

@@ -92,7 +92,7 @@ const Page: React.FC<Institution> = ({data}) => {
 
   {/* Posts Container */}
   <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3">
-    {topPosts.slice(0, 3).map((post, index) => (
+    {topPosts?.slice(0, 3).map((post, index) => (
       <div
         key={index}
         className="bg-black bg-opacity-60 rounded-lg shadow-lg w-[150px] sm:w-[180px] h-[180px] relative p-3 flex flex-col items-center"
