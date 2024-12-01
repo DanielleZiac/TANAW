@@ -333,7 +333,8 @@ export async function checkUserAvatar(user_id: String) {
 	const supabase = await createClient()
 
 	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select(`avatars(avatar_url)`).eq("user_id", user_id).single();
-	if (!user_avatars.avatars.avatar_url || user_avatars.avatars.avatar_url.length < 1) {
+	console.log(user_avatars)
+	if (!user_avatars || user_avatars < 1) {
 		console.log("create avatar first")
 		redirect('/dashboard/createAvatar1')
 		// return false
