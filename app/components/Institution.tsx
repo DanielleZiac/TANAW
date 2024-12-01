@@ -84,41 +84,87 @@ const Page: React.FC<Institution> = ({data}) => {
         <br/>
 
         <section className="mt-4 px-4">
-  <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-center sm:text-left">
-    TOP 3 LIKED POSTS OF <br />
-    {selectedInstitution.institution} - {selectedInstitution.campus}
-  </h2>
+  {/* Header with Button */}
+  <div className="flex justify-between items-center mb-2">
+    <h2 className="text-xl sm:text-2xl font-semibold">
+      TOP 3 LIKED POSTS OF <br />
+      {selectedInstitution.institution} - {selectedInstitution.campus}
+    </h2>
+    <Link href="/dashboard/gallery">
+    <button
+      className="text-dBlue py-1 text-lg font-bold w-36 sm:w-48 bg-white border border-gray-300 rounded-lg hover:shadow-md"
+      style={{
+        boxShadow:
+          "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)",
+      }}
+      
+    >
+      Gallery
+    </button>
+    </Link>
+  </div>
   <hr className="border-black mb-4 mx-auto sm:mx-0 w-3/4 sm:w-3/5" />
 
   {/* Posts Container */}
   <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3">
-    {topPosts?.slice(0, 3).map((post, index) => (
-      <div
-        key={index}
-        className="bg-black bg-opacity-60 rounded-lg shadow-lg w-[150px] sm:w-[180px] h-[180px] relative p-3 flex flex-col items-center"
-      >
-        {/* Post Image */}
-        <div className="w-full h-[65%] mb-2 overflow-hidden rounded-md">
-          <img
-            src={post.url}
-            alt="Post"
-            className="w-full h-full object-cover"
-          />
-        </div>
+  {topPosts?.slice(0, 3).map((post, index) => (
+    <div
+      key={index}
+      className="bg-black bg-opacity-60 rounded-lg shadow-lg w-[150px] sm:w-[180px] h-auto relative p-3 flex flex-col items-center"
+    >
+      {/* Post Image */}
+      <div className="flex justify-center mb-3">
+  <div className="w-full max-w-2xl overflow-hidden "> {/* Added `relative` here */}
+    <img
+      src={post.url}
+      alt={`Post ${index + 1}`}
+      className="w-full h-auto object-cover"
+    />
+    {index === 0 && (
+      <span className="absolute top-[-20px] left-1/2 transform -translate-x-1/2 sm:top-[-25px] text-2xl sm:text-3xl">
+        👑
+      </span>
+    )}
+  </div>
+</div>
 
-        {/* Post Description */}
-        <p className="text-center text-xs sm:text-sm text-white font-semibold mb-1">
+
+      {/* Post Description */}
+      <div className="flex justify-center items-center px-3 py-2 bg-white rounded-full shadow-inner mb-2">
+        <p className="text-sm sm:text-lg text-black font-semibold text-center">
           {post.caption}
         </p>
-
-        {/* Likes and Date */}
-        <div className="text-center text-xs text-gray-300">
-          <p>{post.total_count} Likes</p>
-          <p>{post.created_date}</p>
-        </div>
       </div>
-    ))}
-  </div>
+
+      {/* Likes and Date */}
+      <div className="flex justify-between items-center px-3 py-2 w-full">
+        <div className="flex items-center space-x-2">
+          {/* Heart Icon */}
+          <svg
+            
+            className="w-5 h-5 text-white cursor-pointer"
+            fill={post.isLiked ? "currentColor" : "none"}
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+            />
+          </svg>
+          <span className="font-bold text-sm sm:text-base">
+            {post.likes}
+          </span>
+        </div>
+        <span className="font-bold text-sm text-white sm:text-base">
+          {post.created_date}
+        </span>
+      </div>
+    </div>
+  ))}
+</div>
+
 </section>
 
       </div>

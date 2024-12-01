@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import mergeImages from "merge-images";
 import { getButtonStyles } from "../styles/buttonStyles"; // Ensure the path to buttonStyles is correct
 import { FaLock, FaTimes } from "react-icons/fa";
 
@@ -284,6 +285,7 @@ const Profile: React.FC<UserSdgs> = ({ data }) => {
           <button
             className={`${getButtonStyles(true).className} w-full max-w-sm py-3 text-lg font-bold`}
             style={getButtonStyles(true).style}
+            onClick={() => claim(user_sdgs)}
             onClick={() => claim(user_sdgs)}
           >
             CLAIM
