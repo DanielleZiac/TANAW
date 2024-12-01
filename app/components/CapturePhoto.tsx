@@ -224,7 +224,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
         </>
       ) : (
         <button
-          className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-72 md:w-[35vw] lg:w-64`}
+          className={` text-dBlue py-1 text-lg font-bold w-52 md:w-[35vw] lg:w-64 ${baseButtonClass}`}
           style={{
             boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
           }}
@@ -236,7 +236,7 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
 
       {/* Back Button for Large Screens */}
       <button
-  className={`${baseButtonClass} text-dBlue py-1 text-lg font-bold w-72 md:w-[35vw] lg:w-64 mt-4 lg:block hidden`}
+  className={` text-dBlue py-1 text-lg font-bold w-72 md:w-[35vw] lg:w-64 mt-4 lg:block hidden ${baseButtonClass}`}
   style={{
     boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)"
   }}

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-
 import BSU from '/public/images/institution/bsulogo.png';
 import ADMU from '/public/images/institution/admulogo.png';
 import DLSU from '/public/images/institution/dlsulogo.png';
@@ -11,9 +10,12 @@ import SDGlink6 from '/public/images/SDG/SDGlink6.jpg';
 import Logo from '../explore/sdglink/SDG/explorebg.png';
 import TextBoxPanel from '../styles/textBox';
 import FloatingDropdown from '../components/layouts/FloatingDropDown';
-
-import { getTopLiked } from "../dashboard/actions"
-
+import { getTopLiked } from "../dashboard/actions";
+import { FaExclamationTriangle } from 'react-icons/fa';
+import { AiOutlineClose } from 'react-icons/ai';
+import Link from 'next/link';
+import { SDG_TITLES } from '../data/sdgTitles';
+import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes, filterSdgs } from "../dashboard/actions";
 
 // Institution data
 const institutions = [
@@ -32,17 +34,6 @@ const top3Posts = {
   3: [SDGlink6, SDGlink4, SDGlink5],
 };
 
-// interface InstitutionPhotos {
-//   institution_id: String;
-//   created_date: string;
-//   caption: string;
-//   sdg_number: String;
-//   url: string;
-//   user_id: string;
-//   user_sdg_id: string;
-// }
-
-
 interface Institution {
   institution_id: String,
   institution: String,
@@ -50,27 +41,32 @@ interface Institution {
   institution_logo: String
 }
 
-
 const Page: React.FC<Institution> = ({data}) => {
-  // console.log(data)
   const [selectedInstitution, setSelectedInstitution] = useState(data[0]);
   const [topPosts, setTopPosts] = useState(null);
+  const [selectedPost, setSelectedPost] = useState(null); // State for selected post
+  const [modalOpen, setModalOpen] = useState(false); // Modal visibility state
 
   useEffect(() => {
     async function getTopPosts(institution_id) {
-      const topLiked = await getTopLiked(institution_id)
-
-      console.log(topLiked)
-      setTopPosts(topLiked)
+      const topLiked = await getTopLiked(institution_id);
+      setTopPosts(topLiked);
     }
 
-    getTopPosts(selectedInstitution.institution_id)
-  }, [selectedInstitution])
-
+    getTopPosts(selectedInstitution.institution_id);
+  }, [selectedInstitution]);
 
   const handleInstitutionClick = (institution: typeof institutions[number]) => {
-    console.log(institution)
     setSelectedInstitution(institution);
+  };
+
+  const openModal = (post: any) => {
+    setSelectedPost(post);
+    setModalOpen(true); // Open the modal
+  };
+
+  const closeModal = () => {
+    setModalOpen(false); // Close the modal
   };
 
   return (
@@ -96,15 +92,16 @@ const Page: React.FC<Institution> = ({data}) => {
           <div
             className="flex flex-col lg:flex-row gap-4 px-4 md:px-4 lg:-ml-8"
           >
-            {topPosts ? topPosts.slice(0,3).map((image, index) => (
+            {topPosts ? topPosts.slice(0,3).map((post, index) => (
               <div
                 key={index}
                 className="relative bg-gray-300 h-32 w-full rounded-lg overflow-hidden"
                 style={{
-                  backgroundImage: `url(${image.url})`,
+                  backgroundImage: `url(${post.url})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
+                onClick={() => openModal(post)} // Open modal when post is clicked
               >
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                   <p className="text-gray-200 font-semibold text-xl">Post {index + 1}</p>
@@ -148,6 +145,55 @@ const Page: React.FC<Institution> = ({data}) => {
           ))}
         </div>
       </div>
+
+      {/* Modal for displaying post details */}
+      {modalOpen && selectedPost && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="bg-black bg-opacity-60 sm:rounded-[2.5rem] shadow-2xl w-[350px] sm:w-[400px] lg:w-[420px] h-[600px] sm:h-[700px] lg:h-[750px] relative p-6">
+            {/* Close Button */}
+            <button onClick={closeModal} className="absolute top-5 right-5 text-white hover:text-red-500">
+              <AiOutlineClose size={36} />
+            </button>
+
+            {/* Warning Icon */}
+            <FaExclamationTriangle className="absolute top-5 left-5 text-white w-8 h-8" />
+
+            {/* Post Image */}
+            <div className="flex justify-center mb-6 mt-12">
+              <div className="w-full max-w-2xl overflow-hidden rounded-3xl">
+                <img src={selectedPost.url} alt={selectedPost.url} className="w-full h-auto object-cover" />
+              </div>
+            </div>
+
+            {/* Post Description */}
+            <div className="flex justify-center items-center px-3 py-3 bg-white rounded-full shadow-inner mb-0">
+              <p className="text-lg sm:text-2xl text-black font-semibold text-center">{selectedPost.caption}</p>
+            </div>
+
+            {/* Likes and Date */}
+            <div className="flex justify-between items-center px-6 py-4 bg-none mb-0 mx-0">
+              <div className="flex items-center space-x-3">
+                
+                <p className="text-gray-300 text-sm">{selectedPost.total_count} Likes</p>
+              </div>
+
+              <p className="text-gray-300 text-sm">{selectedPost.created_date}</p>
+            </div>
+
+            {/* SDG Tag */}
+            <div className="flex justify-between items-center px-6 py-4 bg-none mb-0 mx-0">
+              <p className="text-gray-300 text-xl">{selectedPost.sdg_number}</p>
+            </div>
+
+            {/* Event Info */}
+            <div className="px-8 py-4 w-full flex justify-between items-center bg-none mt-4">
+              <p className="text-gray-400 text-lg">{selectedPost.event}</p>
+
+              
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
