@@ -9,7 +9,6 @@ interface Photo {
   avatar_url: string;
   caption: string;
   created_date: string;
-  likes: number;
   sdg_number: string;
   url: string;
   user_id: string;

@@ -57,8 +57,8 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
                 boxShadow: "inset 0px 8px 20px rgba(0, 0, 0, 0.4)",
               }}
             >
-              {userData?.avatar_url ? 
-                <img src={userData.avatar_url} alt="User Avatar" />
+              {userData?.avatars.avatar_url ? 
+                <img src={userData.avatars.avatar_url} alt="User Avatar" />
                : 
                 <p>Loading avatar...</p>
               }

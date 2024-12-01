@@ -35,20 +35,24 @@ const AvatarDisplayArea: React.FC<{ children: React.ReactNode }> = ({ children }
 const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
   const router = useRouter();
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [leftEye, setLeftEye] = useState("eyes_opened");
-  const [rightEye, setRightEye] = useState("rightEyeOpened");
+  const [eye, setEye] = useState("eyes_opened");
   const [eyePos, setEyePos] = useState("normal");
   const [smile, setSmile] = useState("mouth_closed");
   const [status, setStatus] = useState(false);
   const camera = useRef<HTMLVideoElement>(null);
   // const eye = useRef(null);
 
+  const avatarSesh = typeof sessionStorage !== "undefined"
+    ? JSON.parse(sessionStorage.getItem("avatar") || "[]") // Provide a fallback for null
+    : [];
+  console.log(avatarSesh);
+
   const avatar = params[0];
   const user_id = params[1];
 
   // Redirect if required params are missing
   useEffect(() => {
-    if (!avatar.college || !avatar.gender || !avatar.shirtStyle) {
+    if (!avatar.college || !avatar.gender || !avatar.shirtStyle || avatarSesh == null) {
       redirect("/dashboard/createAvatar1");
     }
   }, [avatar]);
@@ -60,7 +64,7 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
         const curStream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (camera.current) {
           camera.current.srcObject = curStream;
-          runFacemesh(camera.current, setStatus, setLeftEye, setSmile);
+          runFacemesh(camera.current, setStatus, setEye, setSmile);
           setStream(curStream);
         }
       } catch (error) {
@@ -94,7 +98,7 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
       "college",
       "gender",
       "shirtStyle",
-      "leftEye",
+      "eye",
       "smile",
       "eyewear",
     ].map((id) => document.getElementById(id) as HTMLImageElement);
@@ -104,6 +108,10 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
     console.log(department_id.department_id)
     sessionStorage.setItem(user_id, base64);
     sessionStorage.setItem("department_id", department_id.department_id)
+    
+    avatarSesh["eye"] = eye
+    avatarSesh["smile"] = smile
+    sessionStorage.setItem("avatar", JSON.stringify(avatarSesh));
 
     router.push("/dashboard/createAvatar3");
   };
@@ -134,7 +142,7 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
               {avatar.eyewear && (
                 <img id="eyewear" src={`/images/avatar/eye/${avatar.eyewear}.png`} className="absolute w-full h-full" />
               )}
-              <img id="leftEye" src={`/images/avatar/eye/${leftEye}.png`} className="absolute w-full h-full" />
+              <img id="eye" src={`/images/avatar/eye/${eye}.png`} className="absolute w-full h-full" />
               <img id="smile" src={`/images/avatar/mouth/${smile}.png`} className="absolute w-full h-full" />
             </div>
           </AvatarDisplayArea>
