@@ -83,33 +83,44 @@ const Page: React.FC<Institution> = ({data}) => {
         </div>
         <br/>
 
-        <section className="mt-4">
-          <h2 className="text-2xl font-semibold mb-2">
-            TOP 3 LIKED POSTS OF <br/>{selectedInstitution.institution}-{selectedInstitution.campus}
-          </h2>
-          <hr className="border-black mb-4 w-3/5" />
+        <section className="mt-4 px-4">
+  <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-center sm:text-left">
+    TOP 3 LIKED POSTS OF <br />
+    {selectedInstitution.institution} - {selectedInstitution.campus}
+  </h2>
+  <hr className="border-black mb-4 mx-auto sm:mx-0 w-3/4 sm:w-3/5" />
 
-          <div
-            className="flex flex-col lg:flex-row gap-4 px-4 md:px-4 lg:-ml-8"
-          >
-            {topPosts ? topPosts.slice(0,3).map((post, index) => (
-              <div
-                key={index}
-                className="relative bg-gray-300 h-32 w-full rounded-lg overflow-hidden"
-                style={{
-                  backgroundImage: `url(${post.url})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-                onClick={() => openModal(post)} // Open modal when post is clicked
-              >
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                  <p className="text-gray-200 font-semibold text-xl">Post {index + 1}</p>
-                </div>
-              </div>
-            )) : null}
-          </div>
-        </section>
+  {/* Posts Container */}
+  <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3">
+    {topPosts.slice(0, 3).map((post, index) => (
+      <div
+        key={index}
+        className="bg-black bg-opacity-60 rounded-lg shadow-lg w-[150px] sm:w-[180px] h-[180px] relative p-3 flex flex-col items-center"
+      >
+        {/* Post Image */}
+        <div className="w-full h-[65%] mb-2 overflow-hidden rounded-md">
+          <img
+            src={post.url}
+            alt="Post"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Post Description */}
+        <p className="text-center text-xs sm:text-sm text-white font-semibold mb-1">
+          {post.caption}
+        </p>
+
+        {/* Likes and Date */}
+        <div className="text-center text-xs text-gray-300">
+          <p>{post.total_count} Likes</p>
+          <p>{post.created_date}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
       </div>
 
       {/* Right Column */}
@@ -146,54 +157,7 @@ const Page: React.FC<Institution> = ({data}) => {
         </div>
       </div>
 
-      {/* Modal for displaying post details */}
-      {modalOpen && selectedPost && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-black bg-opacity-60 sm:rounded-[2.5rem] shadow-2xl w-[350px] sm:w-[400px] lg:w-[420px] h-[600px] sm:h-[700px] lg:h-[750px] relative p-6">
-            {/* Close Button */}
-            <button onClick={closeModal} className="absolute top-5 right-5 text-white hover:text-red-500">
-              <AiOutlineClose size={36} />
-            </button>
-
-            {/* Warning Icon */}
-            <FaExclamationTriangle className="absolute top-5 left-5 text-white w-8 h-8" />
-
-            {/* Post Image */}
-            <div className="flex justify-center mb-6 mt-12">
-              <div className="w-full max-w-2xl overflow-hidden rounded-3xl">
-                <img src={selectedPost.url} alt={selectedPost.url} className="w-full h-auto object-cover" />
-              </div>
-            </div>
-
-            {/* Post Description */}
-            <div className="flex justify-center items-center px-3 py-3 bg-white rounded-full shadow-inner mb-0">
-              <p className="text-lg sm:text-2xl text-black font-semibold text-center">{selectedPost.caption}</p>
-            </div>
-
-            {/* Likes and Date */}
-            <div className="flex justify-between items-center px-6 py-4 bg-none mb-0 mx-0">
-              <div className="flex items-center space-x-3">
-                
-                <p className="text-gray-300 text-sm">{selectedPost.total_count} Likes</p>
-              </div>
-
-              <p className="text-gray-300 text-sm">{selectedPost.created_date}</p>
-            </div>
-
-            {/* SDG Tag */}
-            <div className="flex justify-between items-center px-6 py-4 bg-none mb-0 mx-0">
-              <p className="text-gray-300 text-xl">{selectedPost.sdg_number}</p>
-            </div>
-
-            {/* Event Info */}
-            <div className="px-8 py-4 w-full flex justify-between items-center bg-none mt-4">
-              <p className="text-gray-400 text-lg">{selectedPost.event}</p>
-
-              
-            </div>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 };
