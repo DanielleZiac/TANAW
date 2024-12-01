@@ -6,7 +6,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import Link from 'next/link';
 import { SDG_TITLES } from '../data/sdgTitles';
 import { PHOTO_CHALLENGES } from '../data/photoChallenges';
-import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes } from "../dashboard/actions";
+import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes, filterSdgs } from "../dashboard/actions";
 
 
 
@@ -44,20 +44,32 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
   const [isLiked, setLiked] = useState<string | "none">("none");
   const [likedPosts, setLikedPosts] = useState<Array<Liked> | undefined>(curLiked);
   const [likes, setLikes] = useState<number | null>(0);
+  const [displayPhoto, setDisplayPhoto] = useState<Array<Photos> | undefined>(photos);
 
   
 
   // Dropdown state
   const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState("Filter Options");
+  const [selectedFilter, setSelectedFilter] = useState("Today");
 
-  const filters = ["Yesterday", "Last Week", "Last Month", "Today"];
+  const filters = ["Today", "Yesterday", "Last Week", "Last Month", "All"];
 
-  const handleFilterSelect = (filter: string) => {
+  useEffect(() => {
+    async function changeDisplayPhoto(selectedFilter) {
+      const photos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase());
+      console.log(photos?.length)
+      setDisplayPhoto(photos)
+    }
+    changeDisplayPhoto(selectedFilter)
+    console.log(selectedFilter.toLowerCase())
+  }, [selectedFilter])
+
+  const handleFilterSelect = async (filter: string) => {
     setSelectedFilter(filter);
     setFilterDropdownVisible(false);
-    console.log("Filter Selected:", filter);
   };
+
+  // console.log("Filter Selected: ", selectedFilter)
 
   const liked = async (user_sdg_id: string) => {
     const userSdgIdElem = document.getElementById(user_sdg_id) as HTMLInputElement | null;
@@ -207,9 +219,9 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
 
     {/* Photos Section */}
     <div className="flex flex-col items-center justify-center w-full">
-      {photos && photos.length > 0 ? (
+      {displayPhoto && displayPhoto.length > 0 ? (
         <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {renderPosts(photos)}
+          {renderPosts(displayPhoto)}
         </div>
       ) : (
         <div className="text-center mt-6 text-gray-500">

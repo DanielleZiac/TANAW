@@ -4,7 +4,20 @@ import React from "react";
 import ButtonBox from "../styles/buttonBox";
 import InputBox from "../styles/inputBox";
 
-const ProfilePage: React.FC = () => {
+interface UserData {
+  sr_code: String, 
+  email: String, 
+  first_name: String, 
+  last_name: String, 
+  institution: String,
+  campus: String, 
+  department: String, 
+  avatar_url: String
+}
+
+
+const ProfilePage: React.FC<UserData> = ({data}) => {
+  console.log(data)
   return (
     <div className="flex flex-col items-center lg:items-stretch lg:ml-64 p-4 lg:p-0 lg:pl-32 mt-20 bg-lightGray w-screen lg:w-full h-screen mb-96 lg:mb-40">
       {/* Profile Header */}
@@ -15,20 +28,19 @@ const ProfilePage: React.FC = () => {
             backgroundColor: "white",
             boxShadow: "inset 0px 8px 20px rgba(0, 0, 0, 0.4)",
           }}
-        ></div>
+        >
+          <img src={data?.avatars.avatar_url} />
+        </div>
         <div className="flex flex-col gap-2">
-          <p className="text-xl lg:text-3xl font-extrabold">Juan Dela Cruz</p>
-          <p className="lg:text-xl font-bold">22-01010</p>
-          <p className="lg:text-lg">Batangas State University</p>
-          <p className="lg:text-lg">CICS</p>
+          <p className="text-xl lg:text-3xl font-extrabold">{data?.first_name} {data?.last_name}</p>
+          <p className="lg:text-xl font-bold">{data?.sr_code}</p>
+          <p className="lg:text-lg">{data?.institutions.institution} - {data?.institutions.campus}</p>
+          <p className="lg:text-lg">{data?.departments.department}</p>
         </div>
       </div>
 
       
       {/* Profile Settings */}
-
-      
-
       <div className="flex flex-col gap-8 items-start">
         <div className="flex flex-row gap-4 w-full mt-10">
             <hr className="border border-gray-400 w-1/2"/>
@@ -44,7 +56,7 @@ const ProfilePage: React.FC = () => {
         {/* Email Update Section */}
         <div className="grid grid-cols-[auto,1fr] items-center gap-y-4 gap-x-24 w-full">
           <p className="text-left font-medium">Current Email:</p>
-          <p className="text-gray-700">juandelacruz@gmail.com</p>
+          <p className="text-gray-700">{data?.email}</p>
 
           <p className="text-left font-medium">New Email:</p>
           <InputBox

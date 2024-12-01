@@ -13,11 +13,13 @@ interface ProfilePopupProps {
 }
 
 interface UserData {
-  sr_code: String,
-  first_name: String,
-  last_name: String,
+  sr_code: String, 
+  email: String, 
+  first_name: String, 
+  last_name: String, 
   institution: String,
-  department: String,
+  campus: String, 
+  department: String, 
   avatar_url: String
 }
 

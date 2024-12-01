@@ -16,7 +16,7 @@ export async function authenticateUser() {
 		redirect('/auth/login')
 	}
 
-	console.log(data)
+	// console.log(data)
 	return data.user.id
 }
 
@@ -30,10 +30,16 @@ export async function getUserById(user_id: String) {
 	
 	const { data: users_data, error: users_error} = await supabase
 		.from('users')
-		.select(`sr_code, first_name, last_name, institutions(institution), departments(department), avatars(avatar_url)`)
+		.select(`sr_code, first_name, email, last_name, institutions(institution, campus), departments(department), avatars(avatar_url)`)
 		.eq("user_id", user_id).single();
 
+	if (users_error) {
+		console.log("users_error", users_error)
+		return
+	}
+
 	if (users_data) {
+		console.log(users_data)
 		return users_data
 	}
 }
@@ -335,7 +341,7 @@ export async function checkUserAvatar(user_id: String) {
 	const supabase = await createClient()
 
 	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select(`avatars(avatar_url)`).eq("user_id", user_id).single();
-	console.log(user_avatars)
+	// console.log(user_avatars)
 	if (!user_avatars.avatars?.avatar_url || user_avatars.avatars?.avatar_url < 1) {
 		console.log("create avatar first")
 		redirect('/dashboard/createAvatar1')
@@ -515,7 +521,7 @@ export async function getDate(daysAdjust: Number) {
 
 
 // filter sdgsss
-export async function filterSdgs(filter?: String, sdg: Number) {
+export async function filterSdgs(sdg: Number, filter?: String) {
 	// today, yesterday, lastweek, last month
 
 	let data;
@@ -527,7 +533,34 @@ export async function filterSdgs(filter?: String, sdg: Number) {
 	cur_date = cur_date.toISOString().split('T')[0]
 	console.log(cur_date)
 
-	if (filter == "yesterday") {
+
+	if (filter == "all") {
+		const { data: data_nofilter, error: error_nofilter } = await supabase
+			.from("get_photo_and_avatar")
+			.select()
+			.eq('sdg_number', `sdg${sdg}`)
+
+		if (error_nofilter) {
+			console.log("Error error_nofilter getPhotoSdg", error_nofilter)
+			return
+		}
+
+		data = data_nofilter
+
+	} else if (filter == "today") {
+		const { data: data_today, error: error_today } = await supabase
+			.from("get_photo_and_avatar")
+			.select()
+			.eq('sdg_number', `sdg${sdg}`)
+			.eq("created_date", cur_date)
+
+		if (error_today) {
+			console.log("Error error_today getPhotoSdg", error_today)
+			return
+		}
+		data = data_today
+
+	} else if (filter == "yesterday") {
 		const yest = await getDate(-1)
 		console.log("yest", yest)
 		const yesterday = yest.toISOString().split('T')[0]
@@ -579,6 +612,8 @@ export async function filterSdgs(filter?: String, sdg: Number) {
 		const lastDayOfLastMonth = new Date(firstDayOfCurrentMonth);
 		lastDayOfLastMonth.setDate(0); // Set to the last day of the previous month
 
+		console.log(firstDayOfLastMonth.toISOString().split('T')[0], firstDayOfCurrentMonth.toISOString().split('T')[0])
+
 		const { data: data_filter_last_month, error: error_filter_last_month } = await supabase
 		  .from("get_photo_and_avatar")
 		  .select()
@@ -591,41 +626,14 @@ export async function filterSdgs(filter?: String, sdg: Number) {
 			return
 		}
 
-		data = data_filter_last_month
+		data = data_filter_last_month 
 
-	} else if (filter == null) {
-		const { data: data_nofilter, error: error_nofilter } = await supabase
-			.from("get_photo_and_avatar")
-			.select()
-			.eq('sdg_number', `sdg${sdg}`)
-
-		if (error_nofilter) {
-			console.log("Error error_nofilter getPhotoSdg", error_nofilter)
-			return
-		}
-
-
-		data = data_nofilter
-
-	} else if (filter == "today") {
-		const { data: data_today, error: error_today } = await supabase
-			.from("get_photo_and_avatar")
-			.select()
-			.eq('sdg_number', `sdg${sdg}`)
-			.eq("created_date", cur_date)
-
-		if (error_today) {
-			console.log("Error error_today getPhotoSdg", error_today)
-			return
-		}
-		data = data_today
-	}
-	else {
+	} else {
 		console.log("invalid filter")
+
 	}
 
 
-	// console.log("dataaaa", data);
 
 	return data;
 }
