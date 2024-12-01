@@ -18,6 +18,7 @@ interface Photos {
   url: string;
   user_id: string;
   user_sdg_id: string;
+  institution_id: String;
 }
 
 interface Liked {
@@ -30,7 +31,8 @@ interface DataProps {
     user_id: string,
     sdg: number, 
     photos: Array<Photos> | undefined,
-    liked: Array<Liked> | undefined
+    liked: Array<Liked> | undefined,
+    isInstitution: boolean | undefined
   ];
 }
 
@@ -39,6 +41,10 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
   const sdg = data[1];
   const photos = data[2];
   const curLiked = data[3];
+  const isInstitution = data[4]
+
+  // console.log(photos[0].institution_id)
+  // console.log(photos)
 
   const [selectedPost, setSelectedPost] = useState<Photos | null>(null);
   const [isLiked, setLiked] = useState<string | "none">("none");
@@ -56,9 +62,19 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
 
   useEffect(() => {
     async function changeDisplayPhoto(selectedFilter) {
-      const photos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase());
-      console.log(photos?.length)
-      setDisplayPhoto(photos)
+      let newPhotos;
+
+      console.log(photos)
+
+      if (isInstitution) {
+        console.log("here", photos[0].institution_id)
+        newPhotos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase(), photos[0].institution_id)
+      } else {
+        newPhotos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase(), null);
+      }
+
+      // console.log(photos?.length)
+      setDisplayPhoto(newPhotos)
     }
     changeDisplayPhoto(selectedFilter)
     console.log(selectedFilter.toLowerCase())

@@ -6,16 +6,23 @@ import Image from 'next/image'; // For optimized image handling
 import { useRouter } from 'next/router'; // For navigation
 
 
+interface Photos {
+  caption: string, 
+  url: string, 
+  user_sdg_id: string
+  created_at?: string, 
+  user_id?: String,
+  sdg_number?: String,
+  created_date?: String,
+  institution_id?: String,
+  avatar_url?: String
+}
+
+
 interface DataProps {
   data: [
     user_id: string, 
-    photos: Array<{
-      caption: string, 
-      created_at: string, 
-      likes: number, 
-      url: string, 
-      user_sdg_id: string
-    }> | undefined
+    photos: Array<Photos> | undefined
   ];
 }
 
@@ -23,10 +30,12 @@ const Gallery: React.FC<DataProps> = ({data}) => {
   const user_id = data[0];
   const photoData = data[1];
 
+  console.log(photoData)
+
   const sdgImages = Array.from({ length: 17 }, (_, i) => ({
     src: `/images/SDG/SDG${i + 1}.jpg`, // Assume you have these images in public/images/
     alt: `SDG ${i + 1}`,
-    link: `/dashboard/sdg/${i + 1}`, // Link to SDG page
+    link: (photoData[0].institution_id ? `/dashboard/institution/${photoData[0].institution_id}/${i + 1}` : `/dashboard/sdg/${i + 1}`) // Link to SDG page
   }));
 
   // State to track active tab

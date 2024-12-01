@@ -142,26 +142,22 @@ export async function getUserSdgs(user_id: String) {
 
 
 // INSTITUTION
-export async function getInstitutionPhoto(user_id: string) {
-	const supabase = await createClient()
+// export async function getInstitutionPhoto(institution_id: string) {
+// 	const supabase = await createClient()
 
-	const { data: data_institution } = await supabase.from("users").select("institution_id").eq("user_id", user_id).single()
+// 	const { data, error } = await supabase
+// 		.from(`get_school_photo`)
+// 		.select()
+// 		.order('created_date', { ascending: false })
+// 		.eq(`institution_id`, institution_id)
 
-	const institution_id = data_institution.institution_id
-
-	const { data, error } = await supabase
-		.from(`get_school_photo`)
-		.select()
-		.order('created_date', { ascending: false })
-		.eq(`institution_id`, institution_id)
-
-	if (error) {
-		console.log("Error getInstitutionPhoto", error)
-		return
-	}
-	// console.log(data)
-	return data
-}
+// 	if (error) {
+// 		console.log("Error getInstitutionPhoto", error)
+// 		return
+// 	}
+// 	// console.log(data)
+// 	return data
+// }
 
 export async function getInstitutions() {
 	const supabase = await createClient()
@@ -285,44 +281,34 @@ export async function getPhotoByUserId(user_id: string) {
 	return data;
 }
 
-export async function filterSdgs(sdg: Number, filter?: String) {
+export async function filterSdgs(sdg?: Number, filter?: String, institution_id?: String) {
 	// today, yesterday, lastweek, last month
-
-	let data;
 
 	const supabase = await createClient()
 
 	var cur_date = new Date();
 	cur_date.setDate(cur_date.getDate())
 	cur_date = cur_date.toISOString().split('T')[0]
-	console.log(cur_date)
+	// console.log(cur_date)
 
+	const query = supabase.from("get_photo_and_avatar").select()
 
-	if (filter == "all") {
-		const { data: data_nofilter, error: error_nofilter } = await supabase
-			.from("get_photo_and_avatar")
-			.select()
-			.eq('sdg_number', `sdg${sdg}`)
+	if (sdg) {
+		query.eq('sdg_number', `sdg${sdg}`)
+	}
 
-		if (error_nofilter) {
-			console.log("Error error_nofilter getPhotoSdg", error_nofilter)
-			return
-		}
+	console.log("sadasdsadasda", institution_id)
 
-		data = data_nofilter
+	if (institution_id) {
+		console.log("hsss", institution_id)
+		query.eq("institution_id", institution_id)
+	}
+
+	if (filter == "all" || filter == null) {
+		console.log("no date filter")	
 
 	} else if (filter == "today") {
-		const { data: data_today, error: error_today } = await supabase
-			.from("get_photo_and_avatar")
-			.select()
-			.eq('sdg_number', `sdg${sdg}`)
-			.eq("created_date", cur_date)
-
-		if (error_today) {
-			console.log("Error error_today getPhotoSdg", error_today)
-			return
-		}
-		data = data_today
+		query.eq("created_date", cur_date)
 
 	} else if (filter == "yesterday") {
 		const yest = await getDate(-1)
@@ -330,18 +316,7 @@ export async function filterSdgs(sdg: Number, filter?: String) {
 		const yesterday = yest.toISOString().split('T')[0]
 		console.log(yesterday)
 		
-		const { data: data_filter_yesterday, error: error_filter_yesterday } = await supabase
-			.from("get_photo_and_avatar")
-			.select()
-			.eq('sdg_number', `sdg${sdg}`)
-			.eq("created_date", yesterday)
-
-		if (error_filter_yesterday) {
-			console.log("Error error_filter_yesterday getPhotoSdg", error_filter_yesterday)
-			return
-		}
-
-		data = data_filter_yesterday
+		query.eq("created_date", yesterday)
 
 	} else if (filter == "last week") {
 		const lastweek = await getDate(-7)
@@ -349,20 +324,7 @@ export async function filterSdgs(sdg: Number, filter?: String) {
 		const lastweekDate = lastweek.toISOString().split('T')[0]
 		console.log(lastweekDate)
 
-
-		const { data: data_filter_last_week, error: error_filter_last_week } = await supabase
-		  .from("get_photo_and_avatar")
-		  .select()
-		  .eq('sdg_number', `sdg${sdg}`)
-		  .gte('created_date', lastweekDate) // Convert to 'YYYY-MM-DD' format
-		  .lte('created_date', cur_date);
-
-		if (error_filter_last_week) {
-			console.log("Error error_filter_last_week getPhotoSdg", error_filter_last_week)
-			return
-		}
-
-		data = data_filter_last_week
+		query.gte('created_date', lastweekDate).lte('created_date', cur_date);
 
 	} else if (filter == "last month") {
 		// Get the first day of the current month and the first day of the previous month
@@ -378,26 +340,18 @@ export async function filterSdgs(sdg: Number, filter?: String) {
 
 		console.log(firstDayOfLastMonth.toISOString().split('T')[0], firstDayOfCurrentMonth.toISOString().split('T')[0])
 
-		const { data: data_filter_last_month, error: error_filter_last_month } = await supabase
-		  .from("get_photo_and_avatar")
-		  .select()
-		  .eq('sdg_number', `sdg${sdg}`)
-		  .gte('created_date', firstDayOfLastMonth.toISOString().split('T')[0]) // Convert to 'YYYY-MM-DD' format
-		  .lt('created_date', firstDayOfCurrentMonth.toISOString().split('T')[0]);
-
-		if (error_filter_last_month) {
-			console.log("Error error_filter_last_month getPhotoSdg", error_filter_last_month)
-			return
-		}
-
-		data = data_filter_last_month 
+		query.gte('created_date', firstDayOfLastMonth.toISOString().split('T')[0])
+			.lt('created_date', firstDayOfCurrentMonth.toISOString().split('T')[0]);
 
 	} else {
 		console.log("invalid filter")
-
 	}
 
+	const { data, error } = await query;
 
+	if (error) {
+		console.log("error: ", error)
+	}
 
 	return data;
 }
@@ -633,7 +587,6 @@ export async function deleteAllFilesInFolder(storage_, folder) {
     }
 }
 
-
 export async function getDepartmentByAcronym(acronym: String) {
 	const supabase = await createClient();
 
@@ -644,15 +597,16 @@ export async function getDepartmentByAcronym(acronym: String) {
 	return data_department;
 }
 
-
-
-
-// can add???
 export async function getDate(daysAdjust: Number) {
 	var date = new Date();
 	date.setDate(date.getDate()+daysAdjust);
 	return date
 }
+
+
+
+
+// can add???
 
 
 // filter sdgsss
