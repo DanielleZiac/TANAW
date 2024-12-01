@@ -5,7 +5,8 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import Link from 'next/link';
 import { SDG_TITLES } from '../data/sdgTitles';
-import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes, filterSdgs } from "../dashboard/actions";
+import { PHOTO_CHALLENGES } from '../data/photoChallenges';
+import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes } from "../dashboard/actions";
 
 
 
@@ -117,12 +118,18 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
   const renderPosts = (postArray: Photos[], customClasses = "") => {
     return postArray.map((post, index) => (
       <div key={index} className={`relative flex flex-col items-center ${customClasses}`}>
-        <div className="group w-16 h-16 sm:w-32 sm:h-32 rounded-full overflow-hidden relative">
+        <div className="group flip-card w-[60px] h-[60px] sm:w-[90px] sm:h-[90px] lg:w-[110px] lg:h-[110px] rounded-full overflow-hidden relative">
+        
+          {/* Flip Card */}
           <button
-            onClick={() => handlePostClick(post)}
-            className="w-16 h-16 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
+            onClick={() => handlePostClick(post, user_id)}
+            className="flip-card-inner w-full h-full rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
           >
-            <img src={post.url} alt={post.url} className="object-cover w-full h-full" />
+          
+            {/* Front of the circle - Post */}
+            <img src={post.url} alt={post.url} className=" flip-card-front object-cover w-full h-full" />
+            
+            {/* Back of the circle - Avatar */}
             <div className="flip-card-back w-full h-full bg-gray-200 flex items-center justify-center">
               <img
                 src={post.avatar_url}
@@ -140,14 +147,8 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
     ));
   };
 
-  const sdgTitle = SDG_TITLES[parseInt(sdg.toString()) - 1];
-  const photoChallenges = [
-    "Photo Challenge 1",
-    "Photo Challenge 2",
-    "Photo Challenge 3",
-    "Photo Challenge 4",
-    "Photo Challenge 5",
-  ];
+  const sdgTitle = SDG_TITLES[parseInt(sdg) - 1];
+  const photoChallenges = PHOTO_CHALLENGES[sdg] || [];
   
   const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
 
@@ -156,7 +157,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
   };
 
   return (
-    <div className="content-container p-6 flex flex-col items-center overflow-auto sm:-mt-12">
+    <div className="p-4 pt-6 flex flex-col items-center text-center overflow-auto max-w-full max-h-full lg:ml-[260px]">
       {/* Floating dropdown in the top-left corner */}
       <div className="fixed top-20 right-5 z-50">
         <button
@@ -183,18 +184,37 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
         )}
       </div>
 
-    {/* Center SDG Image */}
-      <div className="relative mb-10 z-10">
-        <div className="image-container mb-8">
-          <img src={`/images/SDG/SDG${sdg}.jpg`} alt={`SDG ${sdg}`} className="sdg-image" />
-        </div>
+      {/* Center SDG Image and Title */}
+    <div className="flex items-center justify-center p-1 pr-5 mt-10 mb-10 z-10 space-x-3 bg-white rounded-full shadow-lg">
+      {/* SDG Image */}
+      <div>
+        <img 
+          src={`/images/SDG/SDG${sdg}.jpg`} 
+          alt={`SDG ${sdg}`} 
+          className=" object-cover rounded-full w-[70px] sm:w-[105px] lg:w-[130px]" 
+        />
       </div>
 
-      {photos ? 
-        <div className="flex space-x-6 mb-8 sm:ml-36">{renderPosts(photos)}</div> 
-      : 
-        null
-      }
+      {/* SDG Title */}
+      <div className="text-container ml-0 mr-5">
+        <h2 className="text-xl sm:text-3xl font-extrabold text-left text-teal-700">{`SDG ${sdg}:`}</h2>
+        <h2 className="text-md sm:text-xl font-semibold text-left ">{sdgTitle}</h2>
+      </div>
+    </div>
+
+    {/* Photos Section */}
+    <div className="flex flex-col items-center justify-center w-full">
+      {photos && photos.length > 0 ? (
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          {renderPosts(photos)}
+        </div>
+      ) : (
+        <div className="text-center mt-6 text-gray-500">
+          <p className="text-lg font-semibold">No photos available yet.</p>
+          <p className="text-sm">Be the first to contribute to this SDG!</p>
+        </div>
+      )}
+    </div>
 
       {/* Modal for the clicked post */}
       {selectedPost && (
@@ -253,20 +273,20 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
 
       {/* Photo Challenge Display */}
       <div 
-        className="fixed bottom-20 max-w-5xl w-full mx-auto mb-8 sm: mb-10 flex items-center justify-center bg-white rounded-full shadow-lg px-5 py-3 z-50"
+        className="fixed bottom-12 sm:bottom-17 md:bottom-20 lg:bottom-0 max-w-3xl mx-auto mb-8 sm:mb-10 flex items-center justify-center bg-white rounded-full shadow-lg px-5 py-3 z-50"
         style={{ maxWidth: "90%" }}
       >
         
         {/* Left Circular Button */}
         <Link href={`/dashboard/sdg/upload/${sdg}`}>
-          <button className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-md mr-4">
+          <button className="w-9 h-9 sm:w-12 sm:h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-6 h-6 sm:w-5 sm:h-5 text-blue-500"
+              className="w-5 h-5 sm:w-6 sm:h-6 text-white"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
@@ -274,13 +294,13 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
         </Link>
 
         {/* Text Display */}
-        <div className="flex-grow bg-gray-100 text-black rounded-full py-2 px-4 text-lg sm:text-base text-left">
+        <div className="flex-grow bg-gray-100 rounded-full py-2 px-4 text-xs sm:text-base text-left ml-4 mr-4">
           {photoChallenges[currentChallengeIndex]}
         </div>
 
         {/* Right Circular Button */}
         <button onClick={handleNextChallenge}
-          className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md ml-4"
+          className="w-9 h-9 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-md"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +308,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
             viewBox="0 0 24 24"
             strokeWidth={2}
             stroke="currentColor"
-            className="w-6 h-6 sm:w-5 sm:h-5 text-blue-500"
+            className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7"/>
           </svg>
