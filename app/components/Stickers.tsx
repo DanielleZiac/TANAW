@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import mergeImages from "merge-images";
 import { getButtonStyles } from "../styles/buttonStyles"; // Ensure the path to buttonStyles is correct
 
 interface UserSdgs {
@@ -56,17 +57,18 @@ const Avatar: React.FC<UserAvatar> = ({data}) => {
   return (
     <div
       key={index}
+      id={`${sdg}`}
       className={`${getButtonStyles(false).className} flex items-center p2 ${isLocked ? "bg-gray-200" : "bg-blue-300"} shadow-md`}
       style={getButtonStyles(false).style}
     >
-      <img src={`/images/avatar/sdg/background_${sdg.toUpperCase()}.png`} className="absolute w-10 h-10 rounded-full"/>
-      <img src={`/images/avatar/sex/${user_avatar.sex}.png`} className="absolute w-10 h-10 rounded-full"/>
-      <img src={`/images/avatar/shirt_style/${user_avatar.shirt_style}.png`} className="absolute w-10 h-10 rounded-full" />
+      <img id={`${sdg}-bg`} src={`/images/avatar/sdg/background_${sdg.toUpperCase()}.png`} className="absolute w-10 h-10 rounded-full"/>
+      <img id={`${sdg}-sex`} src={`/images/avatar/sex/${user_avatar.sex}.png`} className="absolute w-10 h-10 rounded-full"/>
+      <img id={`${sdg}-shirt_style`} src={`/images/avatar/shirt_style/${user_avatar.shirt_style}.png`} className="absolute w-10 h-10 rounded-full" />
       {user_avatar.eyewear && (
-        <img id="eyewear" src={`/images/avatar/eye/${user_avatar.eyewear}.png`} className="absolute w-10 h-10 rounded-full" />
+        <img id={`${sdg}-eyewear`} id="eyewear" src={`/images/avatar/eye/${user_avatar.eyewear}.png`} className="absolute w-10 h-10 rounded-full" />
       )}
-      <img src={`/images/avatar/eye/${user_avatar.eye}.png`} className="absolute w-10 h-10 rounded-full" />
-      <img src={`/images/avatar/mouth/${user_avatar.smile}.png`} className="absolute w-10 h-10 rounded-full" />
+      <img id={`${sdg}-eye`} src={`/images/avatar/eye/${user_avatar.eye}.png`} className="absolute w-10 h-10 rounded-full" />
+      <img id={`${sdg}-smile`} src={`/images/avatar/mouth/${user_avatar.smile}.png`} className="absolute w-10 h-10 rounded-full" />
       
       {/* adjust sa right  */}
       {isLocked ? 
@@ -81,6 +83,36 @@ const Avatar: React.FC<UserAvatar> = ({data}) => {
       </span>
     </div>
   )
+}
+
+
+async function claim(user_sdgs) {
+  console.log("download all photos")
+
+  console.log(user_sdgs)
+  const avatar = {}
+
+  user_sdgs.forEach(async (sdg) => {
+    const elements = [
+      `${sdg}-bg`,
+      `${sdg}-sex`,
+      `${sdg}-shirt_style`,
+      `${sdg}-eyewear`,
+      `${sdg}-eye`,
+      `${sdg}-smile`
+    ].map((id) => document.getElementById(id) as HTMLImageElement);
+
+    const base64 = await mergeImages(elements.map((el) => el?.src).filter(Boolean));
+
+    const sdgElem = document.getElementById(sdg)
+    const link = document.createElement("a")
+    const t = document.createTextNode("download");
+    link.setAttribute("href", base64)
+    link.setAttribute("download", "Image.png")
+    link.click()
+  })
+
+  console.log(avatar)
 }
 
 
@@ -151,6 +183,7 @@ const Profile: React.FC<UserSdgs> = ({ data }) => {
           <button
             className={`${getButtonStyles(true).className} w-full max-w-sm py-3 text-lg font-bold`}
             style={getButtonStyles(true).style}
+            onClick={() => claim(user_sdgs)}
           >
             CLAIM
           </button>

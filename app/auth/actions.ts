@@ -107,7 +107,7 @@ export async function signup(data: { srCode: string, firstName: string, lastName
 	})
 
 	if (error) {
-	    console.log(error.code)
+	    console.log("asdasdasd", error, error.code)
 	    return error.code;
 	}
 
