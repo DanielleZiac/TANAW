@@ -24,7 +24,7 @@ const TopNav: React.FC = () => {
     <div className="relative">
       {/* Top Navigation Bar for Mobile */}
       <nav
-        className={`fixed top-0 left-0 w-full py-6 px-4 flex items-center justify-between z-50 ${navColor} md:hidden`}
+        className={`fixed top-0 left-0 w-full py-5 px-4 flex items-center justify-between z-50 ${navColor} md:hidden`}
       >
         {/* Hamburger Icon */}
         <button
@@ -35,8 +35,11 @@ const TopNav: React.FC = () => {
         </button>
 
         {/* App Name */}
-        <h1 className="text-4xl md:text-5xl font-bold text-black">Tanaw</h1>
-
+        <img
+            src="/images/tanaw_darkblue.png"
+            alt="Logo"
+            className="w-30 h-9 justify-center"
+          />
         {/* Leaderboard Icon */}
         <Link href="/dashboard/stickers">
           <button
@@ -65,29 +68,29 @@ const TopNav: React.FC = () => {
 
         {/* Menu Links */}
         <ul className="mt-20 space-y-6 text-neutral-800">
-          <li className="hover:text-cBlue cursor-pointer text-xl">
+          <li className="hover:text-cBlue cursor-pointer text-md sm:text-lg">
             <Link href="/dashboard/events">Events</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-xl">
+          <li className="hover:text-cBlue cursor-pointer text-md sm:text-lg">
             <Link href="/dashboard/aboutUs">About</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-xl">
+          <li className="hover:text-cBlue cursor-pointer text-md sm:text-lg">
             <Link href="/contact">Contact</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-xl">
+          <li className="hover:text-cBlue cursor-pointer text-md sm:text-lg">
             <Link href="/helpCenter">Help Center</Link>
           </li>
           <li
-            className="hover:text-cBlue cursor-pointer text-lg"
+            className="hover:text-cBlue cursor-pointer text-md sm:text-lg"
             onClick={openFeedback} // Trigger the Feedback modal
           >
             Feedback
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-xl">
+          <li className="hover:text-cBlue cursor-pointer text-md sm:text-lg">
             <Link href="/termsAndConditions">Terms and Conditions</Link>
           </li>
           <li
-            className="hover:text-cBlue cursor-pointer text-xl"
+            className="hover:text-cBlue cursor-pointer text-md sm:text-lg"
             onClick={() => {
               logout();
             }}

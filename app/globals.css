@@ -10,7 +10,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #0a0a0a;
   }
 }
 
@@ -24,26 +24,6 @@ body {
   box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.content-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  text-align: center;
-}
-
-.image-container {
-  margin-bottom: 20px; /* Space between the image and posts */
-}
-
-.sdg-image {
-  width: 300px; /* You can increase this percentage for a bigger image */
-  max-width: none; /* Remove the default max-width constraint */
-  height: auto;
-  border-radius: 50%; /* Optional: adds rounded corners */
-  object-fit: cover;
-}
 
 .flip-card {
   perspective: 1000px; /* Enables the 3D effect */
@@ -77,23 +57,4 @@ body {
 
 .group:hover .flip-card-back {
   transform: rotateY(0deg);
-}
-
-@media (max-width: 768px) {
-  .sdg-image {
-    width: 150px;
-  }
-}
-
-@media (max-width: 768px) {
-  .scroll-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow-y: scroll;
-  }
-  .scroll-section {
-    height: 100vh;
-    flex: 0 0 100%;
-  }
 }

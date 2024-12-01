@@ -53,10 +53,17 @@ const Sidebar = () => {
     <>
       <aside className="fixed top-0 left-0 h-full z-50 w-64 bg-gray-900 lg:flex flex-col items-center gap-4 py-8 px-4 hidden">
         {/* Placeholder Logo */}
-        <div className="mb-4">
-          <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-            LOGO
-          </div>
+        <div className="mb-4 flex flex-row justify-center">
+          <img
+            src="/images/logo2.jpeg"
+            alt="Logo"
+            className="w-11 h-11 justify-center rounded-full"
+          />
+          <img
+            src="/images/tanaw_white.png"
+            alt="Logo text"
+            className="w-18 h-10 mt-1 ml-2"
+          />
         </div>
 
         {/* Navigation Links */}
