@@ -54,6 +54,7 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ user_id }) => {
           camera.current.srcObject = curStream;
           runFacemesh(camera.current, setStatus, setEye, setSmile);
           setStream(curStream);
+          camera.current.style.transform = "scaleX(-1)"; // Flip camera
         }
       } catch (error) {
         console.error("Camera initialization error:", error);

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { RiEmojiStickerFill } from "react-icons/ri";
 import { FaHome, FaImage, FaInbox, FaUser, FaGlobeAsia, FaBars, FaCog, FaInfoCircle, FaQuestionCircle, FaRegComments, FaFileAlt } from "react-icons/fa";
 import ProfilePopup from './Profile';
 import Feedback from "../components/Feedback";
@@ -114,6 +115,18 @@ const Sidebar = () => {
             className={`mr-4 ${isActive("/inbox") ? "scale-125" : "scale-100"}`}
           />
           <span className="text-base leading-none">Inbox</span>
+        </a>
+        <a
+          href="/dashboard/stickers"
+          className={`flex items-center w-full py-3 px-4 text-white hover:text-blue-500 ${
+            isActive("/dashboard/stickers") ? "font-bold" : "font-base"
+          }`}
+        >
+          <RiEmojiStickerFill 
+            size={24}
+            className={`mr-4 ${isActive("/stickers") ? "scale-125" : "scale-100"}`}
+          />
+          <span className="text-base leading-none">Stickers</span>
         </a>
         <a
             href="/dashboard/profile"
