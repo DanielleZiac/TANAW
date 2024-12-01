@@ -15,6 +15,8 @@ export async function authenticateUser() {
 		// return { redirect: '/auth/login' };
 		redirect('/auth/login')
 	}
+
+	console.log(data)
 	return data.user.id
 }
 
@@ -334,7 +336,7 @@ export async function checkUserAvatar(user_id: String) {
 
 	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select(`avatars(avatar_url)`).eq("user_id", user_id).single();
 	console.log(user_avatars)
-	if (!user_avatars || user_avatars < 1) {
+	if (!user_avatars.avatars?.avatar_url || user_avatars.avatars?.avatar_url < 1) {
 		console.log("create avatar first")
 		redirect('/dashboard/createAvatar1')
 		// return false

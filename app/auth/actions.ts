@@ -45,8 +45,6 @@ export async function login(data: { srCode: string; password: string; school: st
 		return "incorrect username or password"
 	}
 
-	console.log(user_data.user.user_metadata);
-
 	const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", user_data.user.id).single();
 
 	console.log(users_data)
@@ -60,9 +58,7 @@ export async function login(data: { srCode: string; password: string; school: st
 			email: user_data.user.email,
 			first_name: user_data.user.user_metadata.firstName,
 			last_name: user_data.user.user_metadata.lastName,
-			school: user_data.user.user_metadata.school,
-			// department: data.user.user_metadata.department
-			department: "temp"
+			institution_id: user_data.user.user_metadata.institution_id
 		})
 
 		if (user_error) {
@@ -89,13 +85,13 @@ export async function signup(data: { srCode: string, firstName: string, lastName
 	const supabase = await createClient();
 
 	console.log(srCode, firstName, lastName, school, password);
-	const { data: data_email } = await supabase.from("institutions").select("email_extension").eq("institution", school).single();
+	const { data: data_institution } = await supabase.from("institutions").select(`email_extension, institution_id`).eq("institution", school.toLowerCase()).single();
 	let email = "";
-	if (data_email !== null) {
-		email = srCode + data_email.email_extension;
+	if (data_institution !== null) {
+		email = srCode + data_institution.email_extension;
 	}
 
-	console.log(email)
+	console.log(data_institution)
 
 	const { error } = await supabase.auth.signUp({
 		email: email,
@@ -105,7 +101,7 @@ export async function signup(data: { srCode: string, firstName: string, lastName
 				srCode: srCode,
 				firstName: firstName,
 				lastName: lastName,
-				school: school
+				institution_id: data_institution.institution_id
 			}
 		}
 	})

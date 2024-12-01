@@ -5,23 +5,17 @@ import CreateAvatar2 from '../../components/CreateAvatar2'; // Adjust the path a
 
 import { authenticateUser } from "../actions";
 
-export default async function Page({
-  searchParams} : {
-    searchParams: {college: string, gender: string, shirtStyle: string, eyewear: string}
-  }) {
-
-  const params = await searchParams;
+export default async function Page() {
   // console.log(params);
 
-  const data = await authenticateUser()
+  const user_id = await authenticateUser()
 
 
-  console.log("data", data)
-  console.log("params", params);
+  console.log("data", user_id)
 
   return (
     <MainLayout>
-      <CreateAvatar2 params={[params, data]}/>
+      <CreateAvatar2 user_id={user_id}/>
     </MainLayout>
   );
 }

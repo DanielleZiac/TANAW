@@ -10,15 +10,7 @@ import { getDepartmentByAcronym } from "../dashboard/actions"
 import { runFacemesh } from "./faceLandmarkDetection"
 
 interface ParamsProps {
-  params: [
-    params: {
-      college: string, 
-      eyewear: string, 
-      gender: string, 
-      shirtStyle: string
-    }, 
-    data: string
-    ];
+  data: String
 }
 
 
@@ -32,7 +24,7 @@ const AvatarDisplayArea: React.FC<{ children: React.ReactNode }> = ({ children }
 );
 
 
-const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
+const CreateAvatar2: React.FC<ParamsProps> = ({ user_id }) => {
   const router = useRouter();
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [eye, setEye] = useState("eyes_opened");
@@ -45,17 +37,13 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
   const avatarSesh = typeof sessionStorage !== "undefined"
     ? JSON.parse(sessionStorage.getItem("avatar") || "[]") // Provide a fallback for null
     : [];
-  console.log(avatarSesh);
-
-  const avatar = params[0];
-  const user_id = params[1];
 
   // Redirect if required params are missing
   useEffect(() => {
-    if (!avatar.college || !avatar.gender || !avatar.shirtStyle || avatarSesh == null) {
+    if (avatarSesh == null) {
       redirect("/dashboard/createAvatar1");
     }
-  }, [avatar]);
+  }, []);
 
   // Initialize camera
   useEffect(() => {
@@ -104,7 +92,7 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
     ].map((id) => document.getElementById(id) as HTMLImageElement);
 
     const base64 = await mergeImages(elements.map((el) => el?.src).filter(Boolean));
-    const department_id = await getDepartmentByAcronym(avatar.college);
+    const department_id = await getDepartmentByAcronym(avatarSesh.college);
     console.log(department_id.department_id)
     sessionStorage.setItem(user_id, base64);
     sessionStorage.setItem("department_id", department_id.department_id)
@@ -135,16 +123,18 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ params }) => {
         <div className="flex flex-col items-center">
           <p className="text-lg font-bold text-gray-800 mb-4 text-center mt-12 lg:mt-0">Avatar Preview</p>
           <AvatarDisplayArea>
-            <div className="relative w-[300px] h-[300px] md:w-[600px] md:h-[600px] lg:w-[400px] lg:h-[400px] -mx-8">
-              <img id="college" src={`/images/avatar/bg/bg_${avatar.college}.png`} className="absolute w-full h-full rounded-3xl" />
-              <img id="gender" src={`/images/avatar/sex/${avatar.gender}.png`} className="absolute w-full h-full" />
-              <img id="shirtStyle" src={`/images/avatar/shirt_style/${avatar.shirtStyle}.png`} className="absolute w-full h-full" />
-              {avatar.eyewear && (
-                <img id="eyewear" src={`/images/avatar/eye/${avatar.eyewear}.png`} className="absolute w-full h-full" />
-              )}
-              <img id="eye" src={`/images/avatar/eye/${eye}.png`} className="absolute w-full h-full" />
-              <img id="smile" src={`/images/avatar/mouth/${smile}.png`} className="absolute w-full h-full" />
-            </div>
+            {avatarSesh.college ? 
+              <div className="relative w-[300px] h-[300px] md:w-[600px] md:h-[600px] lg:w-[400px] lg:h-[400px] -mx-8">
+                <img id="college" src={`/images/avatar/bg/bg_${avatarSesh?.college}.png`} className="absolute w-full h-full rounded-3xl" />
+                <img id="gender" src={`/images/avatar/sex/${avatarSesh.gender}.png`} className="absolute w-full h-full" />
+                <img id="shirtStyle" src={`/images/avatar/shirt_style/${avatarSesh.shirtStyle}.png`} className="absolute w-full h-full" />
+                {avatarSesh.eyewear && (
+                  <img id="eyewear" src={`/images/avatar/eye/${avatarSesh.eyewear}.png`} className="absolute w-full h-full" />
+                )}
+                <img id="eye" src={`/images/avatar/eye/${eye}.png`} className="absolute w-full h-full" />
+                <img id="smile" src={`/images/avatar/mouth/${smile}.png`} className="absolute w-full h-full" />
+              </div>
+            : null}
           </AvatarDisplayArea>
         </div>
       </div>
