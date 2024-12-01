@@ -13,6 +13,10 @@ interface Photo {
   url: string;
   user_id: string;
   user_sdg_id: string;
+  photo_challenge?: String;
+  institution: String;
+  campus: String;
+  institution_logo: String;
 }
 
 interface Liked {

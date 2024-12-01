@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { FaExclamationTriangle, FaFilter } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import Link from 'next/link';
+import { redirect } from "next/navigation";
 import { SDG_TITLES } from '../data/sdgTitles';
 import { PHOTO_CHALLENGES } from '../data/photoChallenges';
 import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes, filterSdgs } from "../dashboard/actions";
@@ -19,6 +20,10 @@ interface Photos {
   user_id: string;
   user_sdg_id: string;
   institution_id: String;
+  photo_challenge?: String;
+  institution: String;
+  campus: String;
+  institution_logo: String;
 }
 
 interface Liked {
@@ -183,6 +188,15 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
     setCurrentChallengeIndex((prevIndex) => (prevIndex + 1) % photoChallenges.length);
   };
 
+
+  function upload() {
+    console.log("heree")
+    console.log(photoChallenges[currentChallengeIndex])
+    sessionStorage.setItem('photoChallenge', photoChallenges[currentChallengeIndex])
+    redirect(`/dashboard/sdg/upload/${sdg}/`)
+    // `/dashboard/sdg/upload/${sdg}/`
+  }
+
   return (
     <div className="p-4 pt-6 flex flex-col items-center text-center overflow-auto max-w-full max-h-full lg:ml-[260px]">
       {/* Floating dropdown in the top-left corner */}
@@ -287,12 +301,12 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
                 <img src={`/images/SDG/SDG${sdg}.jpg`} alt="SDG Icon" className="p-2 w-1/3 rounded-full" />
                 <div className="flex flex-col items-start w-2/3 ml-4">
                   <p className="text-base sm:text-lg font-extrabold text-dBlue">{sdgTitle}</p>
-                  <p className="text-base sm:text-lg font-bold text-dBlue">Photo Challenge</p>
+                  <p className="text-base sm:text-lg font-bold text-dBlue">{selectedPost.photo_challenge}</p>
                   <div className="flex items-center space-x-2 mt-2">
-                    <img src="/images/institution/bsu.png" alt="BSU Logo" className="w-8 h-8 rounded-full" />
+                    <img src={selectedPost.institution_logo} alt="Institution Logo" className="w-8 h-8 rounded-full" /> {/*change*/}
                     <div className="flex flex-col text-left">
-                      <p className="text-sm sm:text-xs text-dBlue">Batangas State University</p>
-                      <p className="text-sm sm:text-xs text-dBlue">What Event</p>
+                      <p className="text-sm sm:text-xs text-dBlue">{selectedPost.institution}</p>
+                      <p className="text-sm sm:text-xs text-dBlue">{selectedPost.campus}</p>
                     </div>
                   </div>
                 </div>
@@ -309,8 +323,8 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
       >
         
         {/* Left Circular Button */}
-        <Link href={`/dashboard/sdg/upload/${sdg}`}>
-          <button className="w-9 h-9 sm:w-12 sm:h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+        {/*<Link href={`/dashboard/sdg/upload/${sdg}/`}>*/}
+          <button onClick={upload} className="w-9 h-9 sm:w-12 sm:h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -322,7 +336,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
           </button>
-        </Link>
+        {/*</Link>*/}
 
         {/* Text Display */}
         <div className="flex-grow bg-gray-100 rounded-full py-2 px-4 text-xs sm:text-base text-left ml-4 mr-4">

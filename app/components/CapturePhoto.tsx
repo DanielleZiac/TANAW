@@ -134,7 +134,8 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
     formData.append("user_id", user_id);
     formData.append("sdgs", `sdg${sdg}`); 
     formData.append("caption", caption);
-
+    formData.append("photoChallenge", sessionStorage.getItem("photoChallenge"))
+    
     try {
       await uploadPhoto(formData);
       router.push(`/dashboard/sdg/${parseInt(sdg)}`);

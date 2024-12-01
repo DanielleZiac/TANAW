@@ -221,8 +221,10 @@ export async function uploadPhoto(formData: FormData) {
 	const sdg = formData.get("sdgs")
 	const user_id = formData.get("user_id")
 	const caption = formData.get("caption")
+	const photoChallenge = formData.get("photoChallenge")
+	console.log(photoChallenge)
 
-	if (!file || !sdg || !user_id) {
+	if (!file || !sdg || !user_id || !caption || !photoChallenge) {
 		throw new Error('Invalid form data');
 	  }
 	  
@@ -252,7 +254,8 @@ export async function uploadPhoto(formData: FormData) {
 		type: "photo", // default
 		caption: caption,
 		url: data_public_url.publicUrl,
-		filename: fileName
+		filename: fileName,
+		photo_challenge: photoChallenge
 	})
 
 	if (error_user_sdg) {

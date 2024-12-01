@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useState} from "react";
 import mergeImages from "merge-images";
 import { getButtonStyles } from "../styles/buttonStyles"; // Ensure the path to buttonStyles is correct
 import { FaLock, FaTimes } from "react-icons/fa";
@@ -210,7 +210,7 @@ async function claim(user_sdgs) {
     const link = document.createElement("a")
     const t = document.createTextNode("download");
     link.setAttribute("href", base64)
-    link.setAttribute("download", "Image.png")
+    link.setAttribute("download", `${sdg}.png`)
     link.click()
   })
 
