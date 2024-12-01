@@ -15,19 +15,22 @@ const CreateAvatar3: React.FC<DataProps> = ({data}) => {
   const router = useRouter();
   const [b64, setB64] = useState<string | null>(null);
   const [college, setCollege] = useState<string | null>(null);
+  const [avatarSesh, setAvatarSesh] = useState<Object | null>(null);
 
   console.log(data)
   var user_id = data
 
   useEffect(() => {
     var dataImage = sessionStorage.getItem(user_id);
-    var dataCollege = sessionStorage.getItem("department_id");
-    if (dataImage == null || dataCollege == null) {
+    var dataCollege = sessionStorage.getItem("department_id")
+    var avatarSesh = JSON.parse(sessionStorage.getItem("avatar"));
+    if (dataImage == null || dataCollege == null || avatarSesh == null || avatarSesh.length <= 0) {
       console.log("null")
       redirect("/dashboard/createAvatar1")
     } else {
       setB64(dataImage)
       setCollege(dataCollege)
+      setAvatarSesh(avatarSesh)
     }
   }, []);
 
@@ -54,9 +57,10 @@ const CreateAvatar3: React.FC<DataProps> = ({data}) => {
             }
 
             const file = new File([u8arr], "avatar.png", {type:mime})
-            uploadAvatar(user_id, file, college)
+            uploadAvatar(user_id, file, college, avatarSesh)
             sessionStorage.removeItem(user_id)
             sessionStorage.removeItem("department_id")
+            sessionStorage.removeItem("avatar")
 
             redirect("/dashboard/createAvatar1")
   
@@ -76,7 +80,9 @@ const CreateAvatar3: React.FC<DataProps> = ({data}) => {
 
   const retake = () => {
     sessionStorage.removeItem(user_id);
-    sessionStorage.removeItem("department_id");
+    delete avatarSesh['eye']
+    delete avatarSesh['smile']
+    sessionStorage.setItem("avatar", JSON.stringify(avatarSesh))
     router.back()
   }
 

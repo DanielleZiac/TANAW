@@ -28,7 +28,7 @@ export async function getUserById(user_id: String) {
 	
 	const { data: users_data, error: users_error} = await supabase
 		.from('users')
-		.select(`sr_code, first_name, last_name, institutions(institution), departments(department), avatar_url`)
+		.select(`sr_code, first_name, last_name, institutions(institution), departments(department), avatars(avatar_url)`)
 		.eq("user_id", user_id).single();
 
 	if (users_data) {
@@ -47,7 +47,7 @@ export async function deleteUserById(user_id: String) {
 
 	const {data: data_avatar, error: error_avatar } = await supabase
 		.from("users")
-		.select("avatar_url")
+		.select(`avatars(avatar_url)`)
 		.eq("user_id", user_id)
 		.single()
 
@@ -65,7 +65,7 @@ export async function deleteUserById(user_id: String) {
 
 
 	// delete storage
-	const fileName = data_avatar.avatar_url.split("/")[-1]
+	const fileName = data_avatar.avatars.avatar_url.split("/")[-1]
 	const { data: data_avatars_storage, error: error_avatars_storage } = await supabase
 		.storage
 		.from('avatars')
@@ -279,8 +279,10 @@ export async function getPhotoSdg(sdg: number) {
 
 
 // AVATARS
-export async function uploadAvatar(user_id: String, file: File, department_id: String) {
+export async function uploadAvatar(user_id: String, file: File, department_id: String, avatar: Object) {
 	const supabase = await createClient()
+
+	console.log(avatar)
 
 	let uuid = crypto.randomUUID();
 
@@ -297,10 +299,29 @@ export async function uploadAvatar(user_id: String, file: File, department_id: S
 
 	const { data: data_public_url } = await supabase.storage.from(`avatars`).getPublicUrl(path);
 
-	const { data: data_update_avatar, error: error_update_avatar} = await supabase
+	const { data: data_update_users, error: error_update_users} = await supabase
 		.from("users")
-		.update({ avatar_url: data_public_url.publicUrl, department_id: department_id  })
+		.update({
+			department_id: department_id,})
 		.eq("user_id", user_id)
+
+	if (error_update_users) {
+		console.log("error error_update_avatar", error_update_users)
+		return
+	}
+
+	const { data: data_update_avatar, error: error_update_avatar} = await supabase
+		.from("avatars")
+		.upsert({
+			user_id: user_id,
+			avatar_url: data_public_url.publicUrl,
+			bg: avatar["bg"],
+			eye: avatar["eye"],
+			smile: avatar["smile"],
+			glasses: avatar["glasses"],
+			sex: avatar["gender"],
+			shirt_style: avatar["shirtStyle"]
+		}, {onConflict: "user_id"})
 
 	if (error_update_avatar) {
 		console.log("error error_update_avatar", error_update_avatar)
@@ -311,9 +332,8 @@ export async function uploadAvatar(user_id: String, file: File, department_id: S
 export async function checkUserAvatar(user_id: String) {
 	const supabase = await createClient()
 
-	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select("avatar_url").eq("user_id", user_id).single();
-	console.log(user_avatars)
-	if (!user_avatars.avatar_url || user_avatars.avatar_url.length < 1) {
+	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select(`avatars(avatar_url)`).eq("user_id", user_id).single();
+	if (!user_avatars.avatars.avatar_url || user_avatars.avatars.avatar_url.length < 1) {
 		console.log("create avatar first")
 		redirect('/dashboard/createAvatar1')
 		// return false
@@ -577,7 +597,7 @@ export async function filterSdgs(filter?: String, sdg: Number) {
 			.eq('sdg_number', `sdg${sdg}`)
 
 		if (error_nofilter) {
-			console.log("Error error_nofilter getPhotoSdg", error)
+			console.log("Error error_nofilter getPhotoSdg", error_nofilter)
 			return
 		}
 
@@ -652,14 +672,14 @@ export async function getPhotoSdgByUserId(user_id: string, sdg: number) {
 
 export async function getUserAvatarUrl(user_id: String) {
 	const supabase = await createClient()
-	const { data: cur_user_avatar, error: cur_user_avatar_error} = await supabase.from('users').select("avatar_url").eq("user_id", user_id).single();
+	const { data: cur_user_avatar, error: cur_user_avatar_error} = await supabase.from('users').select(`avatars(avatar_url)`).eq("user_id", user_id).single();
 
 	if (cur_user_avatar_error) {
 		console.log("cur_user_avatar_error", cur_user_avatar_error)
 		return cur_user_avatar_error
 	}
 	console.log(cur_user_avatar)
-	return cur_user_avatar.avatar_url
+	return cur_user_avatar.avatars.avatar_url
 }
 
 

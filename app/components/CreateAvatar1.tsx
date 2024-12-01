@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getButtonStyles } from "../styles/buttonStyles";
 
@@ -9,6 +9,13 @@ interface DataProps {
 }
 
 const CreateAvatar1: React.FC<DataProps> = ({ data }) => {
+
+  useEffect(() => {
+    sessionStorage.removeItem(data)
+    sessionStorage.removeItem("department_id")
+    sessionStorage.removeItem("avatar") 
+  })
+
   console.log(data);
   const router = useRouter();
   const [gender, setGender] = useState("boy");
@@ -20,6 +27,12 @@ const CreateAvatar1: React.FC<DataProps> = ({ data }) => {
     const query = `gender=${gender}&shirtStyle=${shirtStyle}` + 
                   (eyewear ? `&eyewear=${eyewear}` : "") + 
                   `&college=${college}`;
+    const avatarDict = {
+      "gender": gender,
+      "shirtStyle": shirtStyle, 
+      "eyewear": eyewear, 
+      "college": college };
+    sessionStorage.setItem("avatar", JSON.stringify(avatarDict));
     router.push(`/dashboard/createAvatar2?${query}`);
   };
 
