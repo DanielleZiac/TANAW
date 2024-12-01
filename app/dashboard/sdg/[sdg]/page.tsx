@@ -3,7 +3,7 @@ import SdgContent from '../../../components/SdgContent';
 import MainLayout from '../../../components/layouts/MainLayout';
 import { redirect } from 'next/navigation'
 
-import { authenticateUser, getPhotoSdg, getLikedPostsSdgs, checkUserAvatar, filterSdgs } from "../../actions";
+import { authenticateUser, getLikedPostsSdgs, checkUserAvatar, filterSdgs } from "../../actions";
 
 interface Photo {
   avatar_url: string;
@@ -30,7 +30,6 @@ export default async function SdgPage({
   await checkUserAvatar(user_id)
 
   const sdg: string = (await params).sdg
-  // const photos: Array<Photo> | undefined = await getPhotoSdg(Number(sdg));
   const photos: Array<Photo> | undefined = await filterSdgs(Number(sdg), "today");
   const liked: Array<Liked> | undefined = await getLikedPostsSdgs(user_id, Number(sdg));
 

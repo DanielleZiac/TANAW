@@ -3,11 +3,102 @@
 import React from "react";
 import { getButtonStyles } from "../styles/buttonStyles"; // Ensure the path to buttonStyles is correct
 
-const Profile: React.FC = () => {
+interface UserSdgs {
+  user_id: String,
+  sdg_number: String
+}
+
+interface UserAvatar {
+  avatar_id: String, 
+  bg: String, 
+  eye: String, 
+  sex: String, 
+  shirt_style: String, 
+  smile: String, 
+  avatar_url: String,
+  eyewear?: String
+}
+
+
+interface DataProps {
+  user_sdgs: UserSdgs,
+  user_avatar: UserAvatar
+}
+
+const sdgs = {
+  "sdg1": "No Poverty",
+  "sdg2": "Zero Hunger",
+  "sdg3": "Good Health and Well-Being",
+  "sdg4": "Quality Education",
+  "sdg5": "Gender Equality",
+  "sdg6": "Clean Water and Sanitation",
+  "sdg7": "Affordable and Clean Energy",
+  "sdg8": "Decent Work and Economic Growth",
+  "sdg9": "Industry, Innovation and Infrastructure",
+  "sdg10": "Reduced Inequality",
+  "sdg11": "Sustainable Cities and Communities",
+  "sdg12": "Responsible Consumption and Production",
+  "sdg13": "Climate Action",
+  "sdg14": "Life Below Water",
+  "sdg15": "Life on Land",
+  "sdg16": "Peace, Justice and Strong Institutions",
+  "sdg17": "Partnerships for the Goals",
+}
+
+
+
+const Avatar: React.FC<UserAvatar> = ({data}) => {
+  const user_avatar = data[0]
+  const sdg = data[1]
+  const index = data[2]
+  const isLocked = data[3]
+
+  return (
+    <div
+      key={index}
+      className={`${getButtonStyles(false).className} flex items-center p2 ${isLocked ? "bg-gray-200" : "bg-blue-300"} shadow-md`}
+      style={getButtonStyles(false).style}
+    >
+      <img src={`/images/avatar/sdg/background_${sdg.toUpperCase()}.png`} className="absolute w-10 h-10 rounded-full"/>
+      <img src={`/images/avatar/sex/${user_avatar.sex}.png`} className="absolute w-10 h-10 rounded-full"/>
+      <img src={`/images/avatar/shirt_style/${user_avatar.shirt_style}.png`} className="absolute w-10 h-10 rounded-full" />
+      {user_avatar.eyewear && (
+        <img id="eyewear" src={`/images/avatar/eye/${user_avatar.eyewear}.png`} className="absolute w-10 h-10 rounded-full" />
+      )}
+      <img src={`/images/avatar/eye/${user_avatar.eye}.png`} className="absolute w-10 h-10 rounded-full" />
+      <img src={`/images/avatar/mouth/${user_avatar.smile}.png`} className="absolute w-10 h-10 rounded-full" />
+      
+      {/* adjust sa right  */}
+      {isLocked ? 
+        <div className="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center">
+          <span className="text-white text-sm">🔒</span>
+        </div> :
+        null
+      }
+      <span className="ml-4 text-sm font-medium text-gray-800"> 
+        SDG {Object.keys(sdgs).indexOf(sdg) + 1}: {sdgs[sdg]}
+      }
+      </span>
+    </div>
+  )
+}
+
+
+const Profile: React.FC<UserSdgs> = ({ data }) => {
+  // console.log(data)
+  const data_sdgs = data[0]
+  const data_avatar = data[1][0]
+
+  const user_sdgs = []
+
+  for (const key of Object.keys(data_sdgs)) {
+    user_sdgs.push(data_sdgs[key]["sdg_number"])
+  }
+
+  let locked_sdgs = Object.keys(sdgs).filter(x => !user_sdgs.includes(x));
+
   return (
     <div className="lg:ml-64 min-h-screen bg-transparent w-screen lg:w-[80vw] flex justify-center mt-12 mb-14 px-4 py-6">
-     
-
       {/* Main Content */}
       <div className="mt-8 space-y-8 flex flex-col w-[80vw] items-center">
         {/* Edit Avatar Section */}
@@ -20,7 +111,7 @@ const Profile: React.FC = () => {
             style={getButtonStyles(false).style}
           >
             <img
-              src="images/SDG1.jpg"
+              src={data_avatar.avatar_url}
               alt="Avatar"
               className="w-16 h-16 rounded-full"
             />
@@ -33,24 +124,11 @@ const Profile: React.FC = () => {
             <h2 className="text-sm font-semibold lg:w-[35vw] text-gray-600 text-center border-t border-b border-gray-300 py-2">
               MY STICKERS
             </h2>
-            <div className="space-y-2 mt-2">
-              {[...Array(3)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`${getButtonStyles(false).className} flex items-center  bg-blue-300 p-2 shadow-md`}
-                  style={getButtonStyles(false).style}
-                >
-                  <img
-                    src="/path/to/sticker-image.png"
-                    alt={`Sticker ${index + 1}`}
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <span className="ml-4 text-sm font-medium text-gray-800">
-                    Sticker {index + 1}
-                  </span>
-                </div>
-              ))}
-            </div>
+            {user_sdgs.map((sdg, index) => {
+              return(
+                <Avatar key={`unlocked-${index}`} data={[data_avatar, sdg, index, false]}/>
+              )
+            })}
           </section>
 
           {/* Locked Section */}
@@ -59,20 +137,11 @@ const Profile: React.FC = () => {
               LOCKED
             </h2>
             <div className="space-y-2 mt-2">
-              {[...Array(3)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`${getButtonStyles(false).className} flex items-center p-2 bg-gray-200 shadow-md`}
-                  style={getButtonStyles(false).style}
-                >
-                  <div className="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm">🔒</span>
-                  </div>
-                  <span className="ml-4 text-sm font-medium text-gray-500">
-                    Locked Sticker2 {index + 1}
-                  </span>
-                </div>
-              ))}
+              {locked_sdgs.map((sdg, index) => {
+                return (
+                  <Avatar key={`locked-${index}`} data={[data_avatar, sdg, index, true]}/>
+                )
+              })}
             </div>
           </section>
         </div>
