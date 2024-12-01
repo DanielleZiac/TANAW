@@ -153,13 +153,6 @@ const Sidebar = () => {
               Settings
             </a>
             <a
-              href="/dashboard/aboutUs"
-              className="flex items-center text-white py-2 px-4 hover:bg-gray-700"
-            >
-              <FaInfoCircle size={20} className="mr-4" />
-              About Us
-            </a>
-            <a
               href="/help-center"
               className="flex items-center text-white py-2 px-4 hover:bg-gray-700"
             >

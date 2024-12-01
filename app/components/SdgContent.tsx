@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { FaExclamationTriangle } from 'react-icons/fa';
+import { FaExclamationTriangle, FaFilter } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import Link from 'next/link';
 import { SDG_TITLES } from '../data/sdgTitles';
@@ -161,12 +161,16 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
       <div className="fixed top-20 right-5 z-50">
         <button
           onClick={() => setFilterDropdownVisible(!filterDropdownVisible)}
-          className="bg-gray-900 fixed top-20 right-5  text-white px-4 py-2 rounded-md hover:bg-gray-900 focus:outline-none"
+          className="bg-gray-900 fixed top-20 right-5  text-white px-4 py-2 rounded-full hover:bg-gray-900 focus:outline-none"
         >
-          {selectedFilter} ▼
+          {/* Show FaIcon on mobile and text on desktop */}
+        <span className="block lg:hidden">
+          <FaFilter size={18} />
+        </span>
+        <span className="hidden lg:block">{selectedFilter} ▼</span>
         </button>
         {filterDropdownVisible && (
-          <div className="relative  mt-10  bg-gray-900 shadow-lg rounded-lg w-36">
+          <div className="relative  mt-10 bg-gray-900 shadow-lg rounded-2xl w-36">
             <ul className="py-2">
               {filters.map((filter, index) => (
                 <li key={index}>

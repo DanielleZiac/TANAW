@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaInfoCircle, FaQuestionCircle, FaRegComments, FaFileAlt, FaCalendarAlt,  FaPhone, FaSignOutAlt } from "react-icons/fa";
 import { LuSticker } from "react-icons/lu";
 import { usePathname } from "next/navigation"; // usePathname is better suited for Next.js 13+
 import Link from "next/link";
@@ -74,33 +74,41 @@ const TopNav: React.FC = () => {
 
         {/* Menu Links */}
         <ul className="mt-20 space-y-6 text-neutral-800">
-          <li className="hover:text-cBlue cursor-pointer text-md sm:text-lg">
+          <li className="flex items-center hover:text-cBlue cursor-pointer text-md sm:text-lg">
+            <FaCalendarAlt className="mr-3" />
             <Link href="/dashboard/events">Events</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-md sm:text-lg">
+          <li className="flex items-center hover:text-cBlue cursor-pointer text-md sm:text-lg">
+            <FaInfoCircle className="mr-3" />
             <Link href="/dashboard/aboutUs">About</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-md sm:text-lg">
+          <li className="flex items-center hover:text-cBlue cursor-pointer text-md sm:text-lg">
+            <FaPhone className="mr-3" />
             <Link href="/contact">Contact</Link>
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-md sm:text-lg">
+          <li className="flex items-center hover:text-cBlue cursor-pointer text-md sm:text-lg">
+            <FaQuestionCircle className="mr-3" />
             <Link href="/helpCenter">Help Center</Link>
           </li>
           <li
-            className="hover:text-cBlue cursor-pointer text-md sm:text-lg"
+            className="flex items-center hover:text-cBlue cursor-pointer text-md sm:text-lg"
+            
             onClick={openFeedback} // Trigger the Feedback modal
           >
+            <FaRegComments className="mr-3" />
             Feedback
           </li>
-          <li className="hover:text-cBlue cursor-pointer text-md sm:text-lg">
+          <li className="flex items-center hover:text-cBlue cursor-pointer text-md sm:text-lg">
+            <FaFileAlt className="mr-3" />
             <Link href="/termsAndConditions">Terms and Conditions</Link>
           </li>
           <li
-            className="hover:text-cBlue cursor-pointer text-md sm:text-lg"
+            className="flex items-center hover:text-cBlue cursor-pointer text-md sm:text-lg"
             onClick={() => {
               logout();
             }}
           >
+            <FaSignOutAlt className="mr-3" />
             Logout
           </li>
         </ul>

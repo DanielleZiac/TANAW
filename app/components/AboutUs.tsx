@@ -24,15 +24,15 @@ const AboutUsComponent: React.FC = () => {
   return (
     <div className="flex flex-col items-center gap-32 lg:ml-64">
       {/* First Row */}
-      <div className="flex flex-col lg:flex-row gap-32">
+      <div className="flex flex-col lg:flex-row gap-14 sm:gap-4">
         {/* Mobile logo */}
         <div className="flex items-center justify-center mt-24 lg:hidden">
           <img src={logo.src} style={{ width: '70%' }} alt="Logo" />
         </div>
 
-        <div className="flex flex-col px-16 md:px-32 -mt-12 lg:-mt-0 lg:pl-32 lg:py-32 lg:px-0 lg:w-1/2">
-          <p className="font-bold text-4xl md:text-8xl lg:text-5xl mb-4">About Us</p>
-          <p className="break-words text-justify text-base md:text-3xl lg:text-base">
+        <div className="flex flex-col px-10 md:px-24 -mt-12 lg:-mt-0 lg:pl-24 lg:py-32 lg:px-0 lg:w-1/2">
+          <p className="font-bold text-3xl md:text-8xl lg:text-5xl mb-4 lg:mt-8">About Us</p>
+          <p className="break-words text-justify text-xs lg:text-base lg:mr-4">
             In 2024, we embarked on a mission to leverage the power of
             technology and social media for a greater purpose: empowering the
             global community to address the pressing challenges of our time.
@@ -54,11 +54,11 @@ const AboutUsComponent: React.FC = () => {
       </div>
 
       {/* Vision and Mission */}
-      <div className="flex flex-col lg:flex-row gap-10 lg:gap-24 px-16 md:ml-8 -mt-16">
+      <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 px-6 lg:px-16 md:ml-2 -mt-20 lg:-mt-30">
         <TextBoxPanel>
           <div className="items-center">
-            <p className="text-center text-blue-800 lg:mb-16 font-bold text-2xl md:text-5xl lg:text-2xl">Vision</p>
-            <p className="text-base md:text-3xl text-justify py-8 px-2 md:px-4 lg:text-base">
+            <p className="text-center text-blue-800 mb-2 lg:mb-6 font-bold text-2xl md:text-2xl lg:text-3xl">Vision</p>
+            <p className="text-xs md:text-base text-justify md:py-4 px-2 md:px-4 lg:text-base">
               To create a thriving digital community where individuals and
               organizations collaborate to achieve a sustainable future by
               promoting and advancing the United Nations' Sustainable
@@ -69,13 +69,8 @@ const AboutUsComponent: React.FC = () => {
 
         <TextBoxPanel>
           <div className="items-center">
-            <p className="text-center text-blue-800 mb-8 text-2xl md:text-5xl lg:text-2xl font-bold">Mission</p>
-            <ul className=" px-2 md:px-8 text-base md:text-3xl text-justify lg:text-base ">
-              <li>
-                • Empower users to take actionable steps toward sustainability
-                through meaningful connections and shared stories.
-              </li>
-              <br />
+            <p className="text-center text-blue-800 mb-4 lg:mb-8 font-bold text-2xl md:text-2xl lg:text-3xl">Mission</p>
+            <ul className=" px-2 md:px-4 text-xs md:text-3xl text-justify lg:text-base ">
               <li>
                 • Encourage awareness and advocacy by providing a platform to
                 share initiatives, campaigns, and success stories.
@@ -107,7 +102,7 @@ const AboutUsComponent: React.FC = () => {
           <p className="font-bold text-2xl md:text-5xl break-words">
             A Group of Aspiring Developers
           </p>
-          <p className="break-words text-base md:text-3xl lg:text-base">
+          <p className="break-words text-xs md:text-3xl lg:text-base">
             Behind our platform is a diverse team of visionaries, technologists,
             and advocates committed to sustainability.
           </p>
@@ -174,12 +169,16 @@ const AboutUsComponent: React.FC = () => {
 
         {/* Footer */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-16 md:gap-32 lg:gap-64 md:pt-8 pb-32 lg:pb-0 lg:my-12">
-            <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-col items-center md:flex-row md:justify-center gap-6">
                 <img className="lg:-mt-6" src={logo.src} style={{ width: 250 }} alt="Logo" />
-                <p className="font-bold text-3xl text-center hidden lg:flex">Tanaw Inc.</p>
+                <img
+                  src="/images/tanaw_darkblue.png"
+                  alt="Logo text"
+                  className="w-80 h-22 -mt-5 md:w-[500px] md:h-[150px] md:ml-5"
+                />
             </div>
-            <div className="flex flex-col gap-8 text-xl">
-                <p className="text-2xl font-bold text-center">Contact Us</p>
+            <div className="flex flex-col text-xs gap-2 sm:gap-8 ">
+                <p className="text-md sm:text-2xl font-bold text-center">Contact Us</p>
                 <div className="flex flex-row items-center gap-4">
                     <FaPhoneAlt />
                     <p>09xx-xxx-xxxx</p>
