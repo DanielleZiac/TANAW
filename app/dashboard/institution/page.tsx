@@ -3,7 +3,7 @@ import Institution from '../../components/Institution';
 import MainLayout from '../../components/layouts/MainLayout';
 import { redirect } from 'next/navigation'
 
-import { authenticateUser, checkUserAvatar, getInstitutions } from "../actions";
+import { authenticateUser, checkUserAvatar, getInstitutions, getLikedPostsSdgs } from "../actions";
 
 
 interface Institution {

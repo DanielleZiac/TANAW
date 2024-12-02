@@ -144,7 +144,19 @@ export async function getUserSdgs(user_id: String) {
 }
 
 export async function getInstitutionIdByUserId(user_id: string) {
+	const supabase = await createClient()
 
+	const { data: data_institutions, error: error_institutions } = await supabase
+		.from("users")
+		.select("institution_id")
+		.eq("user_id", user_id).single()
+
+	if (error_institutions) {
+		console.log("error_institutions: ", error_institutions)
+		return
+	}
+
+	return data_institutions.institution_id
 }
 
 
@@ -401,12 +413,14 @@ export async function uploadAvatar(user_id: string, file: File, department_id: s
 		return
 	}
 
+	console.log("avatar", avatar, avatar['college'])
+
 	const { data: data_update_avatar, error: error_update_avatar} = await supabase
 		.from("avatars")
 		.upsert({
 			user_id: user_id,
 			avatar_url: data_public_url.publicUrl,
-			bg: avatar["bg"],
+			bg: avatar["college"],
 			eye: avatar["eye"],
 			smile: avatar["smile"],
 			glasses: avatar["glasses"],
@@ -597,12 +611,24 @@ export async function deleteAllFilesInFolder(storage_: string, folder: string) {
     }
 }
 
-export async function getDepartmentByAcronym(acronym: String) {
+export async function getDepartmentByAcronym(acronym: String, user_id: string) {
 	const supabase = await createClient();
 
-	const { data: data_department } = await supabase.from("departments").select("department_id").eq("acronym", acronym).single();
+	const institution_id = await getInstitutionIdByUserId(user_id)
 
-	console.log(data_department);
+	const { data: data_department, error: error_department } = await supabase
+		.from("departments")
+		.select("department_id")
+		.eq("acronym", acronym.toLowerCase())
+		.eq("institution_id", institution_id)
+		.single();
+
+	if (error_department) {
+		console.log("error_department: ", error_department)
+		return
+	}
+
+	console.log("data_departmentxxxxxxx", data_department);
 
 	return data_department;
 }

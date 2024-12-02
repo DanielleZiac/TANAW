@@ -206,7 +206,7 @@ const CreateAvatar3: React.FC<DataProps> = ({data}) => {
           <img 
             id="avatar" 
             // className="rounded-3xl w-[200px] h-[200px] md:w-[300px] md:h-[300px] flex items-center justify-center px-6" 
-            src={b64 ?? ""} 
+            src={b64} 
             alt="Avatar"
           />
 

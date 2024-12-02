@@ -25,6 +25,9 @@ const AvatarDisplayArea: React.FC<{ children: React.ReactNode }> = ({ children }
 
 
 const CreateAvatar2: React.FC<ParamsProps> = ({ user_id }) => {
+
+  console.log(user_id);
+
   const router = useRouter();
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [eye, setEye] = useState("eyes_opened");
@@ -93,7 +96,7 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ user_id }) => {
     ].map((id) => document.getElementById(id) as HTMLImageElement);
 
     const base64 = await mergeImages(elements.map((el) => el?.src).filter(Boolean));
-    const department_id = await getDepartmentByAcronym(avatarSesh.college);
+    const department_id = await getDepartmentByAcronym(avatarSesh.college, user_id);
     console.log(department_id?.department_id)
     sessionStorage.setItem(user_id, base64);
     sessionStorage.setItem("department_id", department_id?.department_id)
