@@ -40,7 +40,7 @@ export async function getUserById(user_id: String) {
 	}
 
 	if (users_data) {
-		console.log(users_data)
+		// console.log(users_data)
 		return users_data
 	}
 }
@@ -74,11 +74,12 @@ export async function deleteUserById(user_id: String) {
 
 
 	// delete storage
-	const fileName = data_avatar?.avatars.avatar_url.split("/")[-1]
+	const arr = data_avatar?.avatars.avatar_url.split("/")
+	const fileName = arr[arr.length-1]
 	const { data: data_avatars_storage, error: error_avatars_storage } = await supabase
 		.storage
 		.from('avatars')
-		.remove([`${user_id}/${fileName}`])
+		.remove([`${user_id}/${fileName}`, `${user_id}`])
 	if (error_avatars_storage) {
 		console.log(`error delete data_avatars_storage: ${error_avatars_storage}`)
 		return
@@ -89,6 +90,8 @@ export async function deleteUserById(user_id: String) {
 	data_sdgs?.forEach((sdg) => {
 		filenames.push(`${sdg["sdg_number"]}/${sdg["filename"]}`)
 	})
+
+	console.log(filenames)
 
 
 	if (filenames.length > 0) {

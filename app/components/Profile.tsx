@@ -38,10 +38,10 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
     getUserData();
   }, [])
 
-  console.log(userData)
+  // console.log(userData)
 
   const deleteUser = () => {
-    console.log(userId)
+    // console.log(userId)
 
     if (userId) {
       deleteUserById(userId);
