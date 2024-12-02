@@ -48,7 +48,7 @@ export async function login(data: { srCode: string; password: string; school: st
 
 	const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", user_data.user.id).single();
 
-	console.log(users_data)
+	console.log("users_dataaaaaaa", user_data)
 
 	if (!users_data) {
 		// no user info pa, need to complete account creation and shts
@@ -93,6 +93,7 @@ export async function signup(data: { srCode: string, firstName: string, lastName
 	}
 
 	console.log(data_institution)
+	console.log("emailllllll", email)
 
 	const { error } = await supabase.auth.signUp({
 		email: email,

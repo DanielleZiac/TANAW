@@ -17,22 +17,6 @@ import Link from 'next/link';
 import { SDG_TITLES } from '../data/sdgTitles';
 import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes, filterSdgs } from "../dashboard/actions";
 
-// Institution data
-const institutions = [
-  { id: 1, title: 'Batangas State University', image: BSU },
-  { id: 2, title: 'Ateneo De Manila University', image: ADMU },
-  { id: 3, title: 'De La Salle University', image: DLSU },
-  { id: 4, title: 'Quality Education', image: SDGlink4 },
-  { id: 5, title: 'Gender Equality', image: SDGlink5 },
-  { id: 6, title: 'Clean Water and Sanitation', image: SDGlink6 },
-];
-
-// Placeholder data for dynamic "Top 3 Liked Posts"
-const top3Posts = {
-  1: [SDGlink4, SDGlink5, SDGlink6],
-  2: [SDGlink5, SDGlink6, SDGlink4],
-  3: [SDGlink6, SDGlink4, SDGlink5],
-};
 
 interface Institution {
   institution_id: string,

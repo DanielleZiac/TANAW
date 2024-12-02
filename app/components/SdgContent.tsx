@@ -71,7 +71,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
     async function changeDisplayPhoto(selectedFilter: string) {
       let newPhotos;
 
-      console.log(photos)
+      console.log(displayPhoto)
 
       if (institution_id && photos) {
         console.log("here", institution_id)
