@@ -3,20 +3,29 @@
 import React from "react";
 import ButtonBox from "../styles/buttonBox";
 import InputBox from "../styles/inputBox";
+import { useRouter } from "next/navigation";
 
 interface UserData {
-  sr_code: String, 
-  email: String, 
-  first_name: String, 
-  last_name: String, 
-  institution: String,
-  campus: String, 
-  department: String, 
-  avatar_url: String
+  data : {
+    sr_code: String, 
+    email: String, 
+    first_name: String, 
+    last_name: String, 
+    institutions: Array<{ institution: String, campus: String }>,
+    departments: Array<{ department: String }>, 
+    avatars: Array<{ avatar_url: string }>
+  } | undefined
 }
 
 
-const ProfilePage: React.FC<UserData> = ({data}) => {
+const ProfilePage: React.FC<UserData> = ({ data }) => {
+  const router = useRouter()
+
+  const editAvatar = () => {
+    router.push("/dashboard/createAvatar1")
+  }
+
+
   console.log(data)
   return (
     <div className="flex flex-col items-center lg:items-stretch lg:ml-64 p-4 lg:p-0 lg:pl-32 mt-20 bg-lightGray w-screen lg:w-full h-screen mb-96 lg:mb-40">
@@ -29,13 +38,13 @@ const ProfilePage: React.FC<UserData> = ({data}) => {
             boxShadow: "inset 0px 8px 20px rgba(0, 0, 0, 0.4)",
           }}
         >
-          <img src={data?.avatars.avatar_url} />
+          <img src={data?.avatars[0].avatar_url} />
         </div>
         <div className="flex flex-col gap-2">
           <p className="text-xl lg:text-3xl font-extrabold">{data?.first_name} {data?.last_name}</p>
           <p className="lg:text-xl font-bold">{data?.sr_code}</p>
-          <p className="lg:text-lg">{data?.institutions.institution} - {data?.institutions.campus}</p>
-          <p className="lg:text-lg">{data?.departments.department}</p>
+          <p className="lg:text-lg">{data?.institutions[0].institution} - {data?.institutions[0].campus}</p>
+          <p className="lg:text-lg">{data?.departments[0].department}</p>
         </div>
       </div>
 
@@ -44,7 +53,7 @@ const ProfilePage: React.FC<UserData> = ({data}) => {
       <div className="flex flex-col gap-8 items-start">
         <div className="flex flex-row gap-4 w-full mt-10">
             <hr className="border border-gray-400 w-1/2"/>
-            <ButtonBox style={{ width: "200px", padding: "10px", borderRadius: "45px", marginTop: '-20px', marginBottom: '20px' }}>
+            <ButtonBox onClick={editAvatar} style={{ width: "200px", padding: "10px", borderRadius: "45px", marginTop: '-20px', marginBottom: '20px' }}>
               Edit Avatar
             </ButtonBox>
             <hr className="border border-gray-400 w-1/2"/>  

@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 
 import { authenticateUser, getLikedPostsSdgs, checkUserAvatar, filterSdgs } from "../../actions";
 
-interface Photo {
+interface Photos {
   avatar_url: string;
   caption: string;
   created_date: string;
@@ -13,6 +13,7 @@ interface Photo {
   url: string;
   user_id: string;
   user_sdg_id: string;
+  institution_id: String;
   photo_challenge?: String;
   institution: String;
   campus: String;
@@ -34,7 +35,7 @@ export default async function SdgPage({
   await checkUserAvatar(user_id)
 
   const sdg: string = (await params).sdg
-  const photos: Array<Photo> | undefined = await filterSdgs(Number(sdg), "today", null);
+  const photos: Array<Photos> | null = await filterSdgs(Number(sdg), "today", undefined);
   const liked: Array<Liked> | undefined = await getLikedPostsSdgs(user_id, Number(sdg));
 
   return (

@@ -35,6 +35,7 @@ const Login: React.FC = () => {
       const schoolElement = document.getElementById("schoolLogin") as HTMLSelectElement | null;
       if (schoolElement) {
         const school = schoolElement.value;
+        console.log(school, "asdsadasdsadsa")
         let data = { srCode, password, school };
         let res = await login(data);
         // setError(res);
@@ -161,7 +162,7 @@ const Login: React.FC = () => {
               }}
             >
               {institutions ? institutions.map((institution, index) => (
-                <option key={index} value={institution.institution.toUpperCase()}>{institution.institution.toUpperCase()}</option>
+                <option key={index} value={institution.institution}>{institution.institution.toUpperCase()}</option>
               )) : null}
 
             </select>
@@ -248,7 +249,7 @@ const Login: React.FC = () => {
               }}
             >
               {institutions ? institutions.map((institution, index) => (
-                <option key={index} value={institution.institution.toUpperCase()}>{institution.institution.toUpperCase()}</option>
+                <option key={index} value={institution.institution}>{institution.institution.toUpperCase()}</option>
               )) : null}
             </select>
           

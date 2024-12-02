@@ -73,7 +73,7 @@ export async function deleteUserById(user_id: String) {
 
 
 	// delete storage
-	const fileName = data_avatar.avatars.avatar_url.split("/")[-1]
+	const fileName = data_avatar?.avatars[0].avatar_url.split("/")[-1]
 	const { data: data_avatars_storage, error: error_avatars_storage } = await supabase
 		.storage
 		.from('avatars')
@@ -84,8 +84,8 @@ export async function deleteUserById(user_id: String) {
 	}
 
 
-	var filenames = []
-	data_sdgs.forEach((sdg) => {
+	var filenames = Array<string>()
+	data_sdgs?.forEach((sdg) => {
 		filenames.push(`${sdg["sdg_number"]}/${sdg["filename"]}`)
 	})
 
@@ -289,9 +289,10 @@ export async function filterSdgs(sdg?: Number, filter?: String, institution_id?:
 
 	const supabase = await createClient()
 
-	var cur_date = new Date();
-	cur_date.setDate(cur_date.getDate())
-	cur_date = cur_date.toISOString().split('T')[0]
+	var cur_date_d = new Date();
+	cur_date_d.setDate(cur_date_d.getDate())
+
+	var cur_date = cur_date_d.toISOString().split('T')[0]
 	// console.log(cur_date)
 
 	const query = supabase.from("get_photo_and_avatar").select()
@@ -363,10 +364,8 @@ export async function filterSdgs(sdg?: Number, filter?: String, institution_id?:
 
 
 // AVATARS
-export async function uploadAvatar(user_id: String, file: File, department_id: String, avatar: Object) {
+export async function uploadAvatar(user_id: string, file: File, department_id: string, avatar: any) {
 	const supabase = await createClient()
-
-	console.log(avatar)
 
 	let uuid = crypto.randomUUID();
 
@@ -418,7 +417,7 @@ export async function checkUserAvatar(user_id: String) {
 
 	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select(`avatars(avatar_url)`).eq("user_id", user_id).single();
 	// console.log(user_avatars)
-	if (!user_avatars.avatars?.avatar_url || user_avatars.avatars?.avatar_url < 1) {
+	if (!user_avatars?.avatars[0]?.avatar_url || user_avatars.avatars[0]?.avatar_url < 1) {
 		console.log("create avatar first")
 		redirect('/dashboard/createAvatar1')
 		// return false
@@ -432,7 +431,7 @@ export async function getAvatarComponents(user_id: String) {
 	const { data: data_avatar, error: error_avatar } = await supabase
 		.from("avatars")
 		.select(`avatar_id, avatar_url, bg, eye, sex, shirt_style, smile, eyewear`)
-		.eq("user_id", user_id)
+		.eq("user_id", user_id).single()
 
 	if (error_avatar) {
 		console.log("error_avatar: ", error_avatar)
@@ -554,7 +553,7 @@ export async function getLeaderboardsSchools(institution_id: String) {
 
 
 // OTHERS
-export async function deleteAllFilesInFolder(storage_, folder) {
+export async function deleteAllFilesInFolder(storage_: string, folder: string) {
 	const supabase = await createClient()
 
     const { data: files, error: listError } = await supabase
@@ -600,7 +599,7 @@ export async function getDepartmentByAcronym(acronym: String) {
 	return data_department;
 }
 
-export async function getDate(daysAdjust: Number) {
+export async function getDate(daysAdjust: number) {
 	var date = new Date();
 	date.setDate(date.getDate()+daysAdjust);
 	return date
@@ -667,7 +666,7 @@ export async function getUserAvatarUrl(user_id: String) {
 		return cur_user_avatar_error
 	}
 	console.log(cur_user_avatar)
-	return cur_user_avatar.avatars.avatar_url
+	return cur_user_avatar.avatars[0].avatar_url
 }
 
 

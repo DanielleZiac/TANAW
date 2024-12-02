@@ -6,24 +6,20 @@ import { authenticateUser, getTopLiked, checkUserAvatar } from "../actions";
 
 
 interface Data {
-  caption: String,
-  created_date: String,
-  sdg_number: String,
-  total_count: number,
-  url: String,
-  user_id: String,
-  user_sdg_id: String
+  caption: string;
+  created_date: string;
+  sdg_number: string;
+  total_count: number;
+  isLiked: boolean,
+  url: string;
+  user_id: string;
+  user_sdg_id: string;
 }
 
 export default async function HallOfFamePage() {
 
   const user_id = await authenticateUser()
   await checkUserAvatar(user_id)
-  // const hasAvatar = await checkUserAvatar(user_id)
-  // if (!hasAvatar) {
-  //   redirect('/dashboard/createAvatar1')
-  //   return 
-  // }
 
   const data: Array<Data> | undefined = await getTopLiked();
 

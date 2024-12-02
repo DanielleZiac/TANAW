@@ -5,12 +5,12 @@ import { getButtonStyles } from "../styles/buttonStyles";
 import FloatingDropdown from '../components/layouts/FloatingDropDown';
 
 interface LeaderboardEntry {
-  campus: string;
-  count: number;
-  institution: string;
-  institution_id: string;
-  department: string;
-  department_logo: string;
+  campus: string,
+  count: number,
+  department: string,
+  institution: string,
+  institution_id: string,
+  department_logo: string
 }
 
 interface DataProps {
@@ -22,7 +22,7 @@ const Leaderboard: React.FC<DataProps> = ({ data }) => {
     <div className="min-h-screen lg:ml-96 mt-10 pt-20 flex flex-col w-screen lg:w-[70vw] items-center bg-transparent py-6 px-4">
       <FloatingDropdown />
       <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">
-        COLLEGE LEADERBOARD - {data[0].institution}
+        COLLEGE LEADERBOARD - {data ? data[0].institution : "no entry"}
       </h1>
 
       {/* Top 3 Section */}

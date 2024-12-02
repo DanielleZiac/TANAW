@@ -68,7 +68,7 @@ const CreateAvatar1: React.FC<DataProps> = ({ data }) => {
           {eyewear != "none" ? 
             <img
               src={`/images/avatar/eye/${eyewear}.png`}
-              alt={eyewear}
+              alt={eyewear ? `${eyewear} background` : "no eyewear"}
               className="absolute inset-0 w-full h-full object-contain"
             />
           : null}

@@ -18,8 +18,8 @@ export default async function InstitutionPage() {
   const user_id = await authenticateUser()
   await checkUserAvatar(user_id)
 
-  const institutions: Array<Institution> | undefined = await getInstitutions(user_id)
-  // console.log("asd", institution_photos)
+  const institutions: Array<Institution> | undefined = await getInstitutions()
+  console.log("asd", institutions)
   
   return (
     <MainLayout>

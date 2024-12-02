@@ -10,7 +10,7 @@ import { getDepartmentByAcronym } from "../dashboard/actions"
 import { runFacemesh } from "./faceLandmarkDetection"
 
 interface ParamsProps {
-  data: String
+  user_id: string
 }
 
 
@@ -94,9 +94,9 @@ const CreateAvatar2: React.FC<ParamsProps> = ({ user_id }) => {
 
     const base64 = await mergeImages(elements.map((el) => el?.src).filter(Boolean));
     const department_id = await getDepartmentByAcronym(avatarSesh.college);
-    console.log(department_id.department_id)
+    console.log(department_id?.department_id)
     sessionStorage.setItem(user_id, base64);
-    sessionStorage.setItem("department_id", department_id.department_id)
+    sessionStorage.setItem("department_id", department_id?.department_id)
     
     avatarSesh["eye"] = eye
     avatarSesh["smile"] = smile

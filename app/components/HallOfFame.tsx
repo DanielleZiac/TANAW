@@ -9,6 +9,7 @@ interface Candidate {
   created_date: string;
   sdg_number: string;
   total_count: number;
+  isLiked?: boolean,
   url: string;
   user_id: string;
   user_sdg_id: string;

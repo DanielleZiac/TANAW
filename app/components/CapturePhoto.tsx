@@ -134,10 +134,11 @@ const UploadPhoto: React.FC<DataProps> = ({data}) => {
     formData.append("user_id", user_id);
     formData.append("sdgs", `sdg${sdg}`); 
     formData.append("caption", caption);
-    formData.append("photoChallenge", sessionStorage.getItem("photoChallenge"))
+    formData.append("photoChallenge", sessionStorage.getItem("photoChallenge") ?? "")
     
     try {
       await uploadPhoto(formData);
+      sessionStorage.removeItem("photoChallenge")
       router.push(`/dashboard/sdg/${parseInt(sdg)}`);
     } catch (error) {
       setError("Failed to upload photo. Please try again.");

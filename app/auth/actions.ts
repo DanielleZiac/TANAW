@@ -29,6 +29,7 @@ export async function login(data: { srCode: string; password: string; school: st
 
 	const { data: data_email } = await supabase.from("institutions").select("email_extension").eq("institution", school).single();
 
+
 	if (data_email !== null) {
 		email = srCode + data_email.email_extension
 	}
@@ -101,7 +102,7 @@ export async function signup(data: { srCode: string, firstName: string, lastName
 				srCode: srCode,
 				firstName: firstName,
 				lastName: lastName,
-				institution_id: data_institution.institution_id
+				institution_id: data_institution?.institution_id
 			}
 		}
 	})

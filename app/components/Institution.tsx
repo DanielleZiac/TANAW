@@ -35,28 +35,47 @@ const top3Posts = {
 };
 
 interface Institution {
-  institution_id: String,
-  institution: String,
-  campus: String,
-  institution_logo: String
+  institution_id: string,
+  institution: string,
+  campus: string,
+  institution_logo: string
 }
 
-const Page: React.FC<Institution> = ({data}) => {
-  const [selectedInstitution, setSelectedInstitution] = useState(data[0]);
-  const [topPosts, setTopPosts] = useState(null);
-  const [selectedPost, setSelectedPost] = useState(null); // State for selected post
+interface DataProps {
+  data : Array<Institution> | undefined
+}
+
+interface TopLiked{
+  url: string,
+  caption: string,
+  created_date: string,
+  sdg_number: string,
+  user_id: string,
+  institution_id: string,
+  user_sdg_id: string, 
+  total_count: string,
+}
+
+const Page: React.FC<DataProps> = ({ data }) => {
+
+  console.log(data)
+  const [selectedInstitution, setSelectedInstitution] = useState(data ? data[0] : null);
+  const [topPosts, setTopPosts] = useState<Array<TopLiked> | undefined>(undefined);
+  const [selectedPost, setSelectedPost] = useState<Institution | null>(null); // State for selected post
   const [modalOpen, setModalOpen] = useState(false); // Modal visibility state
 
   useEffect(() => {
-    async function getTopPosts(institution_id) {
-      const topLiked = await getTopLiked(institution_id);
+    async function getTopPosts(institution_id: string) {
+      const topLiked: Array<TopLiked> | undefined = await getTopLiked(institution_id);
       setTopPosts(topLiked);
     }
 
-    getTopPosts(selectedInstitution.institution_id);
+    if (selectedInstitution) {
+      getTopPosts(selectedInstitution.institution_id);
+    }
   }, [selectedInstitution]);
 
-  const handleInstitutionClick = (institution: typeof institutions[number]) => {
+  const handleInstitutionClick = (institution: Institution) => {
     setSelectedInstitution(institution);
   };
 
@@ -76,7 +95,7 @@ const Page: React.FC<Institution> = ({data}) => {
 
         <div className="lg:w-[500px] lg:h-[350px] flex items-center justify-center lg:ml-24 mt-8"> 
         <img
-            src={selectedInstitution.institution_logo} 
+            src={selectedInstitution?.institution_logo} 
             alt="Logo"
             className="object-contain md:w-4/5 md:h-4/5 lg:w-full lg:h-full" 
         />
@@ -88,7 +107,7 @@ const Page: React.FC<Institution> = ({data}) => {
   <div className="flex justify-between items-center mb-2">
     <h2 className="text-xl sm:text-2xl font-semibold">
       TOP 3 LIKED POSTS OF <br />
-      {selectedInstitution.institution} - {selectedInstitution.campus}
+      {selectedInstitution?.institution} - {selectedInstitution?.campus}
     </h2>
     <Link href="/dashboard/gallery">
     <button

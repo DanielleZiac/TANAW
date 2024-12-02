@@ -17,21 +17,20 @@ interface UserData {
   email: String, 
   first_name: String, 
   last_name: String, 
-  institution: String,
-  campus: String, 
-  department: String, 
-  avatar_url: String
+  institutions: Array<{ institution: String, campus: String }>,
+  departments: Array<{ department: String }>, 
+  avatars: Array<{ avatar_url: string }>
 }
 
 const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
 
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<UserData | undefined>(undefined);
   const [userId, setUserId] = useState<String | null>(null);
 
   useEffect(() => {
     const getUserData = async () => {
-      const user_id = await authenticateUser();
-      const user_data = await getUserById(user_id)
+      const user_id: string = await authenticateUser();
+      const user_data: UserData | undefined = await getUserById(user_id)
       setUserData(user_data)
       setUserId(user_id)
     }
@@ -44,7 +43,9 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
   const deleteUser = () => {
     console.log(userId)
 
-    deleteUserById(userId);
+    if (userId) {
+      deleteUserById(userId);
+    }
   }
 
   return (
@@ -59,8 +60,8 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
                 boxShadow: "inset 0px 8px 20px rgba(0, 0, 0, 0.4)",
               }}
             >
-              {userData?.avatars.avatar_url ? 
-                <img src={userData.avatars.avatar_url} alt="User Avatar" />
+              {userData?.avatars[0].avatar_url ? 
+                <img src={userData.avatars[0].avatar_url} alt="User Avatar" />
                : 
                 <p>Loading avatar...</p>
               }
@@ -68,16 +69,16 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ closePopup }) => {
             {userData?.first_name 
               && userData?.last_name 
               && userData?.sr_code 
-              && userData?.institutions.institution 
-              && userData?.departments.department ? 
+              && userData?.institutions[0].institution 
+              && userData?.departments[0].department ? 
                 <div className="flex flex-col gap-2 justify-center">
                 <p className="font-bold lg:text-2xl text-gray-800">{userData.first_name} {userData.last_name}</p>
                 <p className="font-semibold lg:text-2xl text-gray-800">{userData.sr_code}</p>
                 
                   <div className="flex flex-row items-center gap-8 mt-4 hidden sm:block">
                     <div className="flex flex-col lg:text-lg">
-                      <p className="font-bold text-gray-600">{userData.institutions.institution}</p>
-                      <p className="font-bold text-gray-600">{userData.departments.department}</p>
+                      <p className="font-bold text-gray-600">{userData.institutions[0].institution}</p>
+                      <p className="font-bold text-gray-600">{userData.departments[0].department}</p>
                     </div>
                   </div>
               
