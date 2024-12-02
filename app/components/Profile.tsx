@@ -17,7 +17,7 @@ interface UserData {
   email: String, 
   first_name: String, 
   last_name: String, 
-  institutions: Array<{ institution: String, campus: String }>,
+  institutions: Array<{ institution_id: string, institution: string, campus: string }>,
   departments: Array<{ department: String }>, 
   avatars: Array<{ avatar_url: string }>
 }

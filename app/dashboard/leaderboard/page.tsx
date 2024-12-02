@@ -1,31 +1,37 @@
+import Leaderboard from '../../components/Leaderboard';
 import MainLayout from '../../components/layouts/MainLayout';
 import { redirect } from 'next/navigation'
-import LeaderboardHome from '../../components/LeaderboardHome';
 
-import { authenticateUser, checkUserAvatar, getInstitutions } from "../actions";
+import { authenticateUser, getLeaderboardsSchools, checkUserAvatar, getUserById } from "../actions";
 
-
-interface Institutions {
-    campus: string,
-    institution: string,
-    institution_id: string,
-    institution_logo: string
+interface Institution {
+  campus: string,
+  count: number,
+  department: string,
+  institution: string,
+  institution_id: string,
+  department_logo: string
 }
 
-async function LeaderboardHomePage() {
+
+async function LeaderboardPage() {
 
   const user_id = await authenticateUser()
   await checkUserAvatar(user_id)
 
-  const institutions: Array<Institutions> | undefined = await getInstitutions()
+  const institution_id = (await getUserById(user_id)).institutions.institution_id;
+
+  console.log(institution_id)
+
+  const schools: Array<Institution> | undefined = await getLeaderboardsSchools(institution_id);
+
+  console.log(schools);
 
   return (
     <MainLayout>
-        <div>LEADERBOARD</div>
-        <LeaderboardHome data={institutions}/>
-        {/* <Leaderboard data={schools}/> */}
+        <Leaderboard data={schools}/>
     </MainLayout>
   );
 };
 
-export default LeaderboardHomePage;
+export default LeaderboardPage;

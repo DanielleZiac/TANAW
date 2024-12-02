@@ -30,8 +30,9 @@ export async function getUserById(user_id: String) {
 	
 	const { data: users_data, error: users_error} = await supabase
 		.from('users')
-		.select(`sr_code, first_name, email, last_name, institutions(institution, campus), departments(department), avatars(avatar_url)`)
-		.eq("user_id", user_id).single();
+		.select(`sr_code, first_name, email, last_name, institutions(institution_id, institution, campus), departments(department), avatars(avatar_url)`)
+		.eq("user_id", user_id)
+		.single();
 
 	if (users_error) {
 		console.log("users_error", users_error)
@@ -73,7 +74,7 @@ export async function deleteUserById(user_id: String) {
 
 
 	// delete storage
-	const fileName = data_avatar?.avatars[0].avatar_url.split("/")[-1]
+	const fileName = data_avatar?.avatars.avatar_url.split("/")[-1]
 	const { data: data_avatars_storage, error: error_avatars_storage } = await supabase
 		.storage
 		.from('avatars')
@@ -137,6 +138,10 @@ export async function getUserSdgs(user_id: String) {
 	console.log(data_user_sdgs)
 
 	return data_user_sdgs
+}
+
+export async function getInstitutionIdByUserId(user_id: string) {
+
 }
 
 
@@ -416,8 +421,8 @@ export async function checkUserAvatar(user_id: String) {
 	const supabase = await createClient()
 
 	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select(`avatars(avatar_url)`).eq("user_id", user_id).single();
-	// console.log(user_avatars)
-	if (!user_avatars?.avatars[0]?.avatar_url || user_avatars.avatars[0]?.avatar_url < 1) {
+	console.log(user_avatars)
+	if (!user_avatars?.avatars?.avatar_url || user_avatars.avatars?.avatar_url < 1) {
 		console.log("create avatar first")
 		redirect('/dashboard/createAvatar1')
 		// return false

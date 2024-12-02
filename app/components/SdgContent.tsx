@@ -37,7 +37,7 @@ interface DataProps {
     sdg: number, 
     photos: Array<Photos> | null,
     liked: Array<Liked> | undefined,
-    isInstitution: boolean | undefined
+    institution_id: string | undefined
   ];
 }
 
@@ -46,7 +46,9 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
   const sdg = data[1];
   const photos = data[2];
   const curLiked = data[3];
-  const isInstitution = data[4]
+  const institution_id = data[4]
+
+  console.log(data)
 
   // console.log(photos[0].institution_id)
   // console.log(photos)
@@ -71,9 +73,9 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
 
       console.log(photos)
 
-      if (isInstitution && photos) {
-        console.log("here", photos[0].institution_id)
-        newPhotos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase(), photos[0].institution_id)
+      if (institution_id && photos) {
+        console.log("here", institution_id)
+        newPhotos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase(), institution_id)
       } else {
         newPhotos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase(), undefined);
       }
