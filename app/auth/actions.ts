@@ -86,7 +86,7 @@ export async function signup(data: { srCode: string, firstName: string, lastName
 	const supabase = await createClient();
 
 	console.log(srCode, firstName, lastName, school, password);
-	const { data: data_institution } = await supabase.from("institutions").select(`email_extension, institution_id`).eq("institution", school.toLowerCase()).single();
+	const { data: data_institution } = await supabase.from("institutions").select(`email_extension, institution_id`).eq("institution", school).single();
 	let email = "";
 	if (data_institution !== null) {
 		email = srCode + data_institution.email_extension;
