@@ -70,7 +70,7 @@ const Page: React.FC<Institution> = ({data}) => {
   };
 
   return (
-    <div className="bg-transparent flex flex-col lg:flex-row h-full w-full md:w-screen md:items-center lg:items-start lg:w-[80vw] lg:h-full lg:overflow-hidden lg:space-x-8  p-12 lg:ml-64 mt-4">
+    <div className="bg-transparent flex flex-col lg:flex-row h-full w-full md:w-screen md:items-center lg:items-start lg:w-[80vw] lg:h-full lg:overflow-hidden lg:space-x-8  p-2 pt-8 lg:p-12 pb-20 lg:ml-64 mt-4">
       <FloatingDropdown />
       <div className="flex flex-col justify-start lg:w-2/3 sm:w-full">
 
@@ -86,13 +86,13 @@ const Page: React.FC<Institution> = ({data}) => {
         <section className="mt-4 px-4">
   {/* Header with Button */}
   <div className="flex justify-between items-center mb-2">
-    <h2 className="text-xl sm:text-2xl font-semibold">
+    <h2 className="text-lg sm:text-2xl font-semibold">
       TOP 3 LIKED POSTS OF <br />
       {selectedInstitution.institution} - {selectedInstitution.campus}
     </h2>
     <Link href="/dashboard/gallery">
     <button
-      className="text-dBlue py-1 text-lg font-bold w-36 sm:w-48 bg-white border border-gray-300 rounded-lg hover:shadow-md"
+      className="text-dBlue py-1 lg:py-2 text-lg lg:text-xl font-bold w-28 sm:w-48 bg-white border border-gray-300 rounded-lg hover:shadow-md"
       style={{
         boxShadow:
           "0px 8px 16px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.1), -4px 0px 6px rgba(0, 0, 0, 0.1)",
@@ -103,30 +103,30 @@ const Page: React.FC<Institution> = ({data}) => {
     </button>
     </Link>
   </div>
-  <hr className="border-black mb-4 mx-auto sm:mx-0 w-3/4 sm:w-3/5" />
+  <hr className="border-black mb-4 mx-auto sm:mx-0 w-4/4 sm:w-5/5" />
 
   {/* Posts Container */}
   <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3">
   {topPosts?.slice(0, 3).map((post, index) => (
     <div
       key={index}
-      className="bg-black bg-opacity-60 rounded-lg shadow-lg w-[150px] sm:w-[180px] h-auto relative p-3 flex flex-col items-center"
+      className="bg-black bg-opacity-60 rounded-lg shadow-lg w-[300px] md:w-[220px] h-auto relative p-3 flex flex-col items-center"
     >
       {/* Post Image */}
       <div className="flex justify-center mb-3">
-  <div className="w-full max-w-2xl overflow-hidden "> {/* Added `relative` here */}
-    <img
-      src={post.url}
-      alt={`Post ${index + 1}`}
-      className="w-full h-auto object-cover"
-    />
-    {index === 0 && (
-      <span className="absolute top-[-20px] left-1/2 transform -translate-x-1/2 sm:top-[-25px] text-2xl sm:text-3xl">
-        👑
-      </span>
-    )}
+        <div className="w-full max-w-2xl relative "> {/* Added `relative` here */}
+          <img
+            src={post.url}
+            alt={`Post ${index + 1}`}
+            className="w-full h-full object-cover"
+          />
+        {index === 0 && (
+        <span className="absolute top-[-20px] left-1/2 transform -translate-x-1/2 sm:top-[-25px] text-2xl sm:text-3xl">
+          👑
+        </span>
+      )}
+    </div>
   </div>
-</div>
 
 
       {/* Post Description */}
@@ -171,9 +171,9 @@ const Page: React.FC<Institution> = ({data}) => {
 
       {/* Right Column */}
       <div className="flex flex-col pt-8 md:w-full lg:w-1/2 lg:h-[87vh] overflow-hidden">
-        <section className="flex-none">
-          <h1 className="text-3xl font-bold mb-2 lg:pl-4">Institutions</h1>
-          <hr className="border-black mb-4 w-2/3 lg:ml-4" />
+        <section className="flex-none pl-4">
+          <h1 className="text-3xl font-bold mb-2 ">Institutions</h1>
+          <hr className="border-black mb-4 w-[330px] lg:w-[600px]" />
         </section>
 
         <div className="flex-grow overflow-y-auto space-y-4 px-4 scrollbar-hide pb-4">

@@ -161,7 +161,7 @@ const Login: React.FC = () => {
               }}
             >
               {institutions ? institutions.map((institution, index) => (
-                <option key={index} value={institution.institution.toUpperCase()}>{institution.institution.toUpperCase()}</option>
+                <option key={index} value={institution.institution}>{institution.institution}</option>
               )) : null}
 
             </select>

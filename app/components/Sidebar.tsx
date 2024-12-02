@@ -133,7 +133,7 @@ const Sidebar = () => {
             className={`flex items-center w-full py-3 px-4 text-white hover:text-blue-500 ${
               isActive("/profile") ? "font-bold" : "font-base"
             }`}
-            onClick={handleProfileClick}
+            // onClick={handleProfileClick}
           >
             <FaUser
               size={24}
