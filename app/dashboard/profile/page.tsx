@@ -21,7 +21,7 @@ export default async function Profile() {
 
   return (
     <MainLayout>
-        <ProfilePage data={user_data}/>
+        <ProfilePage data={[user_data, user_id]}/>
     </MainLayout>
   );
 };
