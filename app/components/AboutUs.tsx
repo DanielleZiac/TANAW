@@ -120,7 +120,7 @@ const AboutUsComponent: React.FC = () => {
               </TextBoxPanel>
               <TextBoxPanel className="py-3 lg:py-4 lg:w-[300px]">
                 <div className="flex flex-row items-center gap-4">
-                  <TeamMember imageSrc="/images/danielle.png"/>
+                  <TeamMember imageSrc="/images/team/hersey.png"/>
                   <p>Hersey Anne Odasco</p>
                 </div>
               </TextBoxPanel>
@@ -128,13 +128,13 @@ const AboutUsComponent: React.FC = () => {
             <div className="flex flex-col gap-4">
               <TextBoxPanel className="py-3 lg:py-4 lg:w-[300px]">
                 <div className="flex flex-row items-center gap-4">
-                  <TeamMember imageSrc="/images/danielle.png"/>
+                  <TeamMember imageSrc="/images/team/paul.png"/>
                   <p>Paul Oliver Cruz</p>
                 </div>
               </TextBoxPanel>
               <TextBoxPanel className="py-3 lg:py-4 lg:w-[300px]">
                 <div className="flex flex-row items-center gap-4">
-                  <TeamMember imageSrc="/images/danielle.png"/>
+                  <TeamMember imageSrc="/images/team/endrick.png"/>
                   <p>Jon Endrick Babao</p>
                 </div>
               </TextBoxPanel>

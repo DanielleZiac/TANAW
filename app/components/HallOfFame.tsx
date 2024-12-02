@@ -36,14 +36,11 @@ const HallOfFame: React.FC<DataProps> = ({ data }) => {
     <section className="mt-16 px-4 lg:ml-64">
       <FloatingDropdown />
       <div className="flex justify-between items-center mb-2">
-      <h2 className="text-xl sm:text-[100px] ml-20 mt-5 lg:ml-64 font-semibold text-center sm:text-left">
+      <h2 className="text-2xl sm:text-[100px] ml-20 mt-5 lg:ml-64 lg:mt-20 font-semibold text-center sm:text-left">
       HALL OF FAME
       </h2>
-
-
-        
       </div>
-      <hr className="border-black mb-4 lg:mt-10 lg:ml-36 mx-auto sm:mx-0 w-3/4 sm:w-4/5" />
+      <hr className="border-black mb-4 lg:mt-10 lg:ml-36 mx-auto sm:mx-0 w-4/4 sm:w-4/5" />
 
       {/* Candidates Container */}
       <div className="flex flex-wrap justify-center sm:justify-start items-center gap-5">
@@ -51,7 +48,7 @@ const HallOfFame: React.FC<DataProps> = ({ data }) => {
           topCandidates.map((entry, index) => (
             <div
               key={entry.user_sdg_id} // Use a unique key if available
-              className="bg-gradient-to-r from-gray-800 to-black rounded-lg shadow-lg w-[200px] sm:w-[370px] sm:mt-32 sm:ml-4 h-auto relative p-4 flex flex-col items-center transition-transform transform hover:scale-105"
+              className="bg-gradient-to-r from-gray-800 to-black rounded-lg shadow-lg w-[300px] sm:w-[370px] sm:mt-20 sm:ml-4 h-auto relative p-4 flex flex-col items-center transition-transform transform hover:scale-105"
             >
               {/* Post Image */}
               <div className="flex justify-center mb-3">

@@ -37,13 +37,17 @@ const Footer = () => {
         </a>
 
         {/* Profile Link */}
-        <button
-  onClick={() => setShowProfilePopup(true)} // Add functionality to open the popup
-  className="flex flex-col items-center text-gray-300 hover:text-blue-500 focus:outline-none"
->
-  <FaUser className="text-cBlue text-2xl sm:text-3xl" />
-  <span className="text-xs md:text-sm text-cBlue font-bold mt-1">Profile</span>
-</button>
+        <a href="/dashboard/profile" className="flex flex-col items-center text-gray-300 hover:text-blue-500">
+          <FaUser className="text-cBlue text-2xl sm:text-3xl" />
+          <span className="text-xs md:text-sm text-cBlue font-bold mt-1">Profile</span>
+        </a>
+        {/* <button
+          onClick={() => setShowProfilePopup(true)}
+          className="flex flex-col items-center text-gray-300 hover:text-blue-500 focus:outline-none"
+        >
+          <FaUser className="text-cBlue text-2xl sm:text-3xl" />
+          <span className="text-xs md:text-sm text-cBlue font-bold mt-1">Profile</span>
+        </button> */}
       </div>
 
     {showProfilePopup && (

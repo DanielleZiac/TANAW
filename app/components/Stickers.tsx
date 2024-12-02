@@ -195,7 +195,7 @@ const Avatar: React.FC<AvatarProps> = ( {data} ) => {
             {/* Lock Overlay in Popup when locked */}
             {isLocked && (
               <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center rounded-lg z-20">
-                <FaLock className="text-white text-2xl" />
+                <FaLock className="text-white text-opacity-80 text-[150px] lg:text-[200px]" />
               </div>
             )}
           </div>
