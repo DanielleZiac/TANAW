@@ -49,7 +49,7 @@ const ProfilePage: React.FC<UserData> = ({ data }) => {
             boxShadow: "inset 0px 8px 20px rgba(0, 0, 0, 0.4)",
           }}
         >
-          <img src={user_data?.avatars.avatar_url} />
+          <img className="rounded-3xl" src={user_data?.avatars.avatar_url} />
         </div>
         <div className="flex flex-col gap-2">
           <p className="text-xl lg:text-3xl font-extrabold">{user_data?.first_name} {user_data?.last_name}</p>
