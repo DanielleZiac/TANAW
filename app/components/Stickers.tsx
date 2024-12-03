@@ -3,27 +3,35 @@
 import React, {useState} from "react";
 import mergeImages from "merge-images";
 import { getButtonStyles } from "../styles/buttonStyles"; // Ensure the path to buttonStyles is correct
-import { FaLock, FaTimes } from "react-icons/fa";
+import { FaLock, FaTimes } from "react-icons/fa"
+import { useRouter } from 'next/navigation';
 
 interface UserSdgs {
-  user_id: String;
-  sdg_number: String;
+  user_id: string;
+  sdg_number: string;
 }
 
 interface UserAvatar {
-  avatar_id: String;
-  bg: String;
-  eye: String;
-  sex: String;
-  shirt_style: String;
-  smile: String;
-  avatar_url: String;
-  eyewear?: String;
+  avatar_id: string;
+  bg: string;
+  eye: string;
+  sex: string;
+  shirt_style: string;
+  smile: string;
+  avatar_url: string;
+  eyewear?: string;
+}
+
+
+interface AvatarProps {
+  data: Array<UserAvatar | undefined | number | String | boolean>
 }
 
 interface DataProps {
-  user_sdgs: UserSdgs;
-  user_avatar: UserAvatar;
+  data : [
+    user_sdgs: Array<UserSdgs> | undefined,
+    user_avatar: UserAvatar | undefined
+  ]
 }
 
 const sdgs = {
@@ -46,14 +54,15 @@ const sdgs = {
   sdg17: "Partnerships for the Goals",
 };
 
-const Avatar: React.FC<UserAvatar> = ({ data }) => {
+const Avatar: React.FC<AvatarProps> = ( {data} ) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupImage, setPopupImage] = useState("");
 
-  const user_avatar = data[0];
-  const sdg = data[1];
-  const index = data[2];
-  const isLocked = data[3];
+  const user_avatar: UserAvatar | undefined = data[0] as UserAvatar | undefined;
+  const sdg: string = data[1] as string;
+  const index: number = data[2] as number;
+  const isLocked: boolean = data[3] as boolean;
+
 
   const handleAvatarClick = () => {
     setPopupImage(`/images/avatar/sdg/background_${sdg.toUpperCase()}.png`);
@@ -71,66 +80,68 @@ const Avatar: React.FC<UserAvatar> = ({ data }) => {
   return (
     <>
       {/* Button */}
-      <button
-        key={index}
-        id={`${sdg}`}
-        onClick={openPopup}
-        className={`${getButtonStyles(false).className} relative flex items-center p-2 ${
-          isLocked ? "bg-gray-200" : "bg-blue-300"
-        } shadow-md rounded-lg`}
-        style={getButtonStyles(false).style}
-      >
-        {/* Avatar layers */}
-        <img
-          id={`${sdg}-bg`}
-          src={`/images/avatar/sdg/background_${sdg.toUpperCase()}.png`}
-          className="absolute w-10 h-10 rounded-full"
-        />
-        <img
-          id={`${sdg}-sex`}
-          src={`/images/avatar/sex/${user_avatar.sex}.png`}
-          className="absolute w-10 h-10 rounded-full"
-        />
-        <img
-          id={`${sdg}-shirt_style`}
-          src={`/images/avatar/shirt_style/${user_avatar.shirt_style}.png`}
-          className="absolute w-10 h-10 rounded-full"
-        />
-        {user_avatar.eyewear && (
+      {user_avatar ? 
+        <button
+          key={index}
+          id={`${sdg}`}
+          onClick={openPopup}
+          className={`${getButtonStyles(false).className} relative flex items-center p-2 ${
+            isLocked ? "bg-gray-200" : "bg-blue-300"
+          } shadow-md rounded-lg`}
+          style={getButtonStyles(false).style}
+        >
+          {/* Avatar layers */}
           <img
-            id={`${sdg}-eyewear`}
-            id="eyewear"
-            src={`/images/avatar/eye/${user_avatar.eyewear}.png`}
+            id={`${sdg}-bg`}
+            src={`/images/avatar/sdg/background_${sdg.toUpperCase()}.png`}
             className="absolute w-10 h-10 rounded-full"
           />
-        )}
-        <img
-          id={`${sdg}-eye`}
-          src={`/images/avatar/eye/${user_avatar.eye}.png`}
-          className="absolute w-10 h-10 rounded-full"
-        />
-        <img
-          id={`${sdg}-smile`}
-          src={`/images/avatar/mouth/${user_avatar.smile}.png`}
-          className="absolute w-10 h-10 rounded-full"
-        />
-  
-        {/* Lock Overlay when locked */}
-        {isLocked && (
-          <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center rounded-lg z-20">
-            <FaLock className="text-white text-lg" />
-          </div>
-        )}
-  
-        {/* SDG Info */}
-        <span
-          className={`ml-16 text-sm font-medium ${
-            isLocked ? "text-gray-400" : "text-gray-800"
-          }`}
-        >
-          SDG {Object.keys(sdgs).indexOf(sdg) + 1}: {sdgs[sdg]}
-        </span>
-      </button>
+          <img
+            id={`${sdg}-sex`}
+            src={`/images/avatar/sex/${user_avatar.sex}.png`}
+            className="absolute w-10 h-10 rounded-full"
+          />
+          <img
+            id={`${sdg}-shirt_style`}
+            src={`/images/avatar/shirt_style/${user_avatar.shirt_style}.png`}
+            className="absolute w-10 h-10 rounded-full"
+          />
+          {user_avatar.eyewear && (
+            <img
+              id={`${sdg}-eyewear`}
+              src={`/images/avatar/eye/${user_avatar.eyewear}.png`}
+              className="absolute w-10 h-10 rounded-full"
+            />
+          )}
+          <img
+            id={`${sdg}-eye`}
+            src={`/images/avatar/eye/${user_avatar.eye}.png`}
+            className="absolute w-10 h-10 rounded-full"
+          />
+          <img
+            id={`${sdg}-smile`}
+            src={`/images/avatar/mouth/${user_avatar.smile}.png`}
+            className="absolute w-10 h-10 rounded-full"
+          />
+
+          {/* Lock Overlay when locked */}
+          {isLocked && (
+            <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center rounded-lg z-20">
+              <FaLock className="text-white text-lg" />
+            </div>
+          )}
+
+          {/* SDG Info */}
+          <span
+            className={`ml-16 text-sm font-medium ${
+              isLocked ? "text-gray-400" : "text-gray-800"
+            }`}
+          >
+            SDG {Object.keys(sdgs).indexOf(sdg) + 1}: {sdgs[sdg as keyof typeof sdgs]}
+          </span>
+        </button>
+      : <div>Loading Avatar...</div>}
+
   
       {/* Popup */}
       {isPopupOpen && (
@@ -145,40 +156,46 @@ const Avatar: React.FC<UserAvatar> = ({ data }) => {
             </button>
   
             {/* Layered Avatar Images */}
-            <div className="relative w-64 h-64 md:w-96 md:h-96">
-              <img
-                src={`/images/avatar/sdg/background_${sdg.toUpperCase()}.png`}
-                className="absolute inset-0 w-full h-full object-cover rounded-lg"
-              />
-              <img
-                src={`/images/avatar/sex/${user_avatar.sex}.png`}
-                className="absolute inset-0 w-full h-full object-cover rounded-lg"
-              />
-              <img
-                src={`/images/avatar/shirt_style/${user_avatar.shirt_style}.png`}
-                className="absolute inset-0 w-full h-full object-cover rounded-lg"
-              />
-              {user_avatar.eyewear && (
-                <img
-                  id="eyewear"
-                  src={`/images/avatar/eye/${user_avatar.eyewear}.png`}
-                  className="absolute inset-0 w-full h-full object-cover rounded-lg"
-                />
-              )}
-              <img
-                src={`/images/avatar/eye/${user_avatar.eye}.png`}
-                className="absolute inset-0 w-full h-full object-cover rounded-lg"
-              />
-              <img
-                src={`/images/avatar/mouth/${user_avatar.smile}.png`}
-                className="absolute inset-0 w-full h-full object-cover rounded-lg"
-              />
-            </div>
+            {user_avatar 
+              ? 
+                <div className="relative w-64 h-64 md:w-96 md:h-96">
+                  <img
+                    src={`/images/avatar/sdg/background_${sdg.toUpperCase()}.png`}
+                    className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                  />
+                  <img
+                    src={`/images/avatar/sex/${user_avatar.sex}.png`}
+                    className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                  />
+                  <img
+                    src={`/images/avatar/shirt_style/${user_avatar.shirt_style}.png`}
+                    className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                  />
+                  {user_avatar.eyewear && (
+                    <img
+                      id="eyewear"
+                      src={`/images/avatar/eye/${user_avatar.eyewear}.png`}
+                      className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                    />
+                  )}
+                  <img
+                    src={`/images/avatar/eye/${user_avatar.eye}.png`}
+                    className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                  />
+                  <img
+                    src={`/images/avatar/mouth/${user_avatar.smile}.png`}
+                    className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+              : 
+                <div>Loading Avatar...</div>
+            }
+
   
             {/* Lock Overlay in Popup when locked */}
             {isLocked && (
               <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center rounded-lg z-20">
-                <FaLock className="text-white text-2xl" />
+                <FaLock className="text-white text-opacity-80 text-[150px] lg:text-[200px]" />
               </div>
             )}
           </div>
@@ -188,7 +205,7 @@ const Avatar: React.FC<UserAvatar> = ({ data }) => {
   );
 };
 
-async function claim(user_sdgs) {
+async function claim(user_sdgs: Array<string>) {
   console.log("download all photos")
 
   console.log(user_sdgs)
@@ -217,17 +234,26 @@ async function claim(user_sdgs) {
   console.log(avatar)
 }
 
-const Profile: React.FC<UserSdgs> = ({ data }) => {
+const Profile: React.FC<DataProps> = ({ data }) => {
+
+  const router = useRouter();
+
   const data_sdgs = data[0];
-  const data_avatar = data[1][0];
+  const data_avatar = data[1];
 
-  const user_sdgs = [];
+  const user_sdgs: Array<string> = [];
 
-  for (const key of Object.keys(data_sdgs)) {
-    user_sdgs.push(data_sdgs[key]["sdg_number"]);
-  }
+  data_sdgs?.forEach((data_sdg) => {
+    user_sdgs.push(data_sdg['sdg_number'])
+  })
+
 
   let locked_sdgs = Object.keys(sdgs).filter((x) => !user_sdgs.includes(x));
+
+
+  const editAvatar = () => {
+    router.push("/dashboard/createAvatar1")
+  }
 
   return (
     <div className="lg:ml-64 min-h-screen bg-transparent w-screen lg:w-[80vw] flex justify-center mt-12 mb-14 px-4 py-6">
@@ -243,7 +269,7 @@ const Profile: React.FC<UserSdgs> = ({ data }) => {
             style={getButtonStyles(false).style}
           >
             <img
-              src={data_avatar.avatar_url}
+              src={data_avatar?.avatar_url ? data_avatar?.avatar_url : ""}
               alt="Avatar"
               className="w-16 h-16 rounded-full"
             />

@@ -35,6 +35,7 @@ const Login: React.FC = () => {
       const schoolElement = document.getElementById("schoolLogin") as HTMLSelectElement | null;
       if (schoolElement) {
         const school = schoolElement.value;
+        console.log(school, "asdsadasdsadsa")
         let data = { srCode, password, school };
         let res = await login(data);
         // setError(res);
@@ -135,7 +136,7 @@ const Login: React.FC = () => {
     >
 
       {/* Part 1 - Login Section */}
-      <div className="flex-shrink-0 w-full md:w-2/5 h-full flex items-start justify-start p-8 bg-lightGray lg:bg-[#dbdfe3] lg:pl-20 mt-10 lg:mt-12">
+      <div className="flex-shrink-0 w-full md:w-2/5 h-full flex items-start justify-start p-8 bg-lightGray lg:bg-[#dbdfe3] lg:pl-20 mt-10 lg:mt-14">
         <div className="w-full max-w-sm xl:p-8 sm:mr-36 rounded-lg ml-1 mt-10 mr-12 xl:mr-24">
           <p className="text-left font-extrabold text-blue-800 text-4xl mb-4">Welcome Back!</p>
           <p className="text-left text-blue-900 text-lg mb-8">To keep connected with us please login with your personal info</p>
@@ -161,7 +162,7 @@ const Login: React.FC = () => {
               }}
             >
               {institutions ? institutions.map((institution, index) => (
-                <option key={index} value={institution.institution.toUpperCase()}>{institution.institution.toUpperCase()}</option>
+                <option key={index} value={institution.institution}>{institution.institution.toUpperCase()}</option>
               )) : null}
 
             </select>
@@ -205,8 +206,8 @@ const Login: React.FC = () => {
 
    
       {/* Part 3 - Sign-Up Section */}
-      <div ref={signUpSectionRef} className="flex-shrink-0 w-full md:w-2/5 lg:h-full flex items-start justify-end p-0 px-8 lg:p-8 bg-lightGray lg:bg-[#dbdfe3] lg:pr-14 -mt-40 lg:mt-0">
-        <div className="w-full max-w-sm lg:max-w-none xl:p-8 sm:mr-36 rounded-lg mr-12 xl:mr-24">
+      <div ref={signUpSectionRef} className="flex-shrink-0 w-full md:w-2/5 lg:h-full flex items-start justify-end p-0 px-8 lg:p-8 bg-lightGray lg:bg-[#dbdfe3] lg:pr-14 -mt-40 lg:mt-14">
+        <div className="w-full max-w-sm lg:max-w-none xl:p-8 sm:mr-36 rounded-lg mr-12 lg:mr-24">
           <p className="text-left lg:text-right font-extrabold text-blue-800 text-4xl mb-2 lg:-mr-16 pt-4">Hello, Friend!</p>
           <p className="text-left lg:text-center xl:text-right text-blue-900 text-sm mb-2 lg:-mr-16">Enter your personal details and start your journey with us</p>
           <form>
@@ -248,7 +249,7 @@ const Login: React.FC = () => {
               }}
             >
               {institutions ? institutions.map((institution, index) => (
-                <option key={index} value={institution.institution.toUpperCase()}>{institution.institution.toUpperCase()}</option>
+                <option key={index} value={institution.institution}>{institution.institution.toUpperCase()}</option>
               )) : null}
             </select>
           

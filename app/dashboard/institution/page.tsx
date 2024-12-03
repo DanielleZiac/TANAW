@@ -3,7 +3,7 @@ import Institution from '../../components/Institution';
 import MainLayout from '../../components/layouts/MainLayout';
 import { redirect } from 'next/navigation'
 
-import { authenticateUser, checkUserAvatar, getInstitutions } from "../actions";
+import { authenticateUser, checkUserAvatar, getInstitutions, getLikedPostsSdgs } from "../actions";
 
 
 interface Institution {
@@ -18,8 +18,8 @@ export default async function InstitutionPage() {
   const user_id = await authenticateUser()
   await checkUserAvatar(user_id)
 
-  const institutions: Array<Institution> | undefined = await getInstitutions(user_id)
-  // console.log("asd", institution_photos)
+  const institutions: Array<Institution> | undefined = await getInstitutions()
+  console.log("asd", institutions)
   
   return (
     <MainLayout>

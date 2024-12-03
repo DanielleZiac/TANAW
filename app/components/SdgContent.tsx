@@ -19,11 +19,11 @@ interface Photos {
   url: string;
   user_id: string;
   user_sdg_id: string;
-  institution_id: String;
-  photo_challenge?: String;
-  institution: String;
-  campus: String;
-  institution_logo: String;
+  institution_id: string;
+  photo_challenge?: string;
+  institution: string;
+  campus: string;
+  institution_logo: string;
 }
 
 interface Liked {
@@ -35,9 +35,9 @@ interface DataProps {
   data: [
     user_id: string,
     sdg: number, 
-    photos: Array<Photos> | undefined,
+    photos: Array<Photos> | null,
     liked: Array<Liked> | undefined,
-    isInstitution: boolean | undefined
+    institution_id: string | undefined
   ];
 }
 
@@ -46,7 +46,9 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
   const sdg = data[1];
   const photos = data[2];
   const curLiked = data[3];
-  const isInstitution = data[4]
+  const institution_id = data[4]
+
+  console.log(data)
 
   // console.log(photos[0].institution_id)
   // console.log(photos)
@@ -55,7 +57,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
   const [isLiked, setLiked] = useState<string | "none">("none");
   const [likedPosts, setLikedPosts] = useState<Array<Liked> | undefined>(curLiked);
   const [likes, setLikes] = useState<number | null>(0);
-  const [displayPhoto, setDisplayPhoto] = useState<Array<Photos> | undefined>(photos);
+  const [displayPhoto, setDisplayPhoto] = useState<Array<Photos> | null>(photos);
 
   
 
@@ -66,16 +68,16 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
   const filters = ["Today", "Yesterday", "Last Week", "Last Month", "All"];
 
   useEffect(() => {
-    async function changeDisplayPhoto(selectedFilter) {
+    async function changeDisplayPhoto(selectedFilter: string) {
       let newPhotos;
 
-      console.log(photos)
+      console.log(displayPhoto)
 
-      if (isInstitution) {
-        console.log("here", photos[0].institution_id)
-        newPhotos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase(), photos[0].institution_id)
+      if (institution_id && photos) {
+        console.log("here", institution_id)
+        newPhotos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase(), institution_id)
       } else {
-        newPhotos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase(), null);
+        newPhotos = await filterSdgs(Number(sdg), selectedFilter.toLowerCase(), undefined);
       }
 
       // console.log(photos?.length)
@@ -154,7 +156,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
         
           {/* Flip Card */}
           <button
-            onClick={() => handlePostClick(post, user_id)}
+            onClick={() => handlePostClick(post)}
             className="flip-card-inner w-full h-full rounded-full overflow-hidden bg-gray-200 flex items-center justify-center focus:outline-none"
           >
           
@@ -179,8 +181,8 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
     ));
   };
 
-  const sdgTitle = SDG_TITLES[parseInt(sdg) - 1];
-  const photoChallenges = PHOTO_CHALLENGES[sdg] || [];
+  const sdgTitle = SDG_TITLES[sdg - 1];
+  const photoChallenges = PHOTO_CHALLENGES[sdg as keyof typeof PHOTO_CHALLENGES] || [];
   
   const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
 
@@ -303,7 +305,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
                   <p className="text-base sm:text-lg font-extrabold text-dBlue">{sdgTitle}</p>
                   <p className="text-base sm:text-lg font-bold text-dBlue">{selectedPost.photo_challenge}</p>
                   <div className="flex items-center space-x-2 mt-2">
-                    <img src={selectedPost.institution_logo} alt="Institution Logo" className="w-8 h-8 rounded-full" /> {/*change*/}
+                    <img src={selectedPost.institution_logo ? selectedPost.institution_logo : ""} alt="Institution Logo" className="w-8 h-8 rounded-full" />
                     <div className="flex flex-col text-left">
                       <p className="text-sm sm:text-xs text-dBlue">{selectedPost.institution}</p>
                       <p className="text-sm sm:text-xs text-dBlue">{selectedPost.campus}</p>

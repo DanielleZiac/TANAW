@@ -29,6 +29,7 @@ export async function login(data: { srCode: string; password: string; school: st
 
 	const { data: data_email } = await supabase.from("institutions").select("email_extension").eq("institution", school).single();
 
+
 	if (data_email !== null) {
 		email = srCode + data_email.email_extension
 	}
@@ -47,7 +48,7 @@ export async function login(data: { srCode: string; password: string; school: st
 
 	const { data: users_data, error: users_error} = await supabase.from('users').select("user_id").eq("user_id", user_data.user.id).single();
 
-	console.log(users_data)
+	console.log("users_dataaaaaaa", user_data)
 
 	if (!users_data) {
 		// no user info pa, need to complete account creation and shts
@@ -85,13 +86,14 @@ export async function signup(data: { srCode: string, firstName: string, lastName
 	const supabase = await createClient();
 
 	console.log(srCode, firstName, lastName, school, password);
-	const { data: data_institution } = await supabase.from("institutions").select(`email_extension, institution_id`).eq("institution", school.toLowerCase()).single();
+	const { data: data_institution } = await supabase.from("institutions").select(`email_extension, institution_id`).eq("institution", school).single();
 	let email = "";
 	if (data_institution !== null) {
 		email = srCode + data_institution.email_extension;
 	}
 
 	console.log(data_institution)
+	console.log("emailllllll", email)
 
 	const { error } = await supabase.auth.signUp({
 		email: email,
@@ -101,7 +103,7 @@ export async function signup(data: { srCode: string, firstName: string, lastName
 				srCode: srCode,
 				firstName: firstName,
 				lastName: lastName,
-				institution_id: data_institution.institution_id
+				institution_id: data_institution?.institution_id
 			}
 		}
 	})

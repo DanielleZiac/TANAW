@@ -29,14 +29,17 @@ interface DataProps {
 const Gallery: React.FC<DataProps> = ({data}) => {
   const user_id = data[0];
   const photoData = data[1];
+  let sdgImages;
 
   console.log(photoData)
 
-  const sdgImages = Array.from({ length: 17 }, (_, i) => ({
-    src: `/images/SDG/SDG${i + 1}.jpg`, // Assume you have these images in public/images/
-    alt: `SDG ${i + 1}`,
-    link: (photoData[0].institution_id ? `/dashboard/institution/${photoData[0].institution_id}/${i + 1}` : `/dashboard/sdg/${i + 1}`) // Link to SDG page
-  }));
+  if (photoData) {
+    sdgImages = Array.from({ length: 17 }, (_, i) => ({
+      src: `/images/SDG/SDG${i + 1}.jpg`, // Assume you have these images in public/images/
+      alt: `SDG ${i + 1}`,
+      link: (photoData[0].institution_id ? `/dashboard/institution/${photoData[0].institution_id}/${i + 1}` : `/dashboard/sdg/${i + 1}`) // Link to SDG page
+    }));
+  }
 
   // State to track active tab
   const [activeTab, setActiveTab] = useState<'uploads' | 'events'>('uploads'); 
@@ -52,7 +55,7 @@ const Gallery: React.FC<DataProps> = ({data}) => {
     <div className="absolute left-0 lg:ml-64 overflow-x-auto bg-transparent ">
       {/* SDG Circle Section */}
       <div className="flex overflow-x-auto scrollbar-hide py-4 px-4 space-x-2 bg-transparent">
-        {sdgImages.map((item, index) => (
+        {sdgImages?.map((item, index) => (
           <div key={index} className="flex-shrink-0">
             <a href={item.link}>
               <Image
@@ -84,8 +87,8 @@ const Gallery: React.FC<DataProps> = ({data}) => {
 
       {/* Image Grid Section */}
       <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0.5 bg-transparent overflow-y-auto max-h-[calc(80vh-200px)]">
-        {(activeTab === 'uploads' ? photoData : photoData).map((img, index) => (
-            <div key={index} className="relative w-full h-32"> {/* Fixed height */}
+        {photoData?.map((img, index) => (
+            <div key={index} className="relative w-full h-full"> {/* Fixed height */}
               <Image
                 src={img.url}
                 alt={`Gallery Image ${index + 1}`}

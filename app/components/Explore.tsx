@@ -23,23 +23,23 @@ import Logo from '/public/images/background/logoexplore.png';
 
 
 const sdgGoals = [
-  { id: 1, title: 'No Poverty', image: SDGlink1 },
-  { id: 2, title: 'Zero Hunger', image: SDGlink2 },
-  { id: 3, title: 'Good Health and Well-Being', image: SDGlink3 },
-  { id: 4, title: 'Quality Education', image: SDGlink4 },
-  { id: 5, title: 'Gender Equality', image: SDGlink5 },
-  { id: 6, title: 'Clean Water and Sanitation', image: SDGlink6 },
-  { id: 7, title: 'Affordable and Clean Energy', image: SDGlink7 },
-  { id: 8, title: 'Decent Work and Economic Growth', image: SDGlink8 },
-  { id: 9, title: 'Industry, Innovation, and Infrastructure', image: SDGlink9 },
-  { id: 10, title: 'Reduced Inequality', image: SDGlink10 },
-  { id: 11, title: 'Sustainable Cities and Communities', image: SDGlink11 },
-  { id: 12, title: 'Responsible Consumption and Production', image: SDGlink12 },
-  { id: 13, title: 'Climate Action', image: SDGlink13 },
-  { id: 14, title: 'Life Below Water', image: SDGlink14 },
-  { id: 15, title: 'Life on Land', image: SDGlink15 },
-  { id: 16, title: 'Peace, Justice, and Strong Institutions', image: SDGlink16 },
-  { id: 17, title: 'Partnerships for the Goals', image: SDGlink17 },
+  { id: 1, title: 'No Poverty', image: SDGlink1, url: "https://sdgs.un.org/goals/goal1"},
+  { id: 2, title: 'Zero Hunger', image: SDGlink2, url: "https://sdgs.un.org/goals/goal2" },
+  { id: 3, title: 'Good Health and Well-Being', image: SDGlink3, url: "https://sdgs.un.org/goals/goal3" },
+  { id: 4, title: 'Quality Education', image: SDGlink4, url: "https://sdgs.un.org/goals/goal4" },
+  { id: 5, title: 'Gender Equality', image: SDGlink5, url: "https://sdgs.un.org/goals/goal5" },
+  { id: 6, title: 'Clean Water and Sanitation', image: SDGlink6, url: "https://sdgs.un.org/goals/goal6" },
+  { id: 7, title: 'Affordable and Clean Energy', image: SDGlink7, url: "https://sdgs.un.org/goals/goal7" },
+  { id: 8, title: 'Decent Work and Economic Growth', image: SDGlink8, url: "https://sdgs.un.org/goals/goal8" },
+  { id: 9, title: 'Industry, Innovation, and Infrastructure', image: SDGlink9, url: "https://sdgs.un.org/goals/goal9" },
+  { id: 10, title: 'Reduced Inequality', image: SDGlink10, url: "https://sdgs.un.org/goals/goal10" },
+  { id: 11, title: 'Sustainable Cities and Communities', image: SDGlink11, url: "https://sdgs.un.org/goals/goal11" },
+  { id: 12, title: 'Responsible Consumption and Production', image: SDGlink12, url: "https://sdgs.un.org/goals/goal12" },
+  { id: 13, title: 'Climate Action', image: SDGlink13, url: "https://sdgs.un.org/goals/goal13" },
+  { id: 14, title: 'Life Below Water', image: SDGlink14, url: "https://sdgs.un.org/goals/goal14" },
+  { id: 15, title: 'Life on Land', image: SDGlink15, url: "https://sdgs.un.org/goals/goal15" },
+  { id: 16, title: 'Peace, Justice, and Strong Institutions', image: SDGlink16, url: "https://sdgs.un.org/goals/goal16" },
+  { id: 17, title: 'Partnerships for the Goals', image: SDGlink17, url: "https://sdgs.un.org/goals/goal17" },
 ];
 
 const UNImages = [
@@ -75,7 +75,7 @@ const ExploreComponent: React.FC = () => {
         </div>
 
         {/* United Nations Section */}
-        <div className="-mt-8 sm:mx-10 lg:mt-2">
+        <div className="-mt-8 sm:mx-12 lg:mt-14">
           <h2 className="text-2xl font-semibold mb-2 text-start md:text-center lg:text-start">UNITED NATIONS</h2>
           <hr className="border-black mb-4 w-3/5 md:mx-auto lg:mx-0" />
           <div className="flex w-full overflow-x-auto space-x-4 scrollbar-hide px-8 lg:-ml-8">
@@ -84,7 +84,7 @@ const ExploreComponent: React.FC = () => {
                 key={index}
                 src={image.src}
                 alt={image.alt}
-                className="bg-gray-300 h-24 w-48 rounded-lg object-cover flex-shrink-0"
+                className="bg-gray-300 h-24 w-48 lg:h-48 lg:w-[400px] rounded-lg object-cover flex-shrink-0"
                 onClick={() => handleImageClick(image.alt)}
               />
             ))}
@@ -113,7 +113,7 @@ const ExploreComponent: React.FC = () => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}
-              onClick={() => alert(`SDG ${goal.id} clicked`)} // Replace with actual action
+              onClick={() => window.open(goal.url, '_blank')} // Replace with actual action
             >
               {/* Transparent black background */}
               <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-start pl-4">

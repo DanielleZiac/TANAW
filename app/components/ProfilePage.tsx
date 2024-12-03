@@ -3,21 +3,41 @@
 import React from "react";
 import ButtonBox from "../styles/buttonBox";
 import InputBox from "../styles/inputBox";
+import { useRouter } from "next/navigation";
+import { deleteUserById } from "../dashboard/actions";
 
 interface UserData {
-  sr_code: String, 
-  email: String, 
-  first_name: String, 
-  last_name: String, 
-  institution: String,
-  campus: String, 
-  department: String, 
-  avatar_url: String
+  data : [
+    user_data : {
+      sr_code: String, 
+      email: String, 
+      first_name: String, 
+      last_name: String, 
+      institutions: Array<{ institution_id: string, institution: string, campus: string }>,
+      departments: Array<{ department: String }>, 
+      avatars: Array<{ avatar_url: string }>
+    },
+    user_id: string,
+  ] | undefined
 }
 
 
-const ProfilePage: React.FC<UserData> = ({data}) => {
-  console.log(data)
+const ProfilePage: React.FC<UserData> = ({ data }) => {
+  const router = useRouter()
+  const user_data = data[0]
+  const user_id = data[1]
+
+  const editAvatar = () => {
+    router.push("/dashboard/createAvatar1")
+  }
+
+  const deleteUser = () => {
+    console.log(user_id)
+
+    if (user_id) {
+      deleteUserById(user_id);
+    }
+  }
   return (
     <div className="flex flex-col items-center lg:items-stretch lg:ml-64 p-4 lg:p-0 lg:pl-32 mt-20 bg-lightGray w-screen lg:w-full h-screen mb-96 lg:mb-40">
       {/* Profile Header */}
@@ -29,13 +49,13 @@ const ProfilePage: React.FC<UserData> = ({data}) => {
             boxShadow: "inset 0px 8px 20px rgba(0, 0, 0, 0.4)",
           }}
         >
-          <img src={data?.avatars.avatar_url} />
+          <img src={user_data?.avatars.avatar_url} />
         </div>
         <div className="flex flex-col gap-2">
-          <p className="text-xl lg:text-3xl font-extrabold">{data?.first_name} {data?.last_name}</p>
-          <p className="lg:text-xl font-bold">{data?.sr_code}</p>
-          <p className="lg:text-lg">{data?.institutions.institution} - {data?.institutions.campus}</p>
-          <p className="lg:text-lg">{data?.departments.department}</p>
+          <p className="text-xl lg:text-3xl font-extrabold">{user_data?.first_name} {user_data?.last_name}</p>
+          <p className="lg:text-xl font-bold">{user_data?.sr_code}</p>
+          <p className="lg:text-lg">{user_data?.institutions.institution} - {user_data?.institutions.campus}</p>
+          <p className="lg:text-lg">{user_data?.departments.department}</p>
         </div>
       </div>
 
@@ -44,7 +64,7 @@ const ProfilePage: React.FC<UserData> = ({data}) => {
       <div className="flex flex-col gap-8 items-start">
         <div className="flex flex-row gap-4 w-full mt-10">
             <hr className="border border-gray-400 w-1/2"/>
-            <ButtonBox style={{ width: "200px", padding: "10px", borderRadius: "45px", marginTop: '-20px', marginBottom: '20px' }}>
+            <ButtonBox onClick={editAvatar} style={{ width: "200px", padding: "10px", borderRadius: "45px", marginTop: '-20px', marginBottom: '20px' }}>
               Edit Avatar
             </ButtonBox>
             <hr className="border border-gray-400 w-1/2"/>  
@@ -56,7 +76,7 @@ const ProfilePage: React.FC<UserData> = ({data}) => {
         {/* Email Update Section */}
         <div className="grid grid-cols-[auto,1fr] items-center gap-y-4 gap-x-24 w-full">
           <p className="text-left font-medium">Current Email:</p>
-          <p className="text-gray-700">{data?.email}</p>
+          <p className="text-gray-700">{user_data?.email}</p>
 
           <p className="text-left font-medium">New Email:</p>
           <InputBox
@@ -114,7 +134,7 @@ const ProfilePage: React.FC<UserData> = ({data}) => {
         </div>
 
         {/* Delete Account Section */}
-        <div className="flex w-full justify-center lg:justify-start">
+        <div onClick={deleteUser} className="flex w-full justify-center lg:justify-start">
           <ButtonBox
             style={{
               width: "150px",

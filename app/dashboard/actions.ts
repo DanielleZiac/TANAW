@@ -30,8 +30,9 @@ export async function getUserById(user_id: String) {
 	
 	const { data: users_data, error: users_error} = await supabase
 		.from('users')
-		.select(`sr_code, first_name, email, last_name, institutions(institution, campus), departments(department), avatars(avatar_url)`)
-		.eq("user_id", user_id).single();
+		.select(`sr_code, first_name, email, last_name, institutions(institution_id, institution, campus), departments(department), avatars(avatar_url)`)
+		.eq("user_id", user_id)
+		.single();
 
 	if (users_error) {
 		console.log("users_error", users_error)
@@ -39,7 +40,7 @@ export async function getUserById(user_id: String) {
 	}
 
 	if (users_data) {
-		console.log(users_data)
+		// console.log(users_data)
 		return users_data
 	}
 }
@@ -73,21 +74,24 @@ export async function deleteUserById(user_id: String) {
 
 
 	// delete storage
-	const fileName = data_avatar.avatars.avatar_url.split("/")[-1]
+	const arr = data_avatar?.avatars.avatar_url.split("/")
+	const fileName = arr[arr.length-1]
 	const { data: data_avatars_storage, error: error_avatars_storage } = await supabase
 		.storage
 		.from('avatars')
-		.remove([`${user_id}/${fileName}`])
+		.remove([`${user_id}/${fileName}`, `${user_id}`])
 	if (error_avatars_storage) {
 		console.log(`error delete data_avatars_storage: ${error_avatars_storage}`)
 		return
 	}
 
 
-	var filenames = []
-	data_sdgs.forEach((sdg) => {
+	var filenames = Array<string>()
+	data_sdgs?.forEach((sdg) => {
 		filenames.push(`${sdg["sdg_number"]}/${sdg["filename"]}`)
 	})
+
+	console.log(filenames)
 
 
 	if (filenames.length > 0) {
@@ -137,6 +141,22 @@ export async function getUserSdgs(user_id: String) {
 	console.log(data_user_sdgs)
 
 	return data_user_sdgs
+}
+
+export async function getInstitutionIdByUserId(user_id: string) {
+	const supabase = await createClient()
+
+	const { data: data_institutions, error: error_institutions } = await supabase
+		.from("users")
+		.select("institution_id")
+		.eq("user_id", user_id).single()
+
+	if (error_institutions) {
+		console.log("error_institutions: ", error_institutions)
+		return
+	}
+
+	return data_institutions.institution_id
 }
 
 
@@ -289,9 +309,10 @@ export async function filterSdgs(sdg?: Number, filter?: String, institution_id?:
 
 	const supabase = await createClient()
 
-	var cur_date = new Date();
-	cur_date.setDate(cur_date.getDate())
-	cur_date = cur_date.toISOString().split('T')[0]
+	var cur_date_d = new Date();
+	cur_date_d.setDate(cur_date_d.getDate())
+
+	var cur_date = cur_date_d.toISOString().split('T')[0]
 	// console.log(cur_date)
 
 	const query = supabase.from("get_photo_and_avatar").select()
@@ -363,10 +384,8 @@ export async function filterSdgs(sdg?: Number, filter?: String, institution_id?:
 
 
 // AVATARS
-export async function uploadAvatar(user_id: String, file: File, department_id: String, avatar: Object) {
+export async function uploadAvatar(user_id: string, file: File, department_id: string, avatar: any) {
 	const supabase = await createClient()
-
-	console.log(avatar)
 
 	let uuid = crypto.randomUUID();
 
@@ -394,12 +413,14 @@ export async function uploadAvatar(user_id: String, file: File, department_id: S
 		return
 	}
 
+	console.log("avatar", avatar, avatar['college'])
+
 	const { data: data_update_avatar, error: error_update_avatar} = await supabase
 		.from("avatars")
 		.upsert({
 			user_id: user_id,
 			avatar_url: data_public_url.publicUrl,
-			bg: avatar["bg"],
+			bg: avatar["college"],
 			eye: avatar["eye"],
 			smile: avatar["smile"],
 			glasses: avatar["glasses"],
@@ -417,8 +438,8 @@ export async function checkUserAvatar(user_id: String) {
 	const supabase = await createClient()
 
 	const { data: user_avatars, error: user_avatars_error} = await supabase.from('users').select(`avatars(avatar_url)`).eq("user_id", user_id).single();
-	// console.log(user_avatars)
-	if (!user_avatars.avatars?.avatar_url || user_avatars.avatars?.avatar_url < 1) {
+	console.log(user_avatars)
+	if (!user_avatars?.avatars?.avatar_url || user_avatars.avatars?.avatar_url < 1) {
 		console.log("create avatar first")
 		redirect('/dashboard/createAvatar1')
 		// return false
@@ -432,7 +453,7 @@ export async function getAvatarComponents(user_id: String) {
 	const { data: data_avatar, error: error_avatar } = await supabase
 		.from("avatars")
 		.select(`avatar_id, avatar_url, bg, eye, sex, shirt_style, smile, eyewear`)
-		.eq("user_id", user_id)
+		.eq("user_id", user_id).single()
 
 	if (error_avatar) {
 		console.log("error_avatar: ", error_avatar)
@@ -554,7 +575,7 @@ export async function getLeaderboardsSchools(institution_id: String) {
 
 
 // OTHERS
-export async function deleteAllFilesInFolder(storage_, folder) {
+export async function deleteAllFilesInFolder(storage_: string, folder: string) {
 	const supabase = await createClient()
 
     const { data: files, error: listError } = await supabase
@@ -590,17 +611,29 @@ export async function deleteAllFilesInFolder(storage_, folder) {
     }
 }
 
-export async function getDepartmentByAcronym(acronym: String) {
+export async function getDepartmentByAcronym(acronym: String, user_id: string) {
 	const supabase = await createClient();
 
-	const { data: data_department } = await supabase.from("departments").select("department_id").eq("acronym", acronym).single();
+	const institution_id = await getInstitutionIdByUserId(user_id)
 
-	console.log(data_department);
+	const { data: data_department, error: error_department } = await supabase
+		.from("departments")
+		.select("department_id")
+		.eq("acronym", acronym.toLowerCase())
+		.eq("institution_id", institution_id)
+		.single();
+
+	if (error_department) {
+		console.log("error_department: ", error_department)
+		return
+	}
+
+	console.log("data_departmentxxxxxxx", data_department);
 
 	return data_department;
 }
 
-export async function getDate(daysAdjust: Number) {
+export async function getDate(daysAdjust: number) {
 	var date = new Date();
 	date.setDate(date.getDate()+daysAdjust);
 	return date
@@ -667,7 +700,7 @@ export async function getUserAvatarUrl(user_id: String) {
 		return cur_user_avatar_error
 	}
 	console.log(cur_user_avatar)
-	return cur_user_avatar.avatars.avatar_url
+	return cur_user_avatar.avatars[0].avatar_url
 }
 
 

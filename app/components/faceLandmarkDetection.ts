@@ -3,8 +3,6 @@ import * as tf from "@tensorflow/tfjs"
 import * as bodyPix from "@tensorflow-models/body-pix"
 import '@tensorflow/tfjs-backend-webgl';
 
-import { drawMesh } from "./utilities"
-
 
 // di pa sure yung mga threshold
 const earThreshold = 0.21;
