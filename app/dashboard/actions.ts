@@ -317,7 +317,7 @@ export async function filterSdgs(sdg?: Number, filter?: String, institution_id?:
 
 	const query = supabase.from("get_photo_and_avatar").select()
 
-	if (sdg) {
+	if (sdg != undefined) {
 		query.eq('sdg_number', `sdg${sdg}`)
 	}
 
@@ -328,56 +328,58 @@ export async function filterSdgs(sdg?: Number, filter?: String, institution_id?:
 		query.eq("institution_id", institution_id)
 	}
 
-	if (filter == "all" || filter == null) {
-		console.log("no date filter")	
-
-	} else if (filter == "today") {
-		query.eq("created_date", cur_date)
-
-	} else if (filter == "yesterday") {
-		const yest = await getDate(-1)
-		console.log("yest", yest)
-		const yesterday = yest.toISOString().split('T')[0]
-		console.log(yesterday)
-		
-		query.eq("created_date", yesterday)
-
-	} else if (filter == "last week") {
-		const lastweek = await getDate(-7)
-		console.log("lastweek", lastweek)
-		const lastweekDate = lastweek.toISOString().split('T')[0]
-		console.log(lastweekDate)
-
-		query.gte('created_date', lastweekDate).lte('created_date', cur_date);
-
-	} else if (filter == "last month") {
-		// Get the first day of the current month and the first day of the previous month
-		const firstDayOfCurrentMonth = new Date();
-		firstDayOfCurrentMonth.setDate(1); // Set to the 1st day of the current month
-
-		const firstDayOfLastMonth = new Date(firstDayOfCurrentMonth);
-		firstDayOfLastMonth.setMonth(firstDayOfCurrentMonth.getMonth() - 1);
-
-		// Get the last day of the previous month
-		const lastDayOfLastMonth = new Date(firstDayOfCurrentMonth);
-		lastDayOfLastMonth.setDate(0); // Set to the last day of the previous month
-
-		console.log(firstDayOfLastMonth.toISOString().split('T')[0], firstDayOfCurrentMonth.toISOString().split('T')[0])
-
-		query.gte('created_date', firstDayOfLastMonth.toISOString().split('T')[0])
-			.lt('created_date', firstDayOfCurrentMonth.toISOString().split('T')[0]);
-
-	} else {
-		console.log("invalid filter")
+	if (filter != undefined) {
+		if (filter == "all" || filter == null) {
+			console.log("no date filter")	
+	
+		} else if (filter == "today") {
+			query.eq("created_date", cur_date)
+	
+		} else if (filter == "yesterday") {
+			const yest = await getDate(-1)
+			console.log("yest", yest)
+			const yesterday = yest.toISOString().split('T')[0]
+			console.log(yesterday)
+			
+			query.eq("created_date", yesterday)
+	
+		} else if (filter == "last week") {
+			const lastweek = await getDate(-7)
+			console.log("lastweek", lastweek)
+			const lastweekDate = lastweek.toISOString().split('T')[0]
+			console.log(lastweekDate)
+	
+			query.gte('created_date', lastweekDate).lte('created_date', cur_date);
+	
+		} else if (filter == "last month") {
+			// Get the first day of the current month and the first day of the previous month
+			const firstDayOfCurrentMonth = new Date();
+			firstDayOfCurrentMonth.setDate(1); // Set to the 1st day of the current month
+	
+			const firstDayOfLastMonth = new Date(firstDayOfCurrentMonth);
+			firstDayOfLastMonth.setMonth(firstDayOfCurrentMonth.getMonth() - 1);
+	
+			// Get the last day of the previous month
+			const lastDayOfLastMonth = new Date(firstDayOfCurrentMonth);
+			lastDayOfLastMonth.setDate(0); // Set to the last day of the previous month
+	
+			console.log(firstDayOfLastMonth.toISOString().split('T')[0], firstDayOfCurrentMonth.toISOString().split('T')[0])
+	
+			query.gte('created_date', firstDayOfLastMonth.toISOString().split('T')[0])
+				.lt('created_date', firstDayOfCurrentMonth.toISOString().split('T')[0]);
+	
+		} else {
+			console.log("invalid filter")
+		}
 	}
 
 	const { data, error } = await query;
-
+	
 	if (error) {
 		console.log("error: ", error)
 	}
 
-	return data;
+	return data ? data : undefined;
 }
 
 
