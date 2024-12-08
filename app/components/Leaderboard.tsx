@@ -38,7 +38,7 @@ const Leaderboard: React.FC<DataProps> = ({ data }) => {
               alt={`${entry.department_logo} logo`}
               className="w-16 sm:w-20 h-16 sm:h-20 rounded-full border-4 border-cBlue mb-2"
             />
-            <span className="text-sm sm:text-lg font-semibold text-gray-700 text-center">
+            <span className="text-xs sm:text-md font-semibold text-gray-700 text-center">
               {entry.department}
             </span>
             <span className="text-sm sm:text-lg font-semibold text-cBlue text-center">
@@ -78,7 +78,7 @@ const Leaderboard: React.FC<DataProps> = ({ data }) => {
                 <span className="ml-4 text-sm sm:text-base text-gray-700">
                   {entry.department}
                 </span>
-                <span className="ml-auto text-cBlue font-bold text-sm sm:text-base">
+                <span className="ml-auto text-cBlue font-bold text-md sm:text-base">
                   {entry.count}
                 </span>
               </li>

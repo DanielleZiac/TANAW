@@ -333,7 +333,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-5 h-5 sm:w-6 sm:h-6 sm:h-12 text-white"
+              className="w-5 h-5 sm:w-6 sm:h-6 text-white"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
@@ -341,7 +341,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
         {/*</Link>*/}
 
         {/* Text Display */}
-        <div className="flex-grow bg-gray-100 rounded-full py-2 px-4 text-xs sm:text-base text-left ml-4 mr-4">
+        <div className="flex-grow bg-gray-100 rounded-full py-2 px-4 text-center text-xs sm:text-base ml-2 mr-2 sm:ml-4 sm:mr-4">
           {photoChallenges[currentChallengeIndex]}
         </div>
 
