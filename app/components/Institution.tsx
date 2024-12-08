@@ -66,11 +66,10 @@ const Page: React.FC<DataProps> = ({ data }) => {
       const topLiked: Array<TopLiked> | undefined = await getTopLiked(institution_id);
       const liked: Array<Liked> | undefined = await getLikedPosts(user_id);
       
-      setTopPosts(topLiked);
+      
 
       const likes = Array<string>();
-      setLikedPosts(likes)
-
+      
       if ( liked != undefined) {
         for (var i = 0; i < liked?.length; i++) {
           likes.push(liked[i].user_sdg_id)
@@ -88,7 +87,10 @@ const Page: React.FC<DataProps> = ({ data }) => {
           }
         }
       }
+
       setNumLikes(numOfLikes)
+      setLikedPosts(likes)
+      setTopPosts(topLiked);
     }
 
     if (selectedInstitution) {
@@ -96,6 +98,11 @@ const Page: React.FC<DataProps> = ({ data }) => {
     }
 
   }, [selectedInstitution]);
+
+
+  useEffect(() => {
+
+  }, [numLikes])
 
   console.log(likedPosts)
   console.log(numLikes)
@@ -114,10 +121,22 @@ const Page: React.FC<DataProps> = ({ data }) => {
   };
 
   const liked = (user_sdg_id: string) => {
-    console.log("likee")
-    console.log(document.getElementById(`like_${user_sdg_id}`)?.style.fill)
-    var isLiked = document.getElementById(`like_${user_sdg_id}`)?.getAttribute('fill') == "red"
+    var likeElem = document.getElementById(`like_${user_sdg_id}`)
+    var numLikeElem = document.getElementById(`numlike_${user_sdg_id}`)
+    var isLiked = likeElem?.getAttribute('fill') == "red"
     console.log(isLiked)
+
+    if (likeElem && numLikeElem) {
+      if (isLiked) {
+        removeLike(user_sdg_id, user_id)
+        console.log(numLikeElem?.textContent)
+        numLikeElem.textContent = String(Number(numLikeElem.textContent) - 1)
+      } else {
+        addLike(user_sdg_id, user_id)
+        likeElem.setAttribute('fill', "red")
+        numLikeElem.textContent = String(Number(numLikeElem.textContent) + 1)
+      }
+    }
   }
 
   return (
@@ -213,8 +232,8 @@ const Page: React.FC<DataProps> = ({ data }) => {
                           d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
                         />
                       </svg>
-                      <span className="font-bold text-sm sm:text-base">
-                        {numLikes ? numLikes[index] : null}
+                      <span id = {`numlike_${post.user_sdg_id}`} className="font-bold text-sm sm:text-base">
+                        {numLikes ? numLikes[index] : 0}
                       </span>
                     </div>
                     <span className="font-bold text-sm text-white sm:text-base">
@@ -251,9 +270,9 @@ const Page: React.FC<DataProps> = ({ data }) => {
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <div className="flex flex-col">
-                    <p className="font-semibold text-lg text-gray-800">{institution.institution}-{institution.campus}</p>
+                    <p className="font-semibold text-lg text-gray-800">{institution.institution}</p>
                     <p className="text-sm text-gray-600">
-                      ??????
+                    {institution.campus}
                       {/*This institution focuses on {institution.title.toLowerCase()}.*/}
                     </p>
                   </div>
