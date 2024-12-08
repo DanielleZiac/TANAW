@@ -293,9 +293,9 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
                   <svg id={selectedPost.user_sdg_id} onClick={() => liked(selectedPost.user_sdg_id)} className="w-8 h-8 text-white" fill={isLiked} viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                   </svg>
-                  <span id={selectedPost.user_sdg_id + "likes"} className="font-bold text-lg sm:text-2xl">{likes}</span>
+                  <span id={selectedPost.user_sdg_id + "likes"} className="font-bold text-lg sm:text-2xl text-white">{likes}</span>
                 </div>
-                <span className="font-bold text-lg sm:text-2xl">{selectedPost.created_date}</span>
+                <span className="font-bold text-lg sm:text-2xl text-white">{selectedPost.created_date}</span>
               </div>
 
               {/* SDG Tag and Event Info */}
@@ -303,12 +303,12 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
                 <img src={`/images/SDG/SDG${sdg}.jpg`} alt="SDG Icon" className="p-2 w-1/3 rounded-full" />
                 <div className="flex flex-col items-start w-2/3 ml-4">
                   <p className="text-base sm:text-lg font-extrabold text-dBlue">{sdgTitle}</p>
-                  <p className="text-base sm:text-lg font-bold text-dBlue">{selectedPost.photo_challenge}</p>
+                  <p className="text-xs sm:text-sm text-left font-bold text-dBlue">{selectedPost.photo_challenge}</p>
                   <div className="flex items-center space-x-2 mt-2">
                     <img src={selectedPost.institution_logo ? selectedPost.institution_logo : ""} alt="Institution Logo" className="w-8 h-8 rounded-full" />
                     <div className="flex flex-col text-left">
-                      <p className="text-sm sm:text-xs text-dBlue">{selectedPost.institution}</p>
-                      <p className="text-sm sm:text-xs text-dBlue">{selectedPost.campus}</p>
+                      <p className="text-xs sm:text-xs text-dBlue">{selectedPost.institution}</p>
+                      <p className="text-xs sm:text-xs text-dBlue">{selectedPost.campus}</p>
                     </div>
                   </div>
                 </div>
@@ -320,7 +320,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
 
       {/* Photo Challenge Display */}
       <div 
-        className="fixed bottom-12 sm:bottom-17 md:bottom-20 lg:bottom-0 max-w-3xl mx-auto mb-8 sm:mb-10 flex items-center justify-center bg-white rounded-full shadow-lg px-5 py-3 z-50"
+        className="fixed bottom-12 sm:bottom-17 md:bottom-20 lg:bottom-0 max-w-3xl mx-auto mb-8 sm:mb-10 flex items-center justify-center bg-white rounded-full shadow-lg px-5 py-3 z-10"
         style={{ maxWidth: "90%" }}
       >
         
@@ -333,7 +333,7 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-5 h-5 sm:w-6 sm:h-6 text-white"
+              className="w-5 h-5 sm:w-6 sm:h-6 sm:h-12 text-white"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>

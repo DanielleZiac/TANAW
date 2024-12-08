@@ -54,8 +54,8 @@ const ProfilePage: React.FC<UserData> = ({ data }) => {
         <div className="flex flex-col gap-2">
           <p className="text-xl lg:text-3xl font-extrabold">{user_data?.first_name} {user_data?.last_name}</p>
           <p className="lg:text-xl font-bold">{user_data?.sr_code}</p>
-          <p className="lg:text-lg">{user_data?.institutions.institution} - {user_data?.institutions.campus}</p>
-          <p className="lg:text-lg">{user_data?.departments.department}</p>
+          <p className="text-xs lg:text-lg">{user_data?.institutions.institution} - {user_data?.institutions.campus}</p>
+          <p className="text-xs lg:text-lg">{user_data?.departments.department}</p>
         </div>
       </div>
 
@@ -71,10 +71,10 @@ const ProfilePage: React.FC<UserData> = ({ data }) => {
         </div>
 
           
-        <p className="text-lg font-bold">Profile Settings</p>
+        <p className="text-lg font-bold -mt-10 sm:m-0">Profile Settings</p>
         <hr className="border border-gray-400 w-full"/>
         {/* Email Update Section */}
-        <div className="grid grid-cols-[auto,1fr] items-center gap-y-4 gap-x-24 w-full">
+        <div className="grid grid-cols-[auto,1fr] items-center gap-y-2 sm:gap-y-4 gap-x-4 sm:gap-x-24 w-full">
           <p className="text-left font-medium">Current Email:</p>
           <p className="text-gray-700">{user_data?.email}</p>
 
@@ -97,7 +97,7 @@ const ProfilePage: React.FC<UserData> = ({ data }) => {
         
 
         {/* Password Update Section */}
-        <div className="grid grid-cols-[auto,1fr] items-center gap-y-4 gap-x-6 w-full">
+        <div className="grid grid-cols-[auto,1fr] items-center gap-y-2 sm:gap-y-4 gap-x-6 w-full -mt-10 sm:m-0">
           <p className="text-left font-medium -mt-4">Current Password:</p>
           <InputBox 
             placeholder="Enter Current Password"

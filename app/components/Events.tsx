@@ -3,33 +3,42 @@
 import React from "react";
 import TextBoxPanel from "../styles/textBox";
 import SDGlink1 from "/public/images/SDG/SDGlink1.jpg";
+import SDGlink2 from "/public/images/SDG/SDGlink2.jpg";
+import SDGlink3 from "/public/images/SDG/SDGlink3.jpg";
+import SDGlink4 from "/public/images/SDG/SDGlink4.jpg";
+import SDGlink5 from "/public/images/SDG/SDGlink5.jpg";
+import SDGlink11 from "/public/images/SDG/SDGlink11.jpg";
+import SDGlink12 from "/public/images/SDG/SDGlink12.jpg";
+import SDGlink13 from "/public/images/SDG/SDGlink13.jpg";
+import SDGlink14 from "/public/images/SDG/SDGlink14.jpg";
+import SDGlink15 from "/public/images/SDG/SDGlink15.jpg";
 
 const Events: React.FC = () => {
   // Array of event data
   const eventData = [
     {
-      image: SDGlink1.src,
+      image: SDGlink2.src,
       month: "Sep",
       day: 18,
       title: "Indonesia-Korea Conference",
       description: "Lorem ipsum",
     },
     {
-      image: SDGlink1.src,
+      image: SDGlink3.src,
       month: "Oct",
       day: 5,
       title: "Global Sustainability Summit",
       description: "Exploring future solutions.",
     },
     {
-      image: SDGlink1.src,
+      image: SDGlink4.src,
       month: "Nov",
       day: 12,
       title: "Climate Action Meetup",
       description: "Act today for tomorrow.",
     },
     {
-      image: SDGlink1.src,
+      image: SDGlink5.src,
       month: "Dec",
       day: 1,
       title: "Renewable Energy Fair",
@@ -43,35 +52,35 @@ const Events: React.FC = () => {
       description: "Lorem ipsum",
     },
     {
-      image: SDGlink1.src,
+      image: SDGlink11.src,
       month: "Oct",
       day: 5,
       title: "Global Sustainability Summit",
       description: "Exploring future solutions.",
     },
     {
-      image: SDGlink1.src,
+      image: SDGlink12.src,
       month: "Nov",
       day: 12,
       title: "Climate Action Meetup",
       description: "Act today for tomorrow.",
     },
     {
-      image: SDGlink1.src,
+      image: SDGlink13.src,
       month: "Dec",
       day: 1,
       title: "Renewable Energy Fair",
       description: "Green energy for all.",
     },
     {
-      image: SDGlink1.src,
+      image: SDGlink14.src,
       month: "Sep",
       day: 18,
       title: "Indonesia-Korea Conference",
       description: "Lorem ipsum",
     },
     {
-      image: SDGlink1.src,
+      image: SDGlink15.src,
       month: "Oct",
       day: 5,
       title: "Global Sustainability Summit",
@@ -85,7 +94,7 @@ const Events: React.FC = () => {
       description: "Act today for tomorrow.",
     },
     {
-      image: SDGlink1.src,
+      image: SDGlink11.src,
       month: "Dec",
       day: 1,
       title: "Renewable Energy Fair",
@@ -106,7 +115,7 @@ const Events: React.FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center lg:ml-96 mt-32 lg:mr-16">
-      <img className="w-11/12 h- lg:p-0 lg:w-[1200px] lg:h-[500px] rounded-t-lg lg:rounded-lg" src={SDGlink1.src}></img>
+      <img className="w-11/12 h- lg:p-0 lg:w-[1200px] lg:h-[500px] rounded-t-lg lg:rounded-lg" src={SDGlink11.src}></img>
 
       <div className="bg-gray-900 w-11/12 h-auto lg:w-[800px] lg:h-[120px] p-8 lg:pl-12  lg:-mt-16 rounded-b-lg  lg:rounded-full flex items-center">
         <div className="flex flex-col w-full lg:flex-row justify-between">
