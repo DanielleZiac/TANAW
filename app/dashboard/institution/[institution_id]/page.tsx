@@ -29,7 +29,7 @@ export default async function InstitutionGalleryPage({
   const institution_id: string = (await params).institution_id
 
   console.log(user_id, institution_id)
-  const photos: Array<InstitutionPhoto> | undefined = await filterSdgs(null, null, institution_id);
+  const photos: Array<InstitutionPhoto> | undefined = await filterSdgs(undefined, undefined, institution_id);
 
   // console.log(institutions)
 
@@ -37,7 +37,7 @@ export default async function InstitutionGalleryPage({
     <MainLayout>
       <div className="container mx-auto p-5">
         <h1 className="text-3xl font-bold mb-5">Institution Gallery</h1>
-        <Gallery data={[user_id, photos]}/>
+        <Gallery data={[user_id, photos, institution_id]}/>
       </div>
     </MainLayout>
   );

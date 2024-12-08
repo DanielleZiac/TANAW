@@ -13,11 +13,11 @@ interface Photos {
   url: string;
   user_id: string;
   user_sdg_id: string;
-  institution_id: String;
-  photo_challenge?: String;
-  institution: String;
-  campus: String;
-  institution_logo: String;
+  institution_id: string;
+  photo_challenge?: string;
+  institution: string;
+  campus: string;
+  institution_logo: string;
 }
 
 interface Liked {
@@ -35,7 +35,7 @@ export default async function SdgPage({
   await checkUserAvatar(user_id)
 
   const sdg: string = (await params).sdg
-  const photos: Array<Photos> | null = await filterSdgs(Number(sdg), "today", undefined);
+  const photos: Array<Photos> | undefined = await filterSdgs(Number(sdg), "All", undefined);
   const liked: Array<Liked> | undefined = await getLikedPostsSdgs(user_id, Number(sdg));
 
   return (
@@ -43,7 +43,7 @@ export default async function SdgPage({
       <div>
         <h1>SDG {sdg}</h1>
         {/* Render the SdgContent component, passing the SDG ID */}
-        <SdgContent data={[user_id, Number(sdg), photos, liked, false]} />
+        <SdgContent data={[user_id, Number(sdg), photos, liked, undefined]} />
       </div>
     </MainLayout>
   );

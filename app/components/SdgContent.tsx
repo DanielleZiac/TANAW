@@ -35,7 +35,7 @@ interface DataProps {
   data: [
     user_id: string,
     sdg: number, 
-    photos: Array<Photos> | null,
+    photos: Array<Photos> | undefined,
     liked: Array<Liked> | undefined,
     institution_id: string | undefined
   ];
@@ -57,13 +57,13 @@ const SdgContent: React.FC<DataProps> = ({ data }) => {
   const [isLiked, setLiked] = useState<string | "none">("none");
   const [likedPosts, setLikedPosts] = useState<Array<Liked> | undefined>(curLiked);
   const [likes, setLikes] = useState<number | null>(0);
-  const [displayPhoto, setDisplayPhoto] = useState<Array<Photos> | null>(photos);
+  const [displayPhoto, setDisplayPhoto] = useState<Array<Photos> | undefined>(photos);
 
   
 
   // Dropdown state
   const [filterDropdownVisible, setFilterDropdownVisible] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState("Today");
+  const [selectedFilter, setSelectedFilter] = useState("All");
 
   const filters = ["Today", "Yesterday", "Last Week", "Last Month", "All"];
 

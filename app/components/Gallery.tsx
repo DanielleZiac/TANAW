@@ -22,22 +22,24 @@ interface Photos {
 interface DataProps {
   data: [
     user_id: string, 
-    photos: Array<Photos> | undefined
+    photos: Array<Photos> | undefined,
+    institution_id: string | undefined
   ];
 }
 
 const Gallery: React.FC<DataProps> = ({data}) => {
   const user_id = data[0];
   const photoData = data[1];
+  const institution_id = data[2]
   let sdgImages;
 
   console.log(photoData)
-
+  
   if (photoData) {
     sdgImages = Array.from({ length: 17 }, (_, i) => ({
       src: `/images/SDG/SDG${i + 1}.jpg`, // Assume you have these images in public/images/
       alt: `SDG ${i + 1}`,
-      link: (photoData[0].institution_id ? `/dashboard/institution/${photoData[0].institution_id}/${i + 1}` : `/dashboard/sdg/${i + 1}`) // Link to SDG page
+      link: (institution_id != undefined ? `/dashboard/institution/${institution_id}/${i + 1}` : `/dashboard/sdg/${i + 1}`) // Link to SDG page
     }));
   }
 

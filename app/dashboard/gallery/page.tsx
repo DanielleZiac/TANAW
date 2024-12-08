@@ -27,7 +27,7 @@ export default async function GalleryPage() {
     <MainLayout>
       <div className="container mx-auto p-5">
         <h1 className="text-3xl font-bold mb-5">My Gallery</h1>
-        <Gallery data={[user_id, photos]}/>
+        <Gallery data={[user_id, photos, undefined]}/>
       </div>
     </MainLayout>
   );

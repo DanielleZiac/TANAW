@@ -13,11 +13,11 @@ interface Photos {
   url: string;
   user_id: string;
   user_sdg_id: string;
-  institution_id: String;
-  photo_challenge?: String;
-  institution: String;
-  campus: String;
-  institution_logo: String;
+  institution_id: string;
+  photo_challenge?: string;
+  institution: string;
+  campus: string;
+  institution_logo: string;
 }
 
 interface Liked {
@@ -28,15 +28,17 @@ interface Liked {
 
 export default async function SdgPage({
   params} : {
-    params: Promise<{ [sdg: string] }>
+    params: Promise<{ institution_id: string, sdg: string }>
   }) {
 
   const user_id: string = await authenticateUser()
   await checkUserAvatar(user_id)
 
+  console.log(await params)
+
   const sdg: string = (await params).sdg
   const institution_id = (await params).institution_id
-  const photos: Array<Photo> | undefined = await filterSdgs(Number(sdg), "today", institution_id);
+  const photos: Array<Photos> | undefined = await filterSdgs(Number(sdg), "All", institution_id);
   // console.log(photos)
   const liked: Array<Liked> | undefined = await getLikedPostsSdgs(user_id, Number(sdg));
 
