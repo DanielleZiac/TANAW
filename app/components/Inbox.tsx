@@ -35,8 +35,8 @@ const mockMessages: Message[] = [
 
 const Inbox: React.FC = () => {
   return (
-    <div className="p-5 lg:ml-64 mt-20 bg-transparent rounded-lg w-full lg:w-[50vw]">
-      <h2 className="text-xl text-black font-bold mb-4">Inbox</h2>
+    <div className="p-3 sm:p-5 lg:ml-64 mt-16 sm:mt-20 bg-transparent rounded-lg w-full lg:w-[50vw]">
+      <h2 className="text-xl sm:text-2xl text-black font-bold mb-4">Inbox</h2>
       <ul>
         {mockMessages.map((message) => (
           <li
@@ -47,12 +47,12 @@ const Inbox: React.FC = () => {
           >
             <div className="flex justify-between">
               <div>
-                <h3 className="font-semibold text-black text-lg">{message.subject}</h3>
-                <p className="text-sm text-gray-500">
+                <h3 className="font-semibold text-black text-sm sm:text-lg">{message.subject}</h3>
+                <p className="text-xs sm:text-sm text-gray-500">
                   {message.preview}
                 </p>
               </div>
-              <span className="text-xs text-gray-400 text-right">
+              <span className="text-[8px] sm::text-xs text-gray-400 text-right">
                 {message.timestamp}
               </span>
             </div>

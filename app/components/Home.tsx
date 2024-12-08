@@ -30,7 +30,7 @@ const Home: React.FC = () => {
   <img
     src="/images/background/desktophome.png"
     alt="Desktop Background"
-    className="w-full h-auto object-contain lg:block pl-48 -mt-20 fixed hidden " // Only show on desktop (lg) and move left
+    className="w-full h-auto object-contain lg:block pl-48 -mt-20 fixed hidden lg:-mt-32" // Only show on desktop (lg) and move left
   />
 </div>
 
@@ -40,8 +40,8 @@ const Home: React.FC = () => {
 
       {/* Container for SDG Images */}
       
-        <div className="w-full py-8 z-10 lg:mt-[20vh] items-center">
-          <div className="w-full flex flex-col items-center lg:ml-[400px] mb-40 lg:mb-0">
+        <div className="w-full py-8 z-10 lg:mt-[20vh] -mt-24 lg:ml-52 items-center ">
+          <div className="w-full flex flex-col items-center lg:ml-[330px] lg:-mt-10 mb-40 lg:mb-0">
             {sdgImages.map((item, index) => {
               let alignmentClass = 'justify-start xl:-mt-28';
               if (index % 6 === 1 || index % 6 === 4) {
