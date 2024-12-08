@@ -113,8 +113,11 @@ const Page: React.FC<DataProps> = ({ data }) => {
     setModalOpen(false); // Close the modal
   };
 
-  const liked = () => {
+  const liked = (user_sdg_id: string) => {
     console.log("likee")
+    console.log(document.getElementById(`like_${user_sdg_id}`)?.style.fill)
+    var isLiked = document.getElementById(`like_${user_sdg_id}`)?.getAttribute('fill') == "red"
+    console.log(isLiked)
   }
 
   return (
@@ -196,12 +199,13 @@ const Page: React.FC<DataProps> = ({ data }) => {
                   <div className="flex justify-between items-center px-3 py-2 w-full">
                     <div className="flex items-center space-x-2">
                       {/* Heart Icon */}
-                      <svg                
+                      <svg    
+                        id = {`like_${post.user_sdg_id}`}           
                         className="w-5 h-5 text-white cursor-pointer"
                         fill={likedPosts?.includes(post.user_sdg_id) ? "red" : "none"}
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        onClick={liked}
+                        onClick={() => liked(post.user_sdg_id)}
                       >
                         <path
                           strokeLinecap="round"
