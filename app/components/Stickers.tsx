@@ -265,8 +265,7 @@ const Profile: React.FC<DataProps> = ({ data }) => {
             EDIT AVATAR
           </h2>
           <div
-            onClick={editAvatar}
-            className={`${getButtonStyles(false).className} mt-4 flex bg-white p-2 shadow-md`}
+            className={`${getButtonStyles(false).className} mt-4 flex justify-center bg-white p-2 shadow-md`}
             style={getButtonStyles(false).style}
           >
             <img
