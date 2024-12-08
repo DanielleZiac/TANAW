@@ -63,7 +63,7 @@ const FloatingDropdown: React.FC = () => {
             
           </a>
           <a
-            href="/dashboard/hallOfFame"
+            href="/dashboard/halloffame"
             className="flex flex-col items-center text-gray-300 hover:text-blue-500 lg:w-8 lg:h-8"
           >
             <svg
