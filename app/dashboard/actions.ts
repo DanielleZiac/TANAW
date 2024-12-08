@@ -509,6 +509,25 @@ export async function getLikedPostsSdgs(user_id: string, sdg: number) {
 	return data;
 }
 
+
+export async function getLikedPosts(user_id: string) {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase
+		.from("liked_sdg_posts")
+		.select(`user_sdg_id, user_sdgs(sdg_number)`)
+		.eq("user_id", user_id)
+
+	if (error) {
+		console.log("Error getLikedPostsSdgs", error)
+		return
+	}
+
+	// console.log(data)
+	return data;
+}
+
+
 export async function getNumberOfLikes(user_sdg_id: string) {
 	console.log(user_sdg_id);
 	const supabase = await createClient();

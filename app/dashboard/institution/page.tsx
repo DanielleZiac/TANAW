@@ -7,10 +7,10 @@ import { authenticateUser, checkUserAvatar, getInstitutions, getLikedPostsSdgs }
 
 
 interface Institution {
-  institution_id: String,
-  institution: String,
-  campus: String,
-  institution_logo: String
+  institution_id: string,
+  institution: string,
+  campus: string,
+  institution_logo: string
 }
 
 // const InstitutionPage: React.FC = () => {
@@ -23,7 +23,7 @@ export default async function InstitutionPage() {
   
   return (
     <MainLayout>
-      <Institution data={institutions}/>
+      <Institution data={[user_id, institutions]}/>
     </MainLayout>
   );
 };

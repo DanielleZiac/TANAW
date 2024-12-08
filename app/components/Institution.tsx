@@ -15,7 +15,7 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import Link from 'next/link';
 import { SDG_TITLES } from '../data/sdgTitles';
-import { addLike, removeLike, getLikedPostsSdgs, getNumberOfLikes, filterSdgs } from "../dashboard/actions";
+import { addLike, removeLike, getLikedPosts, getNumberOfLikes, filterSdgs } from "../dashboard/actions";
 
 
 interface Institution {
@@ -26,7 +26,10 @@ interface Institution {
 }
 
 interface DataProps {
-  data : Array<Institution> | undefined
+  data : [
+    user_id: string,
+    institutions: Array<Institution> | undefined
+  ]
 }
 
 interface TopLiked{
@@ -40,24 +43,62 @@ interface TopLiked{
   total_count: string,
 }
 
+interface Liked {
+  user_sdg_id: string;
+  user_sdgs: { sdg_number: string }[];
+}
+
+
 const Page: React.FC<DataProps> = ({ data }) => {
 
   console.log(data)
-  const [selectedInstitution, setSelectedInstitution] = useState(data ? data[0] : null);
+  const user_id = data[0]
+  const photos = data[1]
+  const [selectedInstitution, setSelectedInstitution] = useState(photos ? photos[0] : null);
   const [topPosts, setTopPosts] = useState<Array<TopLiked> | undefined>(undefined);
   const [selectedPost, setSelectedPost] = useState<Institution | null>(null); // State for selected post
   const [modalOpen, setModalOpen] = useState(false); // Modal visibility state
+  const [likedPosts, setLikedPosts] = useState<Array<string> | undefined>(undefined)
+  const [numLikes, setNumLikes] = useState<Array<number> | undefined>(undefined)
 
   useEffect(() => {
     async function getTopPosts(institution_id: string) {
       const topLiked: Array<TopLiked> | undefined = await getTopLiked(institution_id);
+      const liked: Array<Liked> | undefined = await getLikedPosts(user_id);
+      
       setTopPosts(topLiked);
+
+      const likes = Array<string>();
+      setLikedPosts(likes)
+
+      if ( liked != undefined) {
+        for (var i = 0; i < liked?.length; i++) {
+          likes.push(liked[i].user_sdg_id)
+        }
+      }
+
+      const numOfLikes = Array<number>()
+      if (topLiked != undefined) {
+        for ( i = 0; i < topLiked?.length; i++) {
+          const nums = await getNumberOfLikes(topLiked[i].user_sdg_id)
+          if (nums == undefined) {
+            numOfLikes.push(0)
+          } else {
+            numOfLikes.push(nums)
+          }
+        }
+      }
+      setNumLikes(numOfLikes)
     }
 
     if (selectedInstitution) {
       getTopPosts(selectedInstitution.institution_id);
     }
+
   }, [selectedInstitution]);
+
+  console.log(likedPosts)
+  console.log(numLikes)
 
   const handleInstitutionClick = (institution: Institution) => {
     setSelectedInstitution(institution);
@@ -71,6 +112,10 @@ const Page: React.FC<DataProps> = ({ data }) => {
   const closeModal = () => {
     setModalOpen(false); // Close the modal
   };
+
+  const liked = () => {
+    console.log("likee")
+  }
 
   return (
     <div className="bg-transparent flex flex-col lg:flex-row h-full w-full md:w-screen md:items-center lg:items-start lg:w-[80vw] lg:h-full lg:overflow-hidden lg:space-x-8  p-2 pt-8 lg:p-12 pb-20 lg:ml-64 mt-4">
@@ -153,9 +198,10 @@ const Page: React.FC<DataProps> = ({ data }) => {
                       {/* Heart Icon */}
                       <svg                
                         className="w-5 h-5 text-white cursor-pointer"
-                        fill={post.isLiked ? "currentColor" : "none"}
+                        fill={likedPosts?.includes(post.user_sdg_id) ? "red" : "none"}
                         viewBox="0 0 24 24"
                         stroke="currentColor"
+                        onClick={liked}
                       >
                         <path
                           strokeLinecap="round"
@@ -164,7 +210,7 @@ const Page: React.FC<DataProps> = ({ data }) => {
                         />
                       </svg>
                       <span className="font-bold text-sm sm:text-base">
-                        {post.likes}
+                        {numLikes ? numLikes[index] : null}
                       </span>
                     </div>
                     <span className="font-bold text-sm text-white sm:text-base">
@@ -188,7 +234,7 @@ const Page: React.FC<DataProps> = ({ data }) => {
         </section>
 
         <div className="flex-grow overflow-y-auto space-y-4 px-4 scrollbar-hide pb-4">
-          {data.map((institution, index) => (
+          {photos?.map((institution, index) => (
             <div key={index} className="w-full">
               <TextBoxPanel>
                 <button
