@@ -156,17 +156,17 @@ You can start editing by modifying app/page.tsx. The page auto-updates as you ed
 
 We would like to express our heartfelt gratitude to everyone who contributed to the successful completion of this project:
 
-1. Instructor/Advisor
+1. Instructor/Advisor.
 We extend our deepest appreciation to **Ms. Fatima Marie P. Agdon, MSCS,** for her invaluable insights, constructive feedback, and unwavering support.
-2. Team Members
-- We are grateful to our team members for their dedication, collaboration, and hard work.
+2. Team Members.
+We are grateful to our team members for their dedication, collaboration, and hard work.
 - **Paul Oliver Cruz** for his creativity and diligence in developing the frontend.
 - **Jon Endrick Babao** for his precision and commitment to enhancing responsiveness of the frontend design.  
 - **Hersey Anne Odasco** for her technical expertise and commitment to the backend development.
 - **Danielle Ziac Abril** for leading the team as Project Manager while contributing as a full-stack developer.
-3. University and Department
+3. University and Department.
 We would like to thank **Batangas State University,** particularly the **College of Information and Computing Sciences (CICS),** for providing us with the resources and a platform to apply our knowledge and skills.
-4. External Tools and Resources
+4. External Tools and Resources.
 Special thanks to the developers and communities behind the tools and platforms we utilized, such as **Supabase, React, Tailwind CSS, and Next.js,** which empowered us to create a robust and user-friendly web application.
-5. United Nations SDG Framework and Related Resources
+5. United Nations SDG Framework and Related Resources.
 Finally, we are grateful for the **United Nations SDG framework,** for inspiring the central theme of our project.
